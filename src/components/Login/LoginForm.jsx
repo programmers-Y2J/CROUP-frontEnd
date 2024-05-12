@@ -39,8 +39,8 @@ function LoginForm() {
     <LoginFormContainer>
       <LoginFormWrapper>
         <h1>Croup</h1>
-        <Input />
-        <Input />
+        <Input placeholder="email" type="email" />
+        <Input placeholder="password" type="password" />
         <button type="submit">Login</button>
         <RegisterBtnWrapper>
           <span>비밀번호를 잊으셨나요? </span>| 회원가입

@@ -35,5 +35,7 @@ module.exports = {
     'no-nested-ternary': 0,
     'prettier/prettier': 'error',
     'import/no-unresolved': 'off', // 수정
+    'react/prop-types': 'off',
+    'import/no-extraneous-dependencies': 'off',
   },
 };
