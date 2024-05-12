@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-function LeftBar() {
+function LeftBar({ text }) {
   const SideContainer = styled.div`
     width: 50vw;
     display: flex;
@@ -21,13 +22,14 @@ function LeftBar() {
   `;
   return (
     <SideContainer>
-      <TextWrapper>
-        즐거운 <br />
-        집중을 위한
-        <br /> 준비가 되셨나요 ?
-      </TextWrapper>
+      <TextWrapper dangerouslySetInnerHTML={{ __html: text }} />
     </SideContainer>
   );
 }
+
+LeftBar.propTypes = {
+  // propTypes를 추가합니다.
+  text: PropTypes.string.isRequired,
+};
 
 export default LeftBar;
