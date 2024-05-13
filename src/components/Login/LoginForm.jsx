@@ -9,6 +9,7 @@ function LoginForm() {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-right: 100px;
   `;
 
   const LoginFormWrapper = styled.form`

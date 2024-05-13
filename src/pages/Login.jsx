@@ -9,7 +9,7 @@ function Login() {
     width: 100vw;
     height: 100vh;
   `;
-  const text = '즐거운 <br /> 집중을 위한 <br /> 준비가 되셨나요 ?';
+  const text = '<div>즐거운 <br /> 집중을 위한 <br /> 준비가 되셨나요 ?</div>';
   return (
     <LoginContainer>
       <LeftBar text={text} />
