@@ -11,14 +11,17 @@ function LeftBar({ text }) {
   `;
   const TextWrapper = styled.div`
     background-color: #00b3ff;
-    height: 55vh;
+    height: 50vh;
     width: 40vw;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
-    font-size: 50px;
-    font-weight: bold;
+    font-size: 25px;
+    font-weight: 900;
     padding-left: 40px;
     padding-top: 100px;
+    & div:first-child {
+      font-size: 50px;
+    }
   `;
   return (
     <SideContainer>
@@ -28,7 +31,6 @@ function LeftBar({ text }) {
 }
 
 LeftBar.propTypes = {
-  // propTypes를 추가합니다.
   text: PropTypes.string.isRequired,
 };
 
