@@ -11,14 +11,14 @@ function LeftBar({ text }) {
   `;
   const TextWrapper = styled.div`
     background-color: #00b3ff;
-    height: 50vh;
+    height: 55vh;
     width: 40vw;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
     font-size: 25px;
     font-weight: 900;
     padding-left: 40px;
-    padding-top: 100px;
+    padding-top: 50px;
     & div:first-child {
       font-size: 50px;
     }
