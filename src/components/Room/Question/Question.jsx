@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import QuestionPost from './QuetionPost';
+import QuestionPost from './QuestionPost';
 
 const QuestionContainer = styled.div`
   padding-left: 3vw;
