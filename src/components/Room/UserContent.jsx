@@ -4,6 +4,7 @@ import Question from './Question/Question';
 import Chat from './Chat/Chat';
 
 import useRoomStore from '../../stores/Room/useRoomStore';
+import NewPost from './NewQuestion/NewPost';
 
 const UserContentContainer = styled.div`
   display: flex;
@@ -71,10 +72,15 @@ function UserContent() {
             질문 게시판
           </button>
         </li>
-        {currentContent === 'question' && <button type="button">작성</button>}
+        {currentContent === 'question' && (
+          <button onClick={() => handleClickCategory('new-post')} type="button">
+            작성
+          </button>
+        )}
       </MenuTabWrapper>
       {currentContent === 'chat' && <Chat />}
       {currentContent === 'question' && <Question />}
+      {currentContent === 'new-post' && <NewPost />}
     </UserContentContainer>
   );
 }
