@@ -36,7 +36,7 @@ const MenuTabWrapper = styled.ul`
     border-radius: 50px;
     color: #ccc;
     font-size: 0.7rem;
-    font-weight: 500;
+    font-weight: 600;
     transition: all 0.5s ease;
     margin-left: auto;
     margin-right: 25px;
