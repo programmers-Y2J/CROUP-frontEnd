@@ -3,8 +3,7 @@ import { styled } from "styled-components";
 
 function HeaderComponent() {
   const HeaderContainer = styled.div`
-    margin-left: 15vw;
-    width: 70vw;
+    width: 100%;
     display: flex;
     flex-direction: column;
   `;
@@ -49,6 +48,7 @@ function HeaderComponent() {
       font-weight: 700;
       padding-left: 40px;
       color: white;
+      opacity: 0.6;
     }
   `;
   const LowWrapper = styled.div`

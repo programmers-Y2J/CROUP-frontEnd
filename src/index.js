@@ -1,12 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import HeaderComponent from "./components/Home/HeaderComponent";
+import Home from "./pages/Home";
+import RoomListComponent from "./components/Home/RoomListComponent";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <HeaderComponent />
+    <Home />
   </React.StrictMode>
 );
 
