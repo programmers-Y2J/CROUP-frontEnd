@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-
-function RoomComponent({ title, poster_path, vote_average }) {
-  const IMG_BASE_URL = "http://image.tmdb.org/t/p/w1280";
+import { RxEnter } from "react-icons/rx";
+import { RiCheckboxBlankCircleFill } from "react-icons/ri";
+function RoomComponent({ poster_path }) {
   const Container = styled.div`
     width: 30%;
     margin: 16px;
@@ -10,6 +10,9 @@ function RoomComponent({ title, poster_path, vote_average }) {
     border: 1px solid #d9d9d9;
     > img {
       max-width: 100%;
+      width: 100%;
+      border-top-right-radius: 30px;
+      border-top-left-radius: 30px;
     }
   `;
 
@@ -18,13 +21,34 @@ function RoomComponent({ title, poster_path, vote_average }) {
     padding: 20px;
     justify-content: space-between;
     align-items: center;
+    > div {
+      display: flex;
+      align-items: center;
+    }
+  `;
+
+  const StyledRxEnter = styled(RxEnter)`
+    font-size: 2rem;
+    color: #d1d1d1;
+  `;
+
+  const StyledCircle = styled(RiCheckboxBlankCircleFill)`
+    font-size: 2.5rem;
+    color: #d1d1d1;
   `;
   return (
     <Container>
-      <img src={IMG_BASE_URL + poster_path} alt="영화포스터"></img>
+      <img src={poster_path} alt="영화포스터"></img>
       <RoomWrapper>
-        <h4>{title}</h4>
-        <span>{vote_average}</span>
+        <div>
+          <StyledCircle />
+          <div>
+            Title
+            <br />
+            <span>description</span>
+          </div>
+        </div>
+        <StyledRxEnter />
       </RoomWrapper>
     </Container>
   );
