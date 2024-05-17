@@ -4,7 +4,7 @@ import styled from "styled-components";
 function RoomComponent({ title, poster_path, vote_average }) {
   const IMG_BASE_URL = "http://image.tmdb.org/t/p/w1280";
   const Container = styled.div`
-    width: 28%;
+    width: 30%;
     margin: 16px;
     border-radius: 30px;
     border: 1px solid #d9d9d9;
