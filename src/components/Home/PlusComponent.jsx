@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { FaPlus } from "react-icons/fa";
 
-function PlusComponent() {
+function PlusComponent({ openModal }) {
   const Container = styled.div`
     width: 30%;
     margin: 16px;
@@ -14,8 +14,9 @@ function PlusComponent() {
     font-size: 50px;
     color: #bababa;
   `;
+
   return (
-    <Container>
+    <Container onClick={openModal}>
       <FaPlus />
     </Container>
   );

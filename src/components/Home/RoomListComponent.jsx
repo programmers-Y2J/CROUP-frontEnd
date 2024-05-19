@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import RoomComponent from "./RoomComponent";
 import styled from "styled-components";
 import PlusComponent from "./PlusComponent";
+import MakeRoomComponent from "./MakeRoomComponent";
 
-function RoomListComponent() {
+function RoomListComponent({ openModal }) {
   const results = [
     {
       poster_path:
@@ -23,9 +24,10 @@ function RoomListComponent() {
     display: flex;
     flex-wrap: wrap;
   `;
+
   return (
     <Container>
-      <PlusComponent />
+      <PlusComponent openModal={openModal} />
       {results.map((item) => {
         return <RoomComponent poster_path={item.poster_path} />;
       })}

@@ -23,6 +23,7 @@ function HeaderComponent() {
     }
   `;
   const MiddleWrapper = styled.div`
+    pointer-events: none;
     border-radius: 30px;
     background-color: #00b3ff;
     height: 40vh;
