@@ -3,11 +3,11 @@ import { styled } from 'styled-components';
 import Guest from './Guest';
 
 const GuestListContainer = styled.ul`
-  width: 13vw;
-  height: 48vh;
+  width: 180px;
+  height: 495px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  padding: 2vh 0 0 2vw;
+  padding: 15px 0 0 35px;
 `;
 
 const exampleGuest = [

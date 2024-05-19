@@ -1,9 +1,7 @@
+import Room from './pages/Room';
+
 function App() {
-  return (
-    <div className="App">
-      <h1>Hello World</h1>
-    </div>
-  );
+  return <Room />;
 }
 
 export default App;

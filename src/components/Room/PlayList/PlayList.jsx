@@ -2,17 +2,16 @@ import { styled } from 'styled-components';
 import PlayListItem from './PlayListItem';
 
 const PlayListContainer = styled.div`
-  width: 25vw;
-  height: 53vh;
-  padding: 5vmin 0 0 7vmin;
+  width: 430px;
+  height: 500px;
+  padding: 30px 0 0 50px;
   background: #def2ff;
-  border-radius: 0 20px 20px 0;
+  border-radius: 0 30px 30px 0;
   display: flex;
   flex-direction: column;
   gap: 30px;
 `;
 
-const PlayListDetailWrapper = styled.div``;
 const ListWrapper = styled.ul`
   width: 80%;
   height: 80%;
@@ -25,10 +24,10 @@ const ListWrapper = styled.ul`
 function PlayList() {
   return (
     <PlayListContainer>
-      <PlayListDetailWrapper>
+      <div>
         <h3>Sebell{`'`}s Playlist</h3>
         <h4>Playlist Name</h4>
-      </PlayListDetailWrapper>
+      </div>
       <ListWrapper>
         <PlayListItem />
         <PlayListItem />

@@ -28,19 +28,3 @@ ul {
   width: 100vw;
   height: 100vh;
 }
-
-@media screen and (min-width: 1025px) {
-  html {
-    font-size: 16px;
-  }
-}
-@media screen and (min-width: 769px) and (max-width: 1024px) {
-  html {
-    font-size: 13px;
-  }
-}
-@media screen and (max-width: 768px) {
-  html {
-    font-size: 10px;
-  }
-}

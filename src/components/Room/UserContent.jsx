@@ -10,14 +10,16 @@ const UserContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+  margin-top: -40px;
+  width: 720px;
 `;
 
 const MenuTabWrapper = styled.ul`
   display: flex;
   align-items: center;
   gap: 20px;
-  width: 45vw;
-  height: 3vh;
+  width: 100%;
+  height: 40px;
   border-bottom: 1px solid #ccc;
   > li {
     color: #ccc;

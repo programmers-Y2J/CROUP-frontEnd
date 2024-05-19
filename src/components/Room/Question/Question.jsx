@@ -2,14 +2,14 @@ import { styled } from 'styled-components';
 import QuestionPost from './QuestionPost';
 
 const QuestionContainer = styled.div`
-  padding-left: 3vw;
-  width: 42vw;
+  width: 680px;
+  padding-left: 20px;
 `;
 
 const CategoryWrapper = styled.ul`
   display: flex;
   width: 100%;
-  gap: 25vw;
+  gap: 405px;
   > li {
     font-size: 0.8rem;
   }

@@ -9,8 +9,8 @@ const GuestContainer = styled.li`
   align-items: center;
   margin-top: 10px;
   > img {
-    width: 4.5vmin;
-    height: 4.5vmin;
+    width: 30px;
+    height: 30px;
   }
 `;
 

@@ -8,8 +8,8 @@ const ChatContainer = styled.div`
 `;
 
 const ChattingWrapper = styled.div`
-  width: 25vw;
-  height: 50vh;
+  width: 440px;
+  height: 510px;
   border: 1px solid #ccc;
   border-radius: 8px;
   margin-left: 5px;
@@ -20,14 +20,14 @@ const ChattingWrapper = styled.div`
 
 const MessageList = styled.ul`
   width: 80%;
-  height: 80%;
+  height: 83%;
   padding-top: 5%;
   overflow-y: scroll;
 `;
 
 const MessageInput = styled.input`
   width: 79%;
-  height: 7%;
+  height: 6%;
   border: 1px solid #00b3ff;
   border-radius: 15px;
   padding: 0 10px;

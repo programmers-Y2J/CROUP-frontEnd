@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 
-import thumbnail from '../../assets/images/example-thumbnail.svg';
+import thumbnail from '../../../assets/images/example-thumbnail.svg';
 
 const PlayListItemContainer = styled.li`
   width: 100%;
@@ -9,8 +9,8 @@ const PlayListItemContainer = styled.li`
   gap: 15px;
   cursor: pointer;
   > img {
-    width: 7vmin;
-    height: 7vmin;
+    width: 50px;
+    height: 50px;
     background-color: #ccc;
     border-radius: 8px;
   }
@@ -29,6 +29,7 @@ const ListItemDetailWrapper = styled.div`
 function PlayListItem() {
   return (
     <PlayListItemContainer>
+      <h5>1</h5>
       <img src={thumbnail} alt="video thumbnail" />
       <ListItemDetailWrapper>
         <h4>Wonder - ADOY</h4>

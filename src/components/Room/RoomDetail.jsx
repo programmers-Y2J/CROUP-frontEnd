@@ -10,38 +10,44 @@ const RoomDetailContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 40px;
-  width: 100vw;
-  height: 45vh;
+  width: 100%;
+  height: 400px;
   background: linear-gradient(to left, #eff9ff, #b6e8ff);
   position: relative;
+  margin-bottom: 100px;
+  margin-top: 20px;
+  border-radius: 20px 20px 0 0;
 `;
 
 const RoomOutIcon = styled.img`
-  width: 3vmin;
-  height: 3vmin;
+  width: 25px;
+  height: 25px;
   position: absolute;
-  top: 3vmin;
-  left: 3vmin;
+  top: 20px;
+  left: 25px;
   cursor: pointer;
 `;
 
 const Thumbnail = styled.img`
-  width: 33vmin;
-  height: 33vmin;
+  width: 280px;
+  height: 280px;
 `;
 
 const RoomStatusWrapper = styled.div`
-  height: 35vh;
+  height: 300px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 40px;
+  gap: 35px;
 `;
 
 const RoomDetailWrapper = styled.div`
   > h1 {
     font-size: 4rem;
     letter-spacing: 2px;
+  }
+  > p {
+    font-size: 0.8rem;
   }
 `;
 
@@ -50,8 +56,8 @@ const RoomHost = styled.div`
   align-items: center;
   gap: 8px;
   > img {
-    width: 5vmin;
-    height: 5vmin;
+    width: 30px;
+    height: 30px;
   }
 `;
 
@@ -59,15 +65,15 @@ const PlayingSongWrapper = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-  padding: 1.8vh 8vw;
+  padding: 15px 100px;
   background: #fff;
   border-radius: 50px;
   margin: 0 auto;
   > img {
     position: absolute;
     left: 20px;
-    width: 3vmin;
-    height: 3vmin;
+    width: 20px;
+    height: 20px;
     cursor: pointer;
   }
 `;

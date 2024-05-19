@@ -3,14 +3,13 @@ import PropTypes from 'prop-types';
 
 const MessageContainer = styled.li`
   width: fit-content;
-  height: 4vh;
-  padding: 5px 10px;
+  padding: 2px 10px;
   background-color: #eff9ff;
   margin-bottom: 8px;
   border-radius: 10px;
   display: flex;
   position: relative;
-  ${(props) => props.$isMine && 'margin-left: auto; padding: 5px 10px 5px 15px;'}
+  ${(props) => props.$isMine && 'margin-left: auto; padding: 2px 10px 2px 15px;'}
 `;
 
 const MineMarker = styled.div`
