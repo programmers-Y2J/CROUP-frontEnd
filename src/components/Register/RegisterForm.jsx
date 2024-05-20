@@ -21,31 +21,27 @@ function LoginForm() {
       width: 85px;
       height: 35px;
       border-radius: 30px;
-      color: white;
-      background-color: #04314d;
+      color: #cccccc;
+      background-color: white;
       font-weight: bold;
-    }
-  `;
-
-  const RegisterBtnWrapper = styled.pre`
-    margin-top: 30px; /* 버튼 위에 간격 추가 */
-    font-size: 0.6rem;
-    font-weight: bold;
-    > span {
-      color: #00b3ff;
+      border: 1px solid #cccccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 0;
     }
   `;
 
   return (
     <LoginFormContainer>
       <LoginFormWrapper>
-        <h1>Croup</h1>
+        <h1>회원가입</h1>
         <Input placeholder="email" type="email" />
         <Input placeholder="password" type="password" />
-        <button type="submit">Login</button>
-        <RegisterBtnWrapper>
-          <span>비밀번호를 잊으셨나요? </span>| 회원가입
-        </RegisterBtnWrapper>
+        <Input placeholder="password Confirm" type="password" />
+        <Input placeholder="password Nickname" type="text" />
+
+        <button type="submit">Sign Up</button>
       </LoginFormWrapper>
     </LoginFormContainer>
   );
