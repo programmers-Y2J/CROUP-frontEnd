@@ -15,7 +15,7 @@ const RoomDetailContainer = styled.div`
   height: 400px;
   background: #b6e8ff;
   position: relative;
-  margin-bottom: 100px;
+  margin-bottom: 150px;
   margin-top: 20px;
   border-radius: 20px 20px 0 0;
 `;
@@ -32,6 +32,7 @@ const RoomOutIcon = styled.img`
 const Thumbnail = styled.img`
   width: 280px;
   height: 280px;
+  border-radius: 20px;
 `;
 
 const RoomStatusWrapper = styled.div`
