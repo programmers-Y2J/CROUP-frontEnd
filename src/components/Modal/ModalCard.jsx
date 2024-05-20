@@ -2,7 +2,7 @@ import { styled } from 'styled-components';
 
 import closeIcon from '../../assets/icons/close-icon.svg';
 
-import PostDetail from './PostDetail';
+import ModalPortal from './ModalPortal';
 
 const ModalContainer = styled.div`
   position: fixed;
@@ -38,16 +38,18 @@ const CloseButton = styled.button`
   }
 `;
 
-function ModalCard() {
+function ModalCard({ children }) {
   return (
-    <ModalContainer>
-      <StyledModalCard>
-        <PostDetail />
-        <CloseButton>
-          <img src={closeIcon} alt="close-button" />
-        </CloseButton>
-      </StyledModalCard>
-    </ModalContainer>
+    <ModalPortal>
+      <ModalContainer>
+        <StyledModalCard>
+          {children}
+          <CloseButton>
+            <img src={closeIcon} alt="close-button" />
+          </CloseButton>
+        </StyledModalCard>
+      </ModalContainer>
+    </ModalPortal>
   );
 }
 
