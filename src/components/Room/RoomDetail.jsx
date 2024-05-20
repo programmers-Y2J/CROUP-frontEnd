@@ -13,7 +13,6 @@ const RoomDetailContainer = styled.div`
   gap: 40px;
   width: 100%;
   height: 400px;
-  /* background: linear-gradient(to left, #eff9ff, #b6e8ff); */
   background: #b6e8ff;
   position: relative;
   margin-bottom: 100px;
