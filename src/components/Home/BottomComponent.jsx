@@ -1,5 +1,5 @@
-import React from "react";
-import { styled } from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 function BottomComponent() {
   const BottomContainer = styled.div`
@@ -18,9 +18,9 @@ function BottomComponent() {
     <BottomContainer>
       <div>
         <h2>Logo</h2>
-        We're reimagining how you buy, sell
-        <br /> and rent. It's now easier to get into
-        <br /> a place you love. So let's do this,
+        We&apos;re reimagining how you buy, sell
+        <br /> and rent. It&apos;s now easier to get into
+        <br /> a place you love. So let&apos;s do this,
         <br /> together
       </div>
       <div>

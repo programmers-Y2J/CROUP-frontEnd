@@ -1,5 +1,5 @@
-import React from "react";
-import { styled } from "styled-components";
+import React from 'react';
+import { styled } from 'styled-components';
 
 function HeaderComponent() {
   const HeaderContainer = styled.div`
@@ -61,7 +61,7 @@ function HeaderComponent() {
   return (
     <HeaderContainer>
       <HighWrapper>
-        <button>Login</button>
+        <button type="button">Login</button>
       </HighWrapper>
       <MiddleWrapper>
         <div>

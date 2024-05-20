@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import LoginForm from '../components/Login/LoginForm';
 import LeftBar from '../components/Member/LeftBar';
+import LoginForm from '../components/Login/LoginForm';
 
 function Login() {
   const LoginContainer = styled.div`
