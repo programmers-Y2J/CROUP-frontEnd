@@ -60,13 +60,14 @@ const CommentForm = styled.div`
   align-items: center;
   gap: 5px;
   > input {
-    width: 80%;
-    height: 20px;
+    width: 75%;
+    height: 16px;
+    padding: 3px 0 3px 10px;
     border: 1px solid #ccc;
     border-radius: 30px;
+    outline: none;
   }
   input::placeholder {
-    padding-left: 15px;
     font-size: 0.8rem;
   }
   > button {
