@@ -1,6 +1,9 @@
 import { styled } from 'styled-components';
 
 import profileImage from '../../../assets/images/example-profile.svg';
+import ModalCard from '../../Modal/ModalCard';
+import PostDetail from '../../Modal/PostDetail';
+import useModal from '../../../hooks/useModal';
 
 const QuestionPostContainer = styled.li`
   width: 95%;
@@ -25,14 +28,21 @@ const QuestionPostContainer = styled.li`
 `;
 
 function QuestionPost() {
+  const { open, close, isOpen } = useModal();
+
   return (
-    <QuestionPostContainer>
-      <p>Title</p>
-      <span>
-        <img src={profileImage} alt="user profile" />
-        <h5>user name</h5>
-      </span>
-    </QuestionPostContainer>
+    <>
+      <QuestionPostContainer onClick={open}>
+        <p>Title</p>
+        <span>
+          <img src={profileImage} alt="user profile" />
+          <h5>user name</h5>
+        </span>
+      </QuestionPostContainer>
+      <ModalCard close={close} isOpen={isOpen}>
+        <PostDetail name="sebell" isOpen={isOpen} />
+      </ModalCard>
+    </>
   );
 }
 

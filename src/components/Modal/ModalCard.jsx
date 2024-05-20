@@ -12,6 +12,7 @@ const ModalContainer = styled.div`
   right: 0;
   width: 100vw;
   height: 100vh;
+  z-index: 999;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
@@ -38,17 +39,22 @@ const CloseButton = styled.button`
   }
 `;
 
-function ModalCard({ children }) {
+function ModalCard({ isOpen, close, children }) {
+  const handleCardClick = (event) => {
+    event.stopPropagation();
+  };
   return (
     <ModalPortal>
-      <ModalContainer>
-        <StyledModalCard>
-          {children}
-          <CloseButton>
-            <img src={closeIcon} alt="close-button" />
-          </CloseButton>
-        </StyledModalCard>
-      </ModalContainer>
+      {isOpen && (
+        <ModalContainer onClick={close}>
+          <StyledModalCard onClick={(event) => handleCardClick(event)}>
+            {children}
+            <CloseButton onClick={close}>
+              <img src={closeIcon} alt="close-button" />
+            </CloseButton>
+          </StyledModalCard>
+        </ModalContainer>
+      )}
     </ModalPortal>
   );
 }

@@ -88,14 +88,14 @@ function PostDetail() {
           <PostTitle />
           <UserProfile>
             <img src={userProfile} alt="user-profile" />
-            <h5>username</h5>
+            <h5>name</h5>
           </UserProfile>
         </PostTitleWrapper>
         <PostDescription />
       </PostDescriptionWrapper>
       <CommentWrapper>
         <CommentList>
-          <Message user="user" message="message" />
+          <Message user="user" message="message" isMine={false} />
         </CommentList>
         <CommentForm>
           <input type="text" placeholder="댓글을 입력해 주세요." />
