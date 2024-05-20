@@ -2,40 +2,39 @@ import React from 'react';
 import { styled } from 'styled-components';
 import Input from '../Member/Input';
 
-function LoginForm() {
-  const LoginFormContainer = styled.div`
-    width: 50vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: 100px;
-  `;
+const LoginFormContainer = styled.div`
+  width: 50vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 100px;
+`;
 
-  const LoginFormWrapper = styled.form`
-    text-align: center;
-    > h1 {
-      text-align: left;
-    }
-    > button {
-      width: 85px;
-      height: 35px;
-      border-radius: 30px;
-      color: white;
-      background-color: #04314d;
-      font-weight: bold;
-    }
-  `;
-
-  const RegisterBtnWrapper = styled.pre`
-    margin-top: 30px; /* 버튼 위에 간격 추가 */
-    font-size: 0.6rem;
+const LoginFormWrapper = styled.form`
+  text-align: center;
+  > h1 {
+    text-align: left;
+  }
+  > button {
+    width: 85px;
+    height: 35px;
+    border-radius: 30px;
+    color: white;
+    background-color: #04314d;
     font-weight: bold;
-    > span {
-      color: #00b3ff;
-    }
-  `;
+  }
+`;
 
+const RegisterBtnWrapper = styled.pre`
+  margin-top: 30px; /* 버튼 위에 간격 추가 */
+  font-size: 0.6rem;
+  font-weight: bold;
+  > span {
+    color: #00b3ff;
+  }
+`;
+function LoginForm() {
   return (
     <LoginFormContainer>
       <LoginFormWrapper>

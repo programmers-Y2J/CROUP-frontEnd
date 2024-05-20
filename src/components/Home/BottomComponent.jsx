@@ -1,19 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 
+const BottomContainer = styled.div`
+  height: 40vh;
+  background-color: #f3f3f3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  > div {
+    width: 25%;
+  }
+`;
 function BottomComponent() {
-  const BottomContainer = styled.div`
-    height: 40vh;
-    background-color: #f3f3f3;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    > div {
-      width: 25%;
-    }
-  `;
-
   return (
     <BottomContainer>
       <div>
