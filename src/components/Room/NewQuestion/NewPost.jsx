@@ -7,30 +7,30 @@ const NewPostContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 45vw;
-  position: relative;
+  width: 500px;
   gap: 20px;
+  margin: 0 auto;
 `;
 
 const BackButton = styled.button`
   background: none;
   > img {
-    width: 2vmin;
-    height: 2vmin;
-    left: 1vmin;
+    width: 18px;
+    height: 18px;
+    left: 10px;
     position: absolute;
     cursor: pointer;
   }
 `;
 
 const TitleInput = styled.input`
-  width: 34vw;
-  height: 5vh;
+  width: 100%;
+  height: 45px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  padding-left: 1vw;
+  padding-left: 15px;
   font-size: 1rem;
-  margin-top: 3vh;
+  margin-top: 20px;
   &::placeholder {
     font-size: 1.1rem;
     color: #ccc;
@@ -47,7 +47,6 @@ const PostButton = styled.button`
   border-radius: 30px;
   color: #ccc;
   margin-left: auto;
-  margin-right: 5vw;
   transition: all 0.5s ease;
   cursor: pointer;
   &:hover {
@@ -57,9 +56,9 @@ const PostButton = styled.button`
 `;
 
 const DescriptionArea = styled.textarea`
-  width: 33vw;
-  height: 23vh;
-  padding: 1vh 1vw;
+  width: 94%;
+  height: 300px;
+  padding: 10px 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
   resize: none;

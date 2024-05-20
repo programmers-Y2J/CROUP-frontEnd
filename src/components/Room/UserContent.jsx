@@ -9,6 +9,7 @@ import NewPost from './NewQuestion/NewPost';
 const UserContentContainer = styled.div`
   display: flex;
   flex-direction: column;
+  position: relative;
   gap: 20px;
   margin-top: -40px;
   width: 720px;
