@@ -1,5 +1,6 @@
 import { styled } from 'styled-components';
 
+import { useNavigate } from 'react-router-dom';
 import roomOutIcon from '../../assets/icons/room-out.svg';
 import nowPlaying from '../../assets/icons/now-playing.svg';
 import thumbnail from '../../assets/images/example-thumbnail.svg';
@@ -79,9 +80,14 @@ const PlayingSongWrapper = styled.div`
 `;
 
 function RoomDetail() {
+  const navigate = useNavigate();
+
+  const handleRoomOutClick = () => {
+    navigate('/');
+  };
   return (
     <RoomDetailContainer>
-      <RoomOutIcon src={roomOutIcon} alt="room out icon" />
+      <RoomOutIcon onClick={handleRoomOutClick} src={roomOutIcon} alt="room out icon" />
       <Thumbnail src={thumbnail} alt="thumbnail" />
       <RoomStatusWrapper>
         <RoomDetailWrapper>
