@@ -1,9 +1,9 @@
 import { styled } from 'styled-components';
-
 import { useNavigate } from 'react-router-dom';
+import { usePlayListStore, useRoomDataStore } from '../../stores/Room/useRoomStore';
+
 import roomOutIcon from '../../assets/icons/room-out.svg';
 import nowPlaying from '../../assets/icons/now-playing.svg';
-import thumbnail from '../../assets/images/example-thumbnail.svg';
 import userProfile from '../../assets/images/exanoke-user-profile.svg';
 
 const RoomDetailContainer = styled.div`
@@ -30,9 +30,9 @@ const RoomOutIcon = styled.img`
 `;
 
 const Thumbnail = styled.img`
-  width: 280px;
-  height: 280px;
   border-radius: 20px;
+  width: 450px;
+  height: 253px;
 `;
 
 const RoomStatusWrapper = styled.div`
@@ -81,7 +81,11 @@ const PlayingSongWrapper = styled.div`
 `;
 
 function RoomDetail() {
+  const playList = usePlayListStore((state) => state.playList);
+  const roomData = useRoomDataStore((state) => state.roomData);
   const navigate = useNavigate();
+
+  const thumbnail = playList[0].snippet.thumbnails.maxres.url;
 
   const handleRoomOutClick = () => {
     navigate('/');
@@ -92,12 +96,12 @@ function RoomDetail() {
       <Thumbnail src={thumbnail} alt="thumbnail" />
       <RoomStatusWrapper>
         <RoomDetailWrapper>
-          <h1>Codding With</h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+          <h1>{roomData.title}</h1>
+          <p>{roomData.description}</p>
         </RoomDetailWrapper>
         <RoomHost>
           <img src={userProfile} alt="user profile" />
-          <h5>SebellKo</h5>
+          <h5>{roomData.host}</h5>
         </RoomHost>
         <PlayingSongWrapper>
           <img src={nowPlaying} alt="now playing" />

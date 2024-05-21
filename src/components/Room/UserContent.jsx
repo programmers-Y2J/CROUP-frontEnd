@@ -3,7 +3,7 @@ import { styled } from 'styled-components';
 import Question from './Question/Question';
 import Chat from './Chat/Chat';
 
-import useRoomStore from '../../stores/Room/useRoomStore';
+import { useRoomContentStore } from '../../stores/Room/useRoomStore';
 import NewPost from './NewQuestion/NewPost';
 
 const UserContentContainer = styled.div`
@@ -53,7 +53,7 @@ const MenuTabWrapper = styled.ul`
 `;
 
 function UserContent() {
-  const { currentContent, setContent } = useRoomStore();
+  const { currentContent, setContent } = useRoomContentStore();
 
   const chatButtonStyle = currentContent === 'chat' ? { color: '#04314d' } : {};
   const questionButtonStyle = currentContent === 'question' ? { color: '#04314d' } : {};

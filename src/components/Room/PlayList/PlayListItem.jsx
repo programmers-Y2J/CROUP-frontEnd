@@ -1,7 +1,5 @@
 import { styled } from 'styled-components';
 
-import thumbnail from '../../../assets/images/example-thumbnail.svg';
-
 const PlayListItemContainer = styled.li`
   width: 100%;
   display: flex;
@@ -9,8 +7,8 @@ const PlayListItemContainer = styled.li`
   gap: 15px;
   cursor: pointer;
   > img {
-    width: 50px;
-    height: 50px;
+    width: 100px;
+    height: 56px;
     background-color: #ccc;
     border-radius: 8px;
   }
@@ -26,14 +24,14 @@ const ListItemDetailWrapper = styled.div`
   }
 `;
 
-function PlayListItem() {
+function PlayListItem({ index, imgSrc, title, channel }) {
   return (
     <PlayListItemContainer>
-      <h5>1</h5>
-      <img src={thumbnail} alt="video thumbnail" />
+      <h5>{index + 1}</h5>
+      <img src={imgSrc} alt="video thumbnail" />
       <ListItemDetailWrapper>
-        <h4>Wonder - ADOY</h4>
-        <p>channel name</p>
+        <h4>{title}</h4>
+        <p>{channel}</p>
       </ListItemDetailWrapper>
     </PlayListItemContainer>
   );
