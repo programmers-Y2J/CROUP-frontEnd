@@ -27,9 +27,11 @@ const ListItemDetailWrapper = styled.div`
 
 function PlayListItem({ index, imgSrc, title, channel, videoId }) {
   const setCurrentMusic = useCurrentMusicStore((state) => state.setCurrentMusic);
+  const setIsPlaying = useCurrentMusicStore((state) => state.setIsPlaying);
 
   const handleItemClick = () => {
     setCurrentMusic({ title, videoId });
+    setIsPlaying(true);
   };
   return (
     <PlayListItemContainer onClick={handleItemClick}>

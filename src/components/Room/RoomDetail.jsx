@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import ReactPlayer from 'react-player';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useCurrentMusicStore, usePlayListStore, useRoomDataStore } from '../../stores/Room/useRoomStore';
 
 import roomOutIcon from '../../assets/icons/room-out.svg';
@@ -71,10 +71,17 @@ const PlayingSongWrapper = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-  padding: 15px 100px;
+  width: 220px;
+  padding: 15px 60px;
   background: #fff;
   border-radius: 50px;
   margin: 0 auto;
+  > h5 {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 `;
 
 const PlayButton = styled.button`
@@ -91,10 +98,9 @@ const PlayButton = styled.button`
 `;
 
 function RoomDetail() {
-  const [isPlaying, setIsPlaying] = useState(false);
   const playList = usePlayListStore((state) => state.playList);
   const roomData = useRoomDataStore((state) => state.roomData);
-  const { currentMusic, setCurrentMusic } = useCurrentMusicStore();
+  const { currentMusic, setCurrentMusic, isPlaying, setIsPlaying } = useCurrentMusicStore();
   const navigate = useNavigate();
 
   const thumbnail = playList[0].snippet.thumbnails.maxres.url;
@@ -104,21 +110,33 @@ function RoomDetail() {
     setCurrentMusic(firstSong);
   }, []);
 
+  const handleOnEnded = () => {
+    let nextMusic = 0;
+    const currentMusicIndex = playList.findIndex((music) => music.snippet.resourceId.videoId === currentMusic.videoId);
+
+    if (currentMusicIndex === playList.length - 1) [nextMusic] = playList;
+    else nextMusic = playList[currentMusicIndex + 1];
+
+    setCurrentMusic({ title: nextMusic.snippet.title, videoId: nextMusic.snippet.resourceId.videoId });
+    setIsPlaying(true);
+  };
+
   const handleRoomOutClick = () => {
     navigate('/');
   };
 
   const handlePlayButtonClick = () => {
-    setIsPlaying((prev) => !prev);
+    setIsPlaying(!isPlaying);
   };
   return (
     <RoomDetailContainer>
       <RoomOutIcon onClick={handleRoomOutClick} src={roomOutIcon} alt="room out icon" />
       <Thumbnail src={thumbnail} alt="thumbnail" />
       <ReactPlayer
-        style={{ position: 'absolute', opacity: 0, zIndex: -99 }}
+        style={{ position: 'absolute', opacity: 1, zIndex: -99 }}
         url={`https://www.youtube.com/watch?v=${currentMusic.videoId}`}
         playing={isPlaying}
+        onEnded={handleOnEnded}
       />
       <RoomStatusWrapper>
         <RoomDetailWrapper>
