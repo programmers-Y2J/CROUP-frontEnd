@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { styled } from 'styled-components';
+import { useMutation } from 'react-query';
+import axios from 'axios';
 import Input from '../Member/Input';
 
 const LoginFormContainer = styled.div`
@@ -31,14 +33,42 @@ const LoginFormWrapper = styled.form`
   }
 `;
 function LoginForm() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [nickname, setNickname] = useState('');
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+  const handleNicknameChange = (e) => {
+    setNickname(e.target.value);
+  };
+
+  const mutation = useMutation(async () => {
+    const response = await axios.post('auth/join', { email, password, nickname });
+    return response.data;
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const data = await mutation.mutateAsync();
+      console.log(data);
+    } catch (error) {
+      console.error('Error occurred:', error);
+    }
+  };
   return (
     <LoginFormContainer>
-      <LoginFormWrapper>
+      <LoginFormWrapper onSubmit={handleSubmit}>
         <h1>회원가입</h1>
-        <Input placeholder="email" type="email" />
-        <Input placeholder="password" type="password" />
+        <Input placeholder="email" type="email" value={email} onChange={handleEmailChange} />
+        <Input placeholder="password" type="password" value={password} onChange={handlePasswordChange} />
         <Input placeholder="password Confirm" type="password" />
-        <Input placeholder="password Nickname" type="text" />
+        <Input placeholder="password Nickname" type="text" value={nickname} onChange={handleNicknameChange} />
 
         <button type="submit">Sign Up</button>
       </LoginFormWrapper>
