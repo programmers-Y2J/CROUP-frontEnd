@@ -23,7 +23,7 @@ const getPlayList = async (playlistId) => {
     params: {
       part: 'snippet',
       playlistId: `${playlistId}`,
-      key: 'key',
+      key: [process.env.REACT_APP_YOUTUBE_API_KEY],
       maxResults: 50,
     },
   });
