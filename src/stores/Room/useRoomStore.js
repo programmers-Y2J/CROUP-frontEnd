@@ -14,3 +14,8 @@ export const useRoomDataStore = create((set) => ({
   roomData: { roomId: '', host: '', playListId: '', title: '', description: '' },
   setRoomData: (roomDataObj) => set(() => ({ roomData: roomDataObj })),
 }));
+
+export const useCurrentMusicStore = create((set) => ({
+  currentMusic: { title: '', videoId: '' },
+  setCurrentMusic: (currentMusicObj) => set(() => ({ currentMusic: currentMusicObj })),
+}));

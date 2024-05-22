@@ -40,6 +40,7 @@ function PlayList() {
             imgSrc={listItem.snippet.thumbnails.medium.url}
             title={listItem.snippet.title}
             channel={listItem.snippet.channelTitle}
+            videoId={listItem.snippet.resourceId.videoId}
           />
         ))}
       </ListWrapper>

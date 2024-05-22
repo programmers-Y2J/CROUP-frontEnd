@@ -33,27 +33,27 @@ const getPlayList = async (playlistId) => {
 function Room() {
   const setPlayList = usePlayListStore((state) => state.setPlayList);
   const setRoomData = useRoomDataStore((state) => state.setRoomData);
-
   const location = useLocation();
 
   const { data, isSuccess, isError } = useQuery({
-    queryKey: [`123`],
-    queryFn: () => getPlayList(location.playListId),
+    queryKey: [`room`],
+    queryFn: () => getPlayList('RDCLAK5uy_kyZ7N5lM0kUpn7NbydMRujcq4aTEesP9I' || location.playListId),
     staleTime: 6000000,
   });
 
   const roomDataObj = {
-    roomId: location.state.roomId,
-    host: location.state.host,
-    playListId: location.state.playListId,
-    title: location.state.title,
-    description: location.state.description,
+    roomId: '123' || location.state.roomId,
+    host: 'host' || location.state.host,
+    playListId: 'RDCLAK5uy_kyZ7N5lM0kUpn7NbydMRujcq4aTEesP9I' || location.state.playListId,
+    title: 'title' || location.state.title,
+    description: 'description' || location.state.description,
   };
 
   if (isError) console.log('get playlist error');
   if (isSuccess) {
     setPlayList(data.data.items);
     setRoomData(roomDataObj);
+
     return (
       <RoomContainer>
         <RoomDetail />

@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import { useCurrentMusicStore } from '../../../stores/Room/useRoomStore';
 
 const PlayListItemContainer = styled.li`
   width: 100%;
@@ -24,9 +25,14 @@ const ListItemDetailWrapper = styled.div`
   }
 `;
 
-function PlayListItem({ index, imgSrc, title, channel }) {
+function PlayListItem({ index, imgSrc, title, channel, videoId }) {
+  const setCurrentMusic = useCurrentMusicStore((state) => state.setCurrentMusic);
+
+  const handleItemClick = () => {
+    setCurrentMusic({ title, videoId });
+  };
   return (
-    <PlayListItemContainer>
+    <PlayListItemContainer onClick={handleItemClick}>
       <h5>{index + 1}</h5>
       <img src={imgSrc} alt="video thumbnail" />
       <ListItemDetailWrapper>

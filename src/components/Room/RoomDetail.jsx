@@ -1,9 +1,12 @@
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { usePlayListStore, useRoomDataStore } from '../../stores/Room/useRoomStore';
+import ReactPlayer from 'react-player';
+import { useEffect, useState } from 'react';
+import { useCurrentMusicStore, usePlayListStore, useRoomDataStore } from '../../stores/Room/useRoomStore';
 
 import roomOutIcon from '../../assets/icons/room-out.svg';
 import nowPlaying from '../../assets/icons/now-playing.svg';
+import pauseIcon from '../../assets/icons/pause-playing.svg';
 import userProfile from '../../assets/images/exanoke-user-profile.svg';
 
 const RoomDetailContainer = styled.div`
@@ -11,6 +14,7 @@ const RoomDetailContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 40px;
+  position: relative;
   width: 100%;
   height: 400px;
   background: #b6e8ff;
@@ -71,29 +75,51 @@ const PlayingSongWrapper = styled.div`
   background: #fff;
   border-radius: 50px;
   margin: 0 auto;
+`;
+
+const PlayButton = styled.button`
+  width: 20px;
+  height: 20px;
+  background: none;
+  position: absolute;
+  left: 20px;
+  cursor: pointer;
   > img {
-    position: absolute;
-    left: 20px;
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
+    width: 100%;
+    height: 100%;
   }
 `;
 
 function RoomDetail() {
+  const [isPlaying, setIsPlaying] = useState(false);
   const playList = usePlayListStore((state) => state.playList);
   const roomData = useRoomDataStore((state) => state.roomData);
+  const { currentMusic, setCurrentMusic } = useCurrentMusicStore();
   const navigate = useNavigate();
 
   const thumbnail = playList[0].snippet.thumbnails.maxres.url;
+  const firstSong = { title: playList[0].snippet.title, videoId: playList[0].snippet.resourceId.videoId };
+
+  useEffect(() => {
+    setCurrentMusic(firstSong);
+  }, []);
 
   const handleRoomOutClick = () => {
     navigate('/');
+  };
+
+  const handlePlayButtonClick = () => {
+    setIsPlaying((prev) => !prev);
   };
   return (
     <RoomDetailContainer>
       <RoomOutIcon onClick={handleRoomOutClick} src={roomOutIcon} alt="room out icon" />
       <Thumbnail src={thumbnail} alt="thumbnail" />
+      <ReactPlayer
+        style={{ position: 'absolute', opacity: 0, zIndex: -99 }}
+        url={`https://www.youtube.com/watch?v=${currentMusic.videoId}`}
+        playing={isPlaying}
+      />
       <RoomStatusWrapper>
         <RoomDetailWrapper>
           <h1>{roomData.title}</h1>
@@ -104,8 +130,10 @@ function RoomDetail() {
           <h5>{roomData.host}</h5>
         </RoomHost>
         <PlayingSongWrapper>
-          <img src={nowPlaying} alt="now playing" />
-          <h5>ADOY - Winter</h5>
+          <PlayButton type="button" onClick={handlePlayButtonClick}>
+            <img src={isPlaying ? pauseIcon : nowPlaying} alt="now playing" />
+          </PlayButton>
+          <h5>{currentMusic.title}</h5>
         </PlayingSongWrapper>
       </RoomStatusWrapper>
     </RoomDetailContainer>
