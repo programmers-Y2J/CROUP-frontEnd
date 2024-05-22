@@ -1,5 +1,6 @@
 import React from 'react';
 import { styled } from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const HeaderContainer = styled.div`
   width: 1300px;
@@ -57,11 +58,19 @@ const LowWrapper = styled.div`
   align-items: center;
   height: 25vh;
 `;
+
 function HeaderComponent() {
+  const navigate = useNavigate();
+
+  const handleLoginClick = () => {
+    navigate('/login');
+  };
   return (
     <HeaderContainer>
       <HighWrapper>
-        <button type="button">Login</button>
+        <button type="button" onClick={handleLoginClick}>
+          Login
+        </button>
       </HighWrapper>
       <MiddleWrapper>
         <div>
