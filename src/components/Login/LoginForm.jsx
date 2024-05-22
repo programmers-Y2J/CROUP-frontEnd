@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { styled } from 'styled-components';
+import { useMutation } from 'react-query';
+import axios from 'axios';
 import Input from '../Member/Input';
 
 const LoginFormContainer = styled.div`
@@ -34,13 +36,40 @@ const RegisterBtnWrapper = styled.pre`
     color: #00b3ff;
   }
 `;
+
 function LoginForm() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const mutation = useMutation(async () => {
+    const response = await axios.post('auth/login', { email, password });
+    return response.data;
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const data = await mutation.mutateAsync();
+      console.log(data);
+    } catch (error) {
+      console.error('Error occurred:', error);
+    }
+  };
+
   return (
     <LoginFormContainer>
-      <LoginFormWrapper>
+      <LoginFormWrapper onSubmit={handleSubmit}>
         <h1>Croup</h1>
-        <Input placeholder="email" type="email" />
-        <Input placeholder="password" type="password" />
+        <Input placeholder="email" type="email" value={email} onChange={handleEmailChange} />
+        <Input placeholder="password" type="password" value={password} onChange={handlePasswordChange} />
         <button type="submit">Login</button>
         <RegisterBtnWrapper>
           <span>비밀번호를 잊으셨나요? </span>| 회원가입
