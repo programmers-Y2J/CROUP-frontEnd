@@ -20,6 +20,8 @@ const CategoryWrapper = styled.ul`
 
 const QuestionList = styled.ul`
   width: 100%;
+  height: 450px;
+  overflow-y: scroll;
 `;
 
 const getQuestionList = async () => {
