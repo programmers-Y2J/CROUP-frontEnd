@@ -1,4 +1,7 @@
 import { styled } from 'styled-components';
+import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
+
 import QuestionPost from './QuestionPost';
 
 const QuestionContainer = styled.div`
@@ -19,20 +22,35 @@ const QuestionList = styled.ul`
   width: 100%;
 `;
 
+const getQuestionList = async () => {
+  const list = await axios.get('/dummy/dummyData.json');
+  return list;
+};
+
 function Question() {
-  return (
-    <QuestionContainer>
-      <CategoryWrapper>
-        <li>제목</li>
-        <li>작성자</li>
-      </CategoryWrapper>
-      <QuestionList>
-        <QuestionPost />
-        <QuestionPost />
-        <QuestionPost />
-      </QuestionList>
-    </QuestionContainer>
-  );
+  const { data, isSuccess, isError } = useQuery({ queryKey: ['question'], queryFn: getQuestionList, staleTime: 20000 });
+
+  if (isError) return console.log('is Error');
+  if (isSuccess) {
+    return (
+      <QuestionContainer>
+        <CategoryWrapper>
+          <li>제목</li>
+          <li>작성자</li>
+        </CategoryWrapper>
+        <QuestionList>
+          {data.data.lists.map((question) => (
+            <QuestionPost
+              key={question.questionId}
+              questionId={question.questionId}
+              title={question.title}
+              user={question.nickName}
+            />
+          ))}
+        </QuestionList>
+      </QuestionContainer>
+    );
+  }
 }
 
 export default Question;

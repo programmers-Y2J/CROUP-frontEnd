@@ -27,16 +27,16 @@ const QuestionPostContainer = styled.li`
   }
 `;
 
-function QuestionPost() {
+function QuestionPost({ questionId, title, user }) {
   const { open, close, isOpen } = useModal();
-
+  console.log(questionId);
   return (
     <>
       <QuestionPostContainer onClick={open}>
-        <p>Title</p>
+        <p>{title}</p>
         <span>
           <img src={profileImage} alt="user profile" />
-          <h5>user name</h5>
+          <h5>{user}</h5>
         </span>
       </QuestionPostContainer>
       <ModalCard close={close} isOpen={isOpen}>
