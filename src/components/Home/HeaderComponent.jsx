@@ -20,6 +20,7 @@ const HighWrapper = styled.div`
     font-weight: bold;
     border: 1px solid white;
     margin-right: 40px;
+    cursor: pointer;
   }
 `;
 const MiddleWrapper = styled.div`

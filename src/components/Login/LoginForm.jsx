@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 import { useMutation } from 'react-query';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import Input from '../Member/Input';
+import Validtion from '../Member/Validation';
 
 const LoginFormContainer = styled.div`
   width: 50vw;
@@ -25,11 +27,15 @@ const LoginFormWrapper = styled.form`
     color: white;
     background-color: #04314d;
     font-weight: bold;
+    margin-top: 30px;
+  }
+  > input {
+    margin-top: 30px;
   }
 `;
 
 const RegisterBtnWrapper = styled.pre`
-  margin-top: 30px; /* 버튼 위에 간격 추가 */
+  margin-top: 30px;
   font-size: 0.6rem;
   font-weight: bold;
   > span {
@@ -50,7 +56,7 @@ function LoginForm() {
   };
 
   const mutation = useMutation(async () => {
-    const response = await axios.post('auth/login', { email, password });
+    const response = await axios.post('/auth/login', { email, password }, { withCredentials: true });
     return response.data;
   });
 
@@ -58,7 +64,11 @@ function LoginForm() {
     e.preventDefault();
     try {
       const data = await mutation.mutateAsync();
-      console.log(data);
+      console.log('Logged in successfully:', data);
+
+      const token = Cookies.get('tk');
+      localStorage.setItem('token', data.token);
+      console.log('Token:', token);
     } catch (error) {
       console.error('Error occurred:', error);
     }
@@ -69,7 +79,9 @@ function LoginForm() {
       <LoginFormWrapper onSubmit={handleSubmit}>
         <h1>Croup</h1>
         <Input placeholder="email" type="email" value={email} onChange={handleEmailChange} />
+        <Validtion text="이메일 형식으로 입력해주세요" />
         <Input placeholder="password" type="password" value={password} onChange={handlePasswordChange} />
+        <Validtion text="비밀번호는 최소 4글자 입니다." />
         <button type="submit">Login</button>
         <RegisterBtnWrapper>
           <span>비밀번호를 잊으셨나요? </span>| 회원가입
