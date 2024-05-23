@@ -46,12 +46,20 @@ const RegisterBtnWrapper = styled.pre`
 function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [emailValid, setEmailValid] = useState(false);
+  const [passwordValid, setPasswordValid] = useState(false);
 
   const handleEmailChange = (e) => {
+    const regex = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+    const isValid = regex.test(e.target.value);
+    setEmailValid(!isValid);
     setEmail(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
+    const regex = /.{4,}/;
+    const isValid = regex.test(e.target.value);
+    setPasswordValid(!isValid);
     setPassword(e.target.value);
   };
 
@@ -79,9 +87,9 @@ function LoginForm() {
       <LoginFormWrapper onSubmit={handleSubmit}>
         <h1>Croup</h1>
         <Input placeholder="email" type="email" value={email} onChange={handleEmailChange} />
-        <Validtion text="이메일 형식으로 입력해주세요" />
+        {emailValid ? <Validtion text="이메일 형식으로 입력해주세요" /> : null}
         <Input placeholder="password" type="password" value={password} onChange={handlePasswordChange} />
-        <Validtion text="비밀번호는 최소 4글자 입니다." />
+        {passwordValid ? <Validtion text="비밀번호는 최소 4글자 입니다." /> : null}
         <button type="submit">Login</button>
         <RegisterBtnWrapper>
           <span>비밀번호를 잊으셨나요? </span>| 회원가입
