@@ -3,6 +3,7 @@ import { styled } from 'styled-components';
 import { useMutation } from 'react-query';
 import axios from 'axios';
 import Input from '../Member/Input';
+import Validtion from '../Member/Validation';
 
 const LoginFormContainer = styled.div`
   width: 50vw;
@@ -30,20 +31,44 @@ const LoginFormWrapper = styled.form`
     align-items: center;
     justify-content: center;
     margin-left: 0;
+    margin-top: 10px;
+  }
+  > input {
+    margin-top: 30px;
   }
 `;
 function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordCk, setPasswordCk] = useState('');
   const [nickname, setNickname] = useState('');
+  const [emailValid, setEmailValid] = useState(false);
+  const [passwordValid, setPasswordValid] = useState(false);
+  const [passwordCkValid, setpasswordCkValid] = useState(false);
+  const [nicknameValid, setNicknameValid] = useState(false);
   const handleEmailChange = (e) => {
+    const regex = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+    const isValid = regex.test(e.target.value);
+    setEmailValid(!isValid);
     setEmail(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
+    const regex = /.{4,}/;
+    const isValid = regex.test(e.target.value);
+    setPasswordValid(!isValid);
     setPassword(e.target.value);
   };
+
+  const handlePasswordCkChange = (e) => {
+    const isValid = password === e.target.value;
+    setpasswordCkValid(!isValid);
+    setPasswordCk(e.target.value);
+  };
   const handleNicknameChange = (e) => {
+    const regex = /.{2,}/;
+    const isValid = regex.test(e.target.value);
+    setNicknameValid(!isValid);
     setNickname(e.target.value);
   };
 
@@ -66,10 +91,13 @@ function LoginForm() {
       <LoginFormWrapper onSubmit={handleSubmit}>
         <h1>회원가입</h1>
         <Input placeholder="email" type="email" value={email} onChange={handleEmailChange} />
+        {emailValid ? <Validtion text="이메일 형식으로 입력해주세요" /> : null}
         <Input placeholder="password" type="password" value={password} onChange={handlePasswordChange} />
-        <Input placeholder="password Confirm" type="password" />
+        {passwordValid ? <Validtion text="비밀번호는 최소 4글자 입니다." /> : null}
+        <Input placeholder="password Confirm" type="password" value={passwordCk} onChange={handlePasswordCkChange} />
+        {passwordCkValid ? <Validtion text="비밀번호가 일치하지 않습니다." /> : null}
         <Input placeholder="password Nickname" type="text" value={nickname} onChange={handleNicknameChange} />
-
+        {nicknameValid ? <Validtion text="닉네임은 최소 두글자 입니다." /> : null}
         <button type="submit">Sign Up</button>
       </LoginFormWrapper>
     </LoginFormContainer>
