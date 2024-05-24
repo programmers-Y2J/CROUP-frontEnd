@@ -89,6 +89,22 @@ function LoginForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (email === '') {
+      alert('이메일을 입력해주세요.');
+      return;
+    }
+    if (password === '') {
+      alert('비밀번호를 입력해주세요');
+      return;
+    }
+    if (passwordCk === '') {
+      alert('비밀번호 확인을 입력해주세요');
+      return;
+    }
+    if (nickName === '') {
+      alert('닉네임을 입력해주세요');
+      return;
+    }
     try {
       const data = await mutation.mutateAsync();
       console.log(data);
@@ -108,7 +124,9 @@ function LoginForm() {
         {passwordCkValid ? <Validtion text="비밀번호가 일치하지 않습니다." /> : null}
         <Input placeholder="password Nickname" type="text" value={nickName} onChange={handleNicknameChange} />
         {nicknameValid ? <Validtion text="닉네임은 최소 두글자 입니다." /> : null}
-        <button type="submit">Sign Up</button>
+        <button type="submit" disabled={emailValid || passwordValid || passwordCkValid || nicknameValid}>
+          Sign Up
+        </button>
       </LoginFormWrapper>
     </LoginFormContainer>
   );
