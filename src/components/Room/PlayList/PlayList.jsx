@@ -1,5 +1,6 @@
 import { styled } from 'styled-components';
 import PlayListItem from './PlayListItem';
+import { usePlayListStore, useRoomDataStore } from '../../../stores/Room/useRoomStore';
 
 const PlayListContainer = styled.div`
   width: 430px;
@@ -22,20 +23,26 @@ const ListWrapper = styled.ul`
 `;
 
 function PlayList() {
+  const playList = usePlayListStore((state) => state.playList);
+  const { host } = useRoomDataStore((state) => state.roomData);
+
   return (
     <PlayListContainer>
       <div>
-        <h3>Sebell{`'`}s Playlist</h3>
+        <h3>{`${host}'`}s Playlist</h3>
         <h4>Playlist Name</h4>
       </div>
       <ListWrapper>
-        <PlayListItem />
-        <PlayListItem />
-        <PlayListItem />
-        <PlayListItem />
-        <PlayListItem />
-        <PlayListItem />
-        <PlayListItem />
+        {playList.map((listItem, index) => (
+          <PlayListItem
+            key={listItem.id}
+            index={index}
+            imgSrc={listItem.snippet.thumbnails.medium.url}
+            title={listItem.snippet.title}
+            channel={listItem.snippet.channelTitle}
+            videoId={listItem.snippet.resourceId.videoId}
+          />
+        ))}
       </ListWrapper>
     </PlayListContainer>
   );
