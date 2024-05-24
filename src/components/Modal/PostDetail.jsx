@@ -1,7 +1,9 @@
 import { styled } from 'styled-components';
 
+import { useNavigate } from 'react-router-dom';
 import userProfile from '../../assets/images/example-profile.svg';
 import Message from '../Room/Chat/Message';
+import ModalCard from './ModalCard';
 
 const PostDetailContainer = styled.div`
   display: flex;
@@ -81,28 +83,35 @@ const CommentForm = styled.div`
 `;
 
 function PostDetail() {
+  const navigate = useNavigate();
+
+  const handleCloseModal = () => {
+    navigate(-1);
+  };
   return (
-    <PostDetailContainer>
-      <PostDescriptionWrapper>
-        <PostTitleWrapper>
-          <PostTitle />
-          <UserProfile>
-            <img src={userProfile} alt="user-profile" />
-            <h5>name</h5>
-          </UserProfile>
-        </PostTitleWrapper>
-        <PostDescription />
-      </PostDescriptionWrapper>
-      <CommentWrapper>
-        <CommentList>
-          <Message user="user" message="message" isMine={false} />
-        </CommentList>
-        <CommentForm>
-          <input type="text" placeholder="댓글을 입력해 주세요." />
-          <button type="button">게시</button>
-        </CommentForm>
-      </CommentWrapper>
-    </PostDetailContainer>
+    <ModalCard isOpen close={handleCloseModal}>
+      <PostDetailContainer>
+        <PostDescriptionWrapper>
+          <PostTitleWrapper>
+            <PostTitle />
+            <UserProfile>
+              <img src={userProfile} alt="user-profile" />
+              <h5>name</h5>
+            </UserProfile>
+          </PostTitleWrapper>
+          <PostDescription />
+        </PostDescriptionWrapper>
+        <CommentWrapper>
+          <CommentList>
+            <Message user="user" message="message" isMine={false} />
+          </CommentList>
+          <CommentForm>
+            <input type="text" placeholder="댓글을 입력해 주세요." />
+            <button type="button">게시</button>
+          </CommentForm>
+        </CommentWrapper>
+      </PostDetailContainer>
+    </ModalCard>
   );
 }
 

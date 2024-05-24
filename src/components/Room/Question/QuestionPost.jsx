@@ -1,9 +1,7 @@
 import { styled } from 'styled-components';
 
+import { useNavigate } from 'react-router-dom';
 import profileImage from '../../../assets/images/example-profile.svg';
-import ModalCard from '../../Modal/ModalCard';
-import PostDetail from '../../Modal/PostDetail';
-import useModal from '../../../hooks/useModal';
 
 const QuestionPostContainer = styled.li`
   width: 95%;
@@ -28,21 +26,19 @@ const QuestionPostContainer = styled.li`
 `;
 
 function QuestionPost({ questionId, title, user }) {
-  const { open, close, isOpen } = useModal();
-  console.log(questionId);
+  const navigate = useNavigate();
+
+  const handleClickPost = () => {
+    navigate(`post/${questionId}`);
+  };
   return (
-    <>
-      <QuestionPostContainer onClick={open}>
-        <p>{title}</p>
-        <span>
-          <img src={profileImage} alt="user profile" />
-          <h5>{user}</h5>
-        </span>
-      </QuestionPostContainer>
-      <ModalCard close={close} isOpen={isOpen}>
-        <PostDetail name="sebell" isOpen={isOpen} />
-      </ModalCard>
-    </>
+    <QuestionPostContainer onClick={handleClickPost}>
+      <p>{title}</p>
+      <span>
+        <img src={profileImage} alt="user profile" />
+        <h5>{user}</h5>
+      </span>
+    </QuestionPostContainer>
   );
 }
 

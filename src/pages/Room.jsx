@@ -2,7 +2,7 @@ import { styled } from 'styled-components';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
-import { useLocation } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { usePlayListStore, useRoomDataStore } from '../stores/Room/useRoomStore';
 
 import RoomDetail from '../components/Room/RoomDetail';
@@ -58,6 +58,7 @@ function Room() {
       <RoomContainer>
         <RoomDetail />
         <RoomContent />
+        <Outlet />
       </RoomContainer>
     );
   }

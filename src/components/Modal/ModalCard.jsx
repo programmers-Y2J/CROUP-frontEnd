@@ -39,24 +39,25 @@ const CloseButton = styled.button`
   }
 `;
 
-function ModalCard({ isOpen, close, children }) {
+function ModalCard({ isOpen, close, children, isNeedPortal }) {
+  if (!isOpen) return null;
+
   const handleCardClick = (event) => {
     event.stopPropagation();
   };
-  return (
-    <ModalPortal>
-      {isOpen && (
-        <ModalContainer onClick={close}>
-          <StyledModalCard onClick={(event) => handleCardClick(event)}>
-            {children}
-            <CloseButton onClick={close}>
-              <img src={closeIcon} alt="close-button" />
-            </CloseButton>
-          </StyledModalCard>
-        </ModalContainer>
-      )}
-    </ModalPortal>
+
+  const content = (
+    <ModalContainer onClick={close}>
+      <StyledModalCard onClick={(event) => handleCardClick(event)}>
+        {children}
+        <CloseButton onClick={close}>
+          <img src={closeIcon} alt="close-button" />
+        </CloseButton>
+      </StyledModalCard>
+    </ModalContainer>
   );
+
+  return isNeedPortal ? <ModalPortal>{content}</ModalPortal> : content;
 }
 
 export default ModalCard;
