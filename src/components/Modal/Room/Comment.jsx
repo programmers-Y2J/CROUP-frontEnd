@@ -1,5 +1,8 @@
 import { styled } from 'styled-components';
 
+import axios from 'axios';
+import { useMutation } from '@tanstack/react-query';
+import { useRef } from 'react';
 import Message from '../../Room/Chat/Message';
 
 const CommentContainer = styled.div`
@@ -43,17 +46,36 @@ const CommentForm = styled.div`
   }
 `;
 
-function Comment({ comments }) {
+const postComment = async (roomId, questionId, userId, content) => {
+  const result = await axios.post(`/rooms/${roomId}/question/${questionId}`, {
+    userId,
+    content,
+  });
+  return result;
+};
+
+function Comment({ comments, roomId, questionId }) {
+  const comment = useRef();
+
+  const userId = '';
+  const submitComment = useMutation({ mutationFn: (content) => postComment(roomId, questionId, userId, content) });
+
+  const handleClickSubmitButton = () => {
+    submitComment.mutate(comment.current.value);
+  };
+
   return (
     <CommentContainer>
       <CommentList>
-        {comments.map((comment) => (
-          <Message key={comment.id} user={comment.userName} message={comment.content} isMine={false} />
+        {comments.map((commentItem) => (
+          <Message key={commentItem.id} user={commentItem.userName} message={commentItem.content} isMine={false} />
         ))}
       </CommentList>
       <CommentForm>
-        <input type="text" placeholder="댓글을 입력해 주세요." />
-        <button type="button">게시</button>
+        <input type="text" placeholder="댓글을 입력해 주세요." ref={comment} />
+        <button type="button" onClick={handleClickSubmitButton}>
+          게시
+        </button>
       </CommentForm>
     </CommentContainer>
   );

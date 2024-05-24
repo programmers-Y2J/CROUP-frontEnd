@@ -76,7 +76,7 @@ function PostDetail() {
             </PostTitleWrapper>
             <PostDescription>{data.data.content}</PostDescription>
           </PostDescriptionWrapper>
-          <Comment comments={data.data.comments} />
+          <Comment comments={data.data.comments} roomId={roomId} questionId={questionId} />
         </PostDetailContainer>
       </ModalCard>
     );
