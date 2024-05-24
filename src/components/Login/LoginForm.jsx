@@ -64,7 +64,11 @@ function LoginForm() {
   };
 
   const mutation = useMutation(async () => {
-    const response = await axios.post('/auth/login', { email, password }, { withCredentials: true });
+    const response = await axios.post(
+      'https://59b8-220-125-131-244.ngrok-free.app/auth/login',
+      { email, password },
+      { withCredentials: true },
+    );
     return response.data;
   });
 
