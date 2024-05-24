@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Room from '../pages/Room';
 import Home from '../pages/Home';
-import PostDetail from '../components/Modal/PostDetail';
+import PostDetail from '../components/Modal/Room/PostDetail';
 
 const router = createBrowserRouter([
   {
@@ -13,7 +13,7 @@ const router = createBrowserRouter([
     element: <Room />,
     children: [
       {
-        path: 'post/:questionId',
+        path: 'question/:questionId',
         element: <PostDetail />,
       },
     ],

@@ -29,7 +29,7 @@ function QuestionPost({ questionId, title, user }) {
   const navigate = useNavigate();
 
   const handleClickPost = () => {
-    navigate(`post/${questionId}`);
+    navigate(`question/${questionId}`);
   };
   return (
     <QuestionPostContainer onClick={handleClickPost}>
