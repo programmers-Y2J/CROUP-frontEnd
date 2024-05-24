@@ -81,6 +81,14 @@ function LoginForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (email === '') {
+      alert('이메일을 입력해주세요.');
+      return;
+    }
+    if (password === '') {
+      alert('비밀번호를 입력해주세요');
+      return;
+    }
     try {
       const data = await mutation.mutateAsync();
       console.log('Logged in successfully:', data);
@@ -100,7 +108,9 @@ function LoginForm() {
         {emailValid ? <Validtion text="이메일 형식으로 입력해주세요" /> : null}
         <Input placeholder="password" type="password" value={password} onChange={handlePasswordChange} />
         {passwordValid ? <Validtion text="비밀번호는 최소 4글자 입니다." /> : null}
-        <button type="submit">Login</button>
+        <button type="submit" disabled={emailValid || passwordValid}>
+          Login
+        </button>
         <RegisterBtnWrapper>
           비밀번호를 잊으셨나요? |{' '}
           <button type="button" onClick={handleRegisterClick}>
