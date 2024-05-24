@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useMutation } from 'react-query';
 import axios from 'axios';
-import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 import Input from '../Member/Input';
 import Validtion from '../Member/Validation';
 
@@ -38,8 +38,13 @@ const RegisterBtnWrapper = styled.pre`
   margin-top: 30px;
   font-size: 0.6rem;
   font-weight: bold;
-  > span {
-    color: #00b3ff;
+  color: #00b3ff;
+  > button {
+    color: black;
+    background-color: none;
+    background: none;
+    font-size: 0.6rem;
+    font-weight: bold;
   }
 `;
 
@@ -48,6 +53,12 @@ function LoginForm() {
   const [password, setPassword] = useState('');
   const [emailValid, setEmailValid] = useState(false);
   const [passwordValid, setPasswordValid] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleRegisterClick = () => {
+    navigate('/register');
+  };
 
   const handleEmailChange = (e) => {
     const regex = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
@@ -64,11 +75,7 @@ function LoginForm() {
   };
 
   const mutation = useMutation(async () => {
-    const response = await axios.post(
-      'https://59b8-220-125-131-244.ngrok-free.app/auth/login',
-      { email, password },
-      { withCredentials: true },
-    );
+    const response = await axios.post('https://387a-220-125-131-244.ngrok-free.app/auth/login', { email, password });
     return response.data;
   });
 
@@ -78,9 +85,8 @@ function LoginForm() {
       const data = await mutation.mutateAsync();
       console.log('Logged in successfully:', data);
 
-      const token = Cookies.get('tk');
       localStorage.setItem('token', data.token);
-      console.log('Token:', token);
+      console.log('Token:', data.token);
     } catch (error) {
       console.error('Error occurred:', error);
     }
@@ -96,7 +102,10 @@ function LoginForm() {
         {passwordValid ? <Validtion text="비밀번호는 최소 4글자 입니다." /> : null}
         <button type="submit">Login</button>
         <RegisterBtnWrapper>
-          <span>비밀번호를 잊으셨나요? </span>| 회원가입
+          비밀번호를 잊으셨나요? |{' '}
+          <button type="button" onClick={handleRegisterClick}>
+            회원가입
+          </button>
         </RegisterBtnWrapper>
       </LoginFormWrapper>
     </LoginFormContainer>
