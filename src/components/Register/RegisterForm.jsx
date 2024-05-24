@@ -41,7 +41,7 @@ function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordCk, setPasswordCk] = useState('');
-  const [nickname, setNickname] = useState('');
+  const [nickName, setNickName] = useState('');
   const [emailValid, setEmailValid] = useState(false);
   const [passwordValid, setPasswordValid] = useState(false);
   const [passwordCkValid, setpasswordCkValid] = useState(false);
@@ -69,11 +69,21 @@ function LoginForm() {
     const regex = /.{2,}/;
     const isValid = regex.test(e.target.value);
     setNicknameValid(!isValid);
-    setNickname(e.target.value);
+    setNickName(e.target.value);
   };
 
   const mutation = useMutation(async () => {
-    const response = await axios.post('auth/join', { email, password, nickname });
+    const response = await axios.post(
+      'https://387a-220-125-131-244.ngrok-free.app/auth/join',
+      {
+        email,
+        password,
+        nickName,
+      },
+      {
+        headers: { 'ngrok-skip-browser-warning': true },
+      },
+    );
     return response.data;
   });
 
@@ -96,7 +106,7 @@ function LoginForm() {
         {passwordValid ? <Validtion text="비밀번호는 최소 4글자 입니다." /> : null}
         <Input placeholder="password Confirm" type="password" value={passwordCk} onChange={handlePasswordCkChange} />
         {passwordCkValid ? <Validtion text="비밀번호가 일치하지 않습니다." /> : null}
-        <Input placeholder="password Nickname" type="text" value={nickname} onChange={handleNicknameChange} />
+        <Input placeholder="password Nickname" type="text" value={nickName} onChange={handleNicknameChange} />
         {nicknameValid ? <Validtion text="닉네임은 최소 두글자 입니다." /> : null}
         <button type="submit">Sign Up</button>
       </LoginFormWrapper>
