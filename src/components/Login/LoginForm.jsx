@@ -43,16 +43,16 @@ const RegisterBtnWrapper = styled.pre`
     color: black;
     background-color: none;
     background: none;
-    font-size: 0.6rem;
+    font-size: 0.55rem;
     font-weight: bold;
+    cursor: pointer;
   }
 `;
 
 function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [emailValid, setEmailValid] = useState(false);
-  const [passwordValid, setPasswordValid] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const navigate = useNavigate();
 
@@ -60,18 +60,14 @@ function LoginForm() {
     navigate('/register');
   };
 
-  const handleEmailChange = (e) => {
+  const validateEmail = (inputEmail) => {
     const regex = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
-    const isValid = regex.test(e.target.value);
-    setEmailValid(!isValid);
-    setEmail(e.target.value);
+    return regex.test(inputEmail);
   };
 
-  const handlePasswordChange = (e) => {
+  const validatePassword = (inputPassword) => {
     const regex = /.{4,}/;
-    const isValid = regex.test(e.target.value);
-    setPasswordValid(!isValid);
-    setPassword(e.target.value);
+    return regex.test(inputPassword);
   };
 
   const mutation = useMutation(async () => {
@@ -81,14 +77,21 @@ function LoginForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (email === '') {
-      alert('이메일을 입력해주세요.');
+
+    const newErrors = {};
+    if (!validateEmail(email)) {
+      newErrors.email = '이메일 형식으로 입력해주세요';
+    }
+    if (!validatePassword(password)) {
+      newErrors.password = '비밀번호는 최소 4글자 입니다.';
+    }
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
       return;
     }
-    if (password === '') {
-      alert('비밀번호를 입력해주세요');
-      return;
-    }
+
     try {
       const data = await mutation.mutateAsync();
       console.log('Logged in successfully:', data);
@@ -104,13 +107,11 @@ function LoginForm() {
     <LoginFormContainer>
       <LoginFormWrapper onSubmit={handleSubmit}>
         <h1>Croup</h1>
-        <Input placeholder="email" type="email" value={email} onChange={handleEmailChange} />
-        {emailValid ? <Validtion text="이메일 형식으로 입력해주세요" /> : null}
-        <Input placeholder="password" type="password" value={password} onChange={handlePasswordChange} />
-        {passwordValid ? <Validtion text="비밀번호는 최소 4글자 입니다." /> : null}
-        <button type="submit" disabled={emailValid || passwordValid}>
-          Login
-        </button>
+        <Input placeholder="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        {errors.email && <Validtion text={errors.email} />}
+        <Input placeholder="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        {errors.password && <Validtion text={errors.password} />}
+        <button type="submit">Login</button>
         <RegisterBtnWrapper>
           비밀번호를 잊으셨나요? |{' '}
           <button type="button" onClick={handleRegisterClick}>
