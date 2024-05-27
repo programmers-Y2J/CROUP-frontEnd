@@ -25,7 +25,7 @@ const QuestionList = styled.ul`
 `;
 
 const getQuestionList = async () => {
-  const list = await axios.get('/dummy/dummyData.json');
+  const list = await axios.get('/room/:roomId/question');
   return list;
 };
 
