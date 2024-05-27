@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 
 import backIcon from '../../../assets/icons/back-arrow.svg';
-import useRoomStore from '../../../stores/Room/useRoomStore';
+import { useRoomContentStore } from '../../../stores/Room/useRoomStore';
 
 const NewPostContainer = styled.div`
   display: flex;
@@ -68,7 +68,7 @@ const DescriptionArea = styled.textarea`
 `;
 
 function NewPost() {
-  const setContent = useRoomStore((state) => state.setContent);
+  const setContent = useRoomContentStore((state) => state.setContent);
 
   const handleClickBack = () => {
     setContent('question');
