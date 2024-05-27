@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { RxEnter } from 'react-icons/rx';
 import { RiCheckboxBlankCircleFill } from 'react-icons/ri';
+import { BsFileEarmarkMusicFill } from 'react-icons/bs';
 
 const Container = styled.div`
   width: 30%;
@@ -11,6 +11,7 @@ const Container = styled.div`
   > img {
     max-width: 100%;
     width: 100%;
+    max-height: 40%;
     border-top-right-radius: 30px;
     border-top-left-radius: 30px;
   }
@@ -18,39 +19,59 @@ const Container = styled.div`
 
 const RoomWrapper = styled.div`
   display: flex;
+  flex-direction: column;
   padding: 20px;
-  justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   > div {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
   }
 `;
 
-const StyledRxEnter = styled(RxEnter)`
-  font-size: 2rem;
-  color: #d1d1d1;
+const StyledBsFileEarmarkMusicFill = styled(BsFileEarmarkMusicFill)`
+  max-width: 100%;
+  width: 100%;
+  max-height: 40%;
+  font-size: 150px;
+  margin-top: 20px;
+  border-top-right-radius: 30px;
+  border-top-left-radius: 30px;
 `;
 
 const StyledCircle = styled(RiCheckboxBlankCircleFill)`
   font-size: 2.5rem;
   color: #d1d1d1;
+  margin-right: 15px;
 `;
 
-function RoomComponent({ posterPath }) {
+const Title = styled.div`
+  white-space: normal;
+  flex: 1;
+  overflow-wrap: break-word;
+  word-break: break-word;
+`;
+
+const Description = styled.span`
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  margin-top: 10px;
+  font-size: 0.8rem;
+  color: #7c7b7b;
+`;
+
+function RoomComponent({ posterPath, title, description }) {
   return (
     <Container>
-      <img src={posterPath} alt="영화포스터" />
+      {posterPath === '' ? <StyledBsFileEarmarkMusicFill /> : <img src={posterPath} alt="음악포스터" />}
       <RoomWrapper>
         <div>
           <StyledCircle />
-          <div>
-            Title
-            <br />
-            <span>description</span>
-          </div>
+          <Title>{title}</Title>
         </div>
-        <StyledRxEnter />
+        <Description>{description}</Description>
       </RoomWrapper>
     </Container>
   );

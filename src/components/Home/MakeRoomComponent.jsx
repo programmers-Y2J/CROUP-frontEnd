@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import RoomComponent from './RoomComponent';
 
 const Container = styled.div`
@@ -53,7 +54,66 @@ const MakeWrapper = styled.form`
     margin: 5px 0px 10px 0px;
   }
 `;
+const UrlWrapper = styled.div`
+  display: flex;
+  > input {
+    border: 1px solid #cccccc;
+    height: 35px;
+    border-radius: 10px;
+    padding-left: 15px;
+    margin: 5px 0px 10px 0px;
+    width: 80%;
+  }
+  > button {
+    margin-left: auto;
+    width: 50px;
+    height: 35px;
+    margin-top: 5px;
+    margin-left: 5px;
+    border: 1px solid #cccccc;
+    color: #cccccc;
+    background-color: white;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+`;
+
 function MakeRoomComponent({ openModal }) {
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [url, setUrl] = useState('');
+  const [playlist, setPlaylist] = useState([]);
+
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
+  };
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value);
+  };
+  const handleUrlChange = (e) => {
+    setUrl(e.target.value);
+  };
+
+  const handleUrlConfirm = () => {
+    axios
+      .get('https://www.googleapis.com/youtube/v3/playlistItems', {
+        params: {
+          part: 'snippet',
+          playlistId: url,
+          key: 'AIzaSyC_sd6OdADTPmpF4CiEZk3rHFhfkQInk38',
+        },
+      })
+      .then((res) => {
+        setPlaylist(res.data.items);
+        console.log(res.data.items);
+      })
+      .catch((error) => {
+        console.log(error);
+        alert('플레이리스트를 불러오지 못했습니다.');
+        setPlaylist([]);
+      });
+  };
   return (
     <Container>
       <button type="button" onClick={openModal}>
@@ -61,14 +121,23 @@ function MakeRoomComponent({ openModal }) {
       </button>
       <MakeWrapper>
         방제목
-        <input placeholder="제목을 입력해 주세요" />
+        <input placeholder="제목을 입력해 주세요" value={title} onChange={handleTitleChange} />
         설명
-        <input placeholder="설명을 입력해 주세요" />
+        <input placeholder="설명을 입력해 주세요" value={description} onChange={handleDescriptionChange} />
         재생목록 url
-        <input placeholder="Youtube 재생목록 주소(url)을 입력해주세요" />
+        <UrlWrapper>
+          <input placeholder="Youtube 재생목록 주소(url)을 입력해주세요" value={url} onChange={handleUrlChange} />
+          <button type="button" onClick={handleUrlConfirm}>
+            확인
+          </button>
+        </UrlWrapper>
         <button type="button">생성</button>
       </MakeWrapper>
-      <RoomComponent posterPath="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTb00Eq6NLKK4KmU67aDCWKHmw63m3CH3rVcojJwAVZLw&s" />
+      <RoomComponent
+        title={title === '' ? 'title을 입력하세요' : title}
+        description={description === '' ? 'description을 입력하세요' : description}
+        posterPath={playlist.length === 0 ? '' : playlist[0].snippet.thumbnails.standard.url}
+      />
     </Container>
   );
 }
