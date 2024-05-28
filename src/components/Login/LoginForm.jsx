@@ -95,9 +95,9 @@ function LoginForm() {
     try {
       const data = await mutation.mutateAsync();
       console.log('Logged in successfully:', data);
-
       localStorage.setItem('token', data.token);
       console.log('Token:', data.token);
+      navigate('/');
     } catch (error) {
       console.error('Error occurred:', error);
     }
