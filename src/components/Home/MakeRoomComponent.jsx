@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+
 import RoomComponent from './RoomComponent';
 
 const Container = styled.div`
@@ -83,7 +84,7 @@ function MakeRoomComponent({ openModal }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [url, setUrl] = useState('');
-  const [playlist, setPlaylist] = useState([]);
+  const [playList, setPlayList] = useState([]);
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
@@ -105,15 +106,51 @@ function MakeRoomComponent({ openModal }) {
         },
       })
       .then((res) => {
-        setPlaylist(res.data.items);
-        console.log(res.data.items);
+        setPlayList(
+          res.data.items.map((item) => {
+            return {
+              channel: item.snippet.channelId,
+              title: item.snippet.description,
+              thumbnailUrl: item.snippet.thumbnails.standard.url,
+              videoId: item.snippet.resourceId.videoId,
+            };
+          }),
+        );
+        console.log(res);
       })
       .catch((error) => {
         console.log(error);
         alert('플레이리스트를 불러오지 못했습니다.');
-        setPlaylist([]);
+        setPlayList([]);
       });
   };
+
+  const handleMakeRoom = () => {
+    console.log(playList);
+    axios
+      .post(
+        '/rooms',
+        {
+          title,
+          description,
+          playListUrl: url,
+          playList,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        },
+      )
+      .then((res) => {
+        alert('방이 생성되었습니다');
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <Container>
       <button type="button" onClick={openModal}>
@@ -131,12 +168,14 @@ function MakeRoomComponent({ openModal }) {
             확인
           </button>
         </UrlWrapper>
-        <button type="button">생성</button>
+        <button type="button" onClick={handleMakeRoom}>
+          생성
+        </button>
       </MakeWrapper>
       <RoomComponent
         title={title === '' ? 'title을 입력하세요' : title}
         description={description === '' ? 'description을 입력하세요' : description}
-        posterPath={playlist.length === 0 ? '' : playlist[0].snippet.thumbnails.standard.url}
+        posterPath={playList.length === 0 ? '' : playList[0].thumbnailUrl}
       />
     </Container>
   );

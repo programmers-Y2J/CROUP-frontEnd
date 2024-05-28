@@ -11,7 +11,7 @@ const Container = styled.div`
   > img {
     max-width: 100%;
     width: 100%;
-    max-height: 40%;
+    max-height: 70%;
     border-top-right-radius: 30px;
     border-top-left-radius: 30px;
   }
