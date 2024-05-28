@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useMutation } from 'react-query';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import Input from '../Member/Input';
 import Validtion from '../Member/Validation';
 
@@ -39,6 +40,7 @@ const LoginFormWrapper = styled.form`
 `;
 
 function LoginForm() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordCk, setPasswordCk] = useState('');
@@ -121,6 +123,7 @@ function LoginForm() {
     try {
       const data = await mutation.mutateAsync();
       console.log(data);
+      navigate('/login');
     } catch (error) {
       console.error('Error occurred:', error);
     }
