@@ -147,6 +147,7 @@ function MakeRoomComponent({ openModal }) {
         console.log(res);
       })
       .catch((error) => {
+        alert('방 생성에 실패했습니다');
         console.log(error);
       });
   };
