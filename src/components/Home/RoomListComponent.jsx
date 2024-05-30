@@ -45,6 +45,7 @@ function RoomListComponent({ openModal }) {
             key={item.roomId}
             roomTitle={item.roomTitle}
             roomDescription={item.roomDescription}
+            roomId={item.roomId}
           />
         );
       })}

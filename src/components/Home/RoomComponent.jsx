@@ -1,5 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import { useMutation } from 'react-query';
+
+import axios from 'axios';
 import { RxEnter } from 'react-icons/rx';
 import { RiCheckboxBlankCircleFill } from 'react-icons/ri';
 
@@ -38,9 +42,43 @@ const StyledCircle = styled(RiCheckboxBlankCircleFill)`
   color: #d1d1d1;
 `;
 
-function RoomComponent({ roomTitle, roomDescription, roomThumbnail }) {
+const postRoomData = async ({ roomId, token }) => {
+  const response = await axios.post(`/rooms/in/${roomId}`, null, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
+function RoomComponent({ roomTitle, roomDescription, roomThumbnail, roomId }) {
+  const navigate = useNavigate();
+  const mutation = useMutation(postRoomData, {
+    onSuccess: (data) => {
+      console.log('POST 요청 성공:', data);
+      navigate(`/room/${roomId}`, {
+        state: {
+          roomTitle,
+          roomDescription,
+          roomThumbnail,
+        },
+      });
+    },
+    onError: (error) => {
+      console.error('POST 요청 실패:', error);
+    },
+  });
+  const enterRoom = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      mutation.mutate({ roomId, token });
+    } else {
+      console.error('토큰이 없습니다.');
+    }
+  };
+
   return (
-    <Container>
+    <Container onClick={enterRoom}>
       <img src={roomThumbnail} alt="음악포스터" />
       <RoomWrapper>
         <div>
