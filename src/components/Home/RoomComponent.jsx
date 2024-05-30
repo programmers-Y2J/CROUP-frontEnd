@@ -8,6 +8,7 @@ const Container = styled.div`
   margin: 16px;
   border-radius: 30px;
   border: 1px solid #d9d9d9;
+  height: 70vh;
   > img {
     max-width: 100%;
     width: 100%;
@@ -37,17 +38,17 @@ const StyledCircle = styled(RiCheckboxBlankCircleFill)`
   color: #d1d1d1;
 `;
 
-function RoomComponent({ posterPath }) {
+function RoomComponent({ roomTitle, roomDescription, roomThumbnail }) {
   return (
     <Container>
-      <img src={posterPath} alt="영화포스터" />
+      <img src={roomThumbnail} alt="음악포스터" />
       <RoomWrapper>
         <div>
           <StyledCircle />
           <div>
-            Title
+            {roomTitle}
             <br />
-            <span>description</span>
+            <span>{roomDescription}</span>
           </div>
         </div>
         <StyledRxEnter />
