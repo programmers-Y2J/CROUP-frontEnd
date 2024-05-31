@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import { useMutation } from 'react-query';
+import axios from 'axios';
 
 const HeaderContainer = styled.div`
   width: 1300px;
@@ -19,6 +22,7 @@ const HighWrapper = styled.div`
     font-weight: bold;
     border: 1px solid white;
     margin-right: 40px;
+    cursor: pointer;
   }
 `;
 const MiddleWrapper = styled.div`
@@ -57,11 +61,59 @@ const LowWrapper = styled.div`
   align-items: center;
   height: 25vh;
 `;
+
 function HeaderComponent() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, [useNavigate]);
+  const navigate = useNavigate();
+
+  const handleLoginClick = () => {
+    navigate('/login');
+  };
+
+  const mutation = useMutation(async () => {
+    const token = localStorage.getItem('token');
+    const response = await axios.post(
+      '/auth/logout',
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    return response.data;
+  });
+  const handleLogoutClick = async () => {
+    try {
+      await mutation.mutateAsync();
+      localStorage.removeItem('token');
+      setIsLoggedIn(false);
+      navigate('/login');
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
   return (
     <HeaderContainer>
       <HighWrapper>
-        <button type="button">Login</button>
+        {isLoggedIn ? (
+          <button type="button" onClick={handleLogoutClick}>
+            Logout
+          </button>
+        ) : (
+          <button type="button" onClick={handleLoginClick}>
+            Login
+          </button>
+        )}
       </HighWrapper>
       <MiddleWrapper>
         <div>
