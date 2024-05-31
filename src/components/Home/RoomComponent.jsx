@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
-
 import axios from 'axios';
 import { RxEnter } from 'react-icons/rx';
 import { RiCheckboxBlankCircleFill } from 'react-icons/ri';
