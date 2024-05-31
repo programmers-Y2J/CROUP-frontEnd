@@ -44,8 +44,9 @@ const PostDescription = styled.div`
   border-radius: 15px;
 `;
 
-const getPostDetail = async (roomId, questionId) => {
-  const result = await axios.get(`/rooms/${roomId}/question/${questionId}`);
+const getPostDetail = async () => {
+  // const result = await axios.get(`/rooms/${roomId}/question/${questionId}`);
+  const result = await axios.get('/dummy/dummyQuestionDetailData.json');
   return result;
 };
 
