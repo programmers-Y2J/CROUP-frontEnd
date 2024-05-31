@@ -1,0 +1,16 @@
+{
+  "qnaList": [
+    {
+      "questionId": "111",
+      "userName": "유저 1",
+      "title": "첫번째 게시물",
+      "content": "첫번째 게시물의 내용"
+    },
+    {
+      "questionId": "222",
+      "userName": "유저 2",
+      "title": "두번째 게시물",
+      "content": "두번째 게시물의 내용"
+    }
+  ]
+}
