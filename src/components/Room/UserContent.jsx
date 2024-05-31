@@ -53,6 +53,7 @@ const MenuTabWrapper = styled.ul`
   }
 `;
 
+// url 수정 해야됨
 const socket = io('http://localhost:8080');
 
 function UserContent({ chats, roomMember }) {

@@ -109,7 +109,7 @@ function Chat({ socket, chats, roomMember }) {
           ))}
         </MessageList>
         <SendMessageWrapper>
-          <MessageInput type="text" onChange={(event) => handleChangeInput(event)} />
+          <MessageInput type="text" value={message} onChange={(event) => handleChangeInput(event)} />
           <SendButton type="button" onClick={handleSendMessage}>
             전송
           </SendButton>
