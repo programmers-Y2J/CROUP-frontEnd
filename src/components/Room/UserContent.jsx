@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-// import { io } from 'socket.io-client';
+import { io } from 'socket.io-client';
 
 import Question from './Question/Question';
 import Chat from './Chat/Chat';
@@ -53,7 +53,7 @@ const MenuTabWrapper = styled.ul`
   }
 `;
 
-// const socket = io('http://localhost:8080');
+const socket = io('http://localhost:8080');
 
 function UserContent({ chats, roomMember }) {
   const { currentContent, setContent } = useRoomContentStore();
@@ -84,7 +84,7 @@ function UserContent({ chats, roomMember }) {
           </button>
         )}
       </MenuTabWrapper>
-      {currentContent === 'chat' && <Chat chats={chats} roomMember={roomMember} />}
+      {currentContent === 'chat' && <Chat socket={socket} chats={chats} roomMember={roomMember} />}
       {currentContent === 'question' && <Question />}
       {currentContent === 'new-post' && <NewPost />}
     </UserContentContainer>

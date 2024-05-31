@@ -1,7 +1,9 @@
 import { styled } from 'styled-components';
 
+import { useEffect, useState } from 'react';
 import Message from './Message';
 import GuestList from '../Guest/GuestList';
+import { useRoomDataStore } from '../../../stores/Room/useRoomStore';
 
 const ChatContainer = styled.div`
   display: flex;
@@ -58,12 +60,46 @@ const SendButton = styled.button`
 
 // 사용자 판별 후 message 디자인 변경 해야함.
 
-function Chat({ chats, roomMember }) {
+function Chat({ socket, chats, roomMember }) {
+  const { roomId } = useRoomDataStore((state) => state.roomData);
+  const [messages, setMessages] = useState(chats);
+  const [currentMembers, setCurrentMembers] = useState(roomMember);
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    socket.emit('joinRoom', roomId, { nickName: '닉네임', userId: '유저 아이디' });
+    socket.on('updateUser', (users) => {
+      setCurrentMembers(users);
+    });
+    socket.on('chat', (newMessage) => {
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
+    });
+
+    return () => {
+      socket.off('updateUser');
+      socket.off('chat');
+    };
+  }, []);
+
+  const handleChangeInput = (event) => {
+    setMessage(event.target.value);
+  };
+
+  const handleSendMessage = () => {
+    if (message.trim().length !== 0) {
+      // localStorage의 jwt의 유저 정보로 변경해야됨.
+      const chatMessage = { userId: 'userId', nickName: 'nickName', chat: 'chat' };
+      socket.emit('chat', chatMessage, roomId);
+      setMessages((prevMessage) => [...prevMessage, { ...chatMessage }]);
+      setMessage('');
+    }
+  };
+
   return (
     <ChatContainer>
       <ChattingWrapper>
         <MessageList>
-          {chats.map((messageItem) => (
+          {messages.map((messageItem) => (
             <Message
               key={messageItem.chat}
               user={messageItem.userId}
@@ -73,11 +109,13 @@ function Chat({ chats, roomMember }) {
           ))}
         </MessageList>
         <SendMessageWrapper>
-          <MessageInput type="text" />
-          <SendButton type="button">전송</SendButton>
+          <MessageInput type="text" onChange={(event) => handleChangeInput(event)} />
+          <SendButton type="button" onClick={handleSendMessage}>
+            전송
+          </SendButton>
         </SendMessageWrapper>
       </ChattingWrapper>
-      <GuestList roomMember={roomMember} />
+      <GuestList roomMember={currentMembers} />
     </ChatContainer>
   );
 }
