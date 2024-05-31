@@ -8,11 +8,11 @@ const RoomContentContainer = styled.div`
   gap: 100px;
 `;
 
-function RoomContent() {
+function RoomContent({ chats, roomMember }) {
   return (
     <RoomContentContainer>
       <PlayList />
-      <UserContent />
+      <UserContent chats={chats} roomMember={roomMember} />
     </RoomContentContainer>
   );
 }

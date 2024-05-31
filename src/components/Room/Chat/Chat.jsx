@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+
 import Message from './Message';
 import GuestList from '../Guest/GuestList';
 
@@ -25,9 +26,17 @@ const MessageList = styled.ul`
   overflow-y: scroll;
 `;
 
-const MessageInput = styled.input`
-  width: 79%;
+const SendMessageWrapper = styled.div`
+  width: 90%;
   height: 6%;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+`;
+
+const MessageInput = styled.input`
+  width: 75%;
+  height: 100%;
   border: 1px solid #00b3ff;
   border-radius: 15px;
   padding: 0 10px;
@@ -37,25 +46,38 @@ const MessageInput = styled.input`
   }
 `;
 
-const exampleMessage = [
-  { key: 1, user: 'jjangu', message: 'message' },
-  { key: 2, user: 'bonin', message: 'message', isMine: true },
-  { key: 3, user: 'bonin', message: 'message', isMine: true },
-  { key: 4, user: 'jjangu', message: 'message' },
-];
+const SendButton = styled.button`
+  width: 14%;
+  height: 100%;
+  background: #050505;
+  color: #fff;
+  border-radius: 30px;
+  font-weight: 500;
+  cursor: pointer;
+`;
 
-function Chat() {
+// 사용자 판별 후 message 디자인 변경 해야함.
+
+function Chat({ chats, roomMember }) {
   return (
     <ChatContainer>
       <ChattingWrapper>
         <MessageList>
-          {exampleMessage.map((message) => (
-            <Message key={message.key} user={message.user} message={message.message} isMine={message.isMine || false} />
+          {chats.map((messageItem) => (
+            <Message
+              key={messageItem.chat}
+              user={messageItem.userId}
+              message={messageItem.chat}
+              isMine={messageItem.isMine || false}
+            />
           ))}
         </MessageList>
-        <MessageInput type="text" />
+        <SendMessageWrapper>
+          <MessageInput type="text" />
+          <SendButton type="button">전송</SendButton>
+        </SendMessageWrapper>
       </ChattingWrapper>
-      <GuestList />
+      <GuestList roomMember={roomMember} />
     </ChatContainer>
   );
 }

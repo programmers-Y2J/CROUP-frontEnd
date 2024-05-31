@@ -35,12 +35,12 @@ function PlayList() {
       <ListWrapper>
         {playList.map((listItem, index) => (
           <PlayListItem
-            key={listItem.id}
+            key={listItem.videoId}
             index={index}
-            imgSrc={listItem.snippet.thumbnails.medium.url}
-            title={listItem.snippet.title}
-            channel={listItem.snippet.channelTitle}
-            videoId={listItem.snippet.resourceId.videoId}
+            imgSrc={listItem.musicThumbnail}
+            title={listItem.musicTitle}
+            channel={listItem.musicChannelTitle}
+            videoId={listItem.videoId}
           />
         ))}
       </ListWrapper>

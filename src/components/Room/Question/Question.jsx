@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 
 import QuestionPost from './QuestionPost';
+import { useRoomDataStore } from '../../../stores/Room/useRoomStore';
 
 const QuestionContainer = styled.div`
   width: 680px;
@@ -25,12 +26,17 @@ const QuestionList = styled.ul`
 `;
 
 const getQuestionList = async () => {
-  const list = await axios.get('/room/:roomId/question');
+  const list = await axios.get(`/dummy/dummyQuestionData.json`);
   return list;
 };
 
 function Question() {
-  const { data, isSuccess, isError } = useQuery({ queryKey: ['question'], queryFn: getQuestionList, staleTime: 20000 });
+  const { roomId } = useRoomDataStore((state) => state.roomData);
+  const { data, isSuccess, isError } = useQuery({
+    queryKey: ['question'],
+    queryFn: () => getQuestionList(roomId),
+    staleTime: 20000,
+  });
 
   if (isError) return console.log('is Error');
   if (isSuccess) {
@@ -41,12 +47,12 @@ function Question() {
           <li>작성자</li>
         </CategoryWrapper>
         <QuestionList>
-          {data.data.lists.map((question) => (
+          {data.data.qnaList.map((question) => (
             <QuestionPost
               key={question.questionId}
               questionId={question.questionId}
               title={question.title}
-              user={question.nickName}
+              userName={question.userName}
             />
           ))}
         </QuestionList>

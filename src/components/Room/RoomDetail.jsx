@@ -104,8 +104,8 @@ function RoomDetail() {
   const { currentMusic, setCurrentMusic, isPlaying, setIsPlaying } = useCurrentMusicStore();
   const navigate = useNavigate();
 
-  const thumbnail = playList[0].snippet.thumbnails.maxres.url;
-  const firstSong = { title: playList[0].snippet.title, videoId: playList[0].snippet.resourceId.videoId };
+  const thumbnail = playList[0].musicThumbnail;
+  const firstSong = { title: playList[0].musicTitle, videoId: playList[0].videoId };
 
   useEffect(() => {
     setCurrentMusic(firstSong);
@@ -113,12 +113,12 @@ function RoomDetail() {
 
   const handleOnEnded = () => {
     let nextMusic = 0;
-    const currentMusicIndex = playList.findIndex((music) => music.snippet.resourceId.videoId === currentMusic.videoId);
+    const currentMusicIndex = playList.findIndex((music) => music.videoId === currentMusic.videoId);
 
     if (currentMusicIndex === playList.length - 1) [nextMusic] = playList;
     else nextMusic = playList[currentMusicIndex + 1];
 
-    setCurrentMusic({ title: nextMusic.snippet.title, videoId: nextMusic.snippet.resourceId.videoId });
+    setCurrentMusic({ title: nextMusic.musciTitle, videoId: nextMusic.videoId });
     setIsPlaying(true);
   };
 

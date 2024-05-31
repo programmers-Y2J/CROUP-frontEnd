@@ -25,7 +25,7 @@ const QuestionPostContainer = styled.li`
   }
 `;
 
-function QuestionPost({ questionId, title, user }) {
+function QuestionPost({ questionId, title, userName }) {
   const navigate = useNavigate();
 
   const handleClickPost = () => {
@@ -36,7 +36,7 @@ function QuestionPost({ questionId, title, user }) {
       <p>{title}</p>
       <span>
         <img src={profileImage} alt="user profile" />
-        <h5>{user}</h5>
+        <h5>{userName}</h5>
       </span>
     </QuestionPostContainer>
   );

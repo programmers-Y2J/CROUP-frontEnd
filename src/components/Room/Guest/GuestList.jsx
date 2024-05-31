@@ -10,16 +10,11 @@ const GuestListContainer = styled.ul`
   padding: 15px 0 0 35px;
 `;
 
-const exampleGuest = [
-  { key: 1, name: 'bonin', isOwner: true },
-  { key: 2, name: 'jjangu' },
-];
-
-function GuestList() {
+function GuestList({ roomMember }) {
   return (
     <GuestListContainer>
-      {exampleGuest.map((user) => (
-        <Guest key={user.key} name={user.name} isOwner={user.isOwner || false} />
+      {roomMember.map((user) => (
+        <Guest key={user.userId} name={user.nickName} isOwner={user.isOwner || false} />
       ))}
     </GuestListContainer>
   );
