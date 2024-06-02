@@ -129,7 +129,7 @@ function MakeRoomComponent({ openModal }) {
     console.log(playList);
     axios
       .post(
-        '/rooms',
+        'http://croup.ap-northeast-2.elasticbeanstalk.com:5000/rooms',
         {
           title,
           description,
