@@ -82,7 +82,7 @@ function HeaderComponent() {
   const mutation = useMutation(async () => {
     const token = localStorage.getItem('token');
     const response = await axios.post(
-      '/auth/logout',
+      `${process.env.REACT_APP_BASE_URL}/auth/logout`,
       {},
       {
         headers: {
@@ -97,8 +97,10 @@ function HeaderComponent() {
       await mutation.mutateAsync();
       localStorage.removeItem('token');
       setIsLoggedIn(false);
+      alert('로그아웃 했습니다.');
       navigate('/login');
     } catch (error) {
+      alert('로그아웃에 실패했습니다.');
       console.error('Logout failed:', error);
     }
   };

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-
+import { useMutation } from 'react-query';
 import RoomComponent from './RoomComponent';
 
 const Container = styled.div`
@@ -107,49 +107,50 @@ function MakeRoomComponent({ openModal }) {
       })
       .then((res) => {
         setPlayList(
-          res.data.items.map((item) => {
-            return {
-              channel: item.snippet.channelId,
-              title: item.snippet.description,
-              thumbnailUrl: item.snippet.thumbnails.standard.url,
-              videoId: item.snippet.resourceId.videoId,
-            };
-          }),
+          res.data.items.map((item) => ({
+            channel: item.snippet.channelId,
+            title: item.snippet.description,
+            thumbnailUrl: item.snippet.thumbnails.standard.url,
+            videoId: item.snippet.resourceId.videoId,
+          })),
         );
         console.log(res);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
         alert('플레이리스트를 불러오지 못했습니다.');
         setPlayList([]);
       });
   };
-
-  const handleMakeRoom = () => {
-    console.log(playList);
-    axios
-      .post(
-        'http://croup.ap-northeast-2.elasticbeanstalk.com:5000/rooms',
-        {
-          title,
-          description,
-          playListUrl: url,
-          playList,
+  const mutation = useMutation(
+    (data) =>
+      axios.post(`${process.env.REACT_APP_BASE_URL}/rooms`, data, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        },
-      )
-      .then((res) => {
+      }),
+    {
+      onSuccess: (data) => {
         alert('방이 생성되었습니다');
-        console.log(res);
-      })
-      .catch((error) => {
+        console.log(data);
+      },
+      onError: (error) => {
         alert('방 생성에 실패했습니다');
-        console.log(error);
+        console.error(error);
+      },
+    },
+  );
+  const handleMakeRoom = async () => {
+    try {
+      await mutation.mutateAsync({
+        title,
+        description,
+        playListUrl: url,
+        playList,
       });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

@@ -71,7 +71,7 @@ function LoginForm() {
   };
 
   const mutation = useMutation(async () => {
-    const response = await axios.post('http://croup.ap-northeast-2.elasticbeanstalk.com:5000/auth/login', {
+    const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/login`, {
       email,
       password,
     });
