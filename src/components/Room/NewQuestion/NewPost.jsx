@@ -76,7 +76,10 @@ const DescriptionArea = styled.textarea`
 `;
 
 const postNewPost = async (title, description, roomId) => {
-  const result = await axios.post(`/rooms/questions/:${roomId}`, { title, description });
+  const result = await axios.post(`${process.env.REACT_APP_API_URL}/rooms/questions/:${roomId}`, {
+    title,
+    description,
+  });
   return result;
 };
 

@@ -25,15 +25,15 @@ const QuestionList = styled.ul`
   overflow-y: scroll;
 `;
 
-const getQuestionList = async () => {
-  const list = await axios.get(`/dummy/dummyQuestionData.json`);
+const getQuestionList = async (roomId) => {
+  const list = await axios.get(`${process.env.REACT_APP_API_URL}/rooms/${roomId}/question`);
   return list;
 };
 
 function Question() {
   const { roomId } = useRoomDataStore((state) => state.roomData);
   const { data, isSuccess, isError } = useQuery({
-    queryKey: ['question'],
+    queryKey: [`question-${roomId}`],
     queryFn: () => getQuestionList(roomId),
     staleTime: 20000,
   });

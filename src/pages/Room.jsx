@@ -18,8 +18,8 @@ const RoomContainer = styled.div`
   padding-bottom: 50px;
 `;
 
-const getRoomData = async () => {
-  const result = await axios.get('/dummy/dummyRoomData.json'); // axios로 수정 필요
+const getRoomData = async (roomId) => {
+  const result = await axios.get(`${process.env.REACT_APP_API_URL}/rooms/${roomId}`);
   return result;
 };
 
@@ -31,7 +31,7 @@ function Room() {
 
   const { data, isSuccess, isError } = useQuery({
     queryKey: [`room`],
-    queryFn: () => getRoomData(),
+    queryFn: () => getRoomData(roomId),
     staleTime: Infinity,
   });
 
