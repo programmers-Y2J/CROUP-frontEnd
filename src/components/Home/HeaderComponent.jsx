@@ -45,7 +45,7 @@ const MiddleWrapper = styled.div`
     justify-content: center;
     align-items: flex-end;
     width: 50%;
-    writing-mode: vertical-rl; /* 세로로 글씨 쓰기 */
+    writing-mode: vertical-rl;
     text-orientation: sideways;
     transform: rotate(180deg);
     font-size: 5rem;
