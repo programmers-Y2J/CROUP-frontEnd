@@ -102,7 +102,7 @@ function MakeRoomComponent({ openModal }) {
         params: {
           part: 'snippet',
           playlistId: url,
-          key: 'AIzaSyC_sd6OdADTPmpF4CiEZk3rHFhfkQInk38',
+          key: process.env.REACT_APP_YOUTUBE_API,
         },
       })
       .then((res) => {
