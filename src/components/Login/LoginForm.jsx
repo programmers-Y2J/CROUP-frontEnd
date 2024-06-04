@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useMutation } from 'react-query';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Input from '../Member/Input';
 import Validtion from '../Member/Validation';
+import useApiRequest from '../../hooks/useApiRequest';
 
 const LoginFormContainer = styled.div`
   width: 50vw;
@@ -69,14 +69,34 @@ function LoginForm() {
     const regex = /.{4,}/;
     return regex.test(inputPassword);
   };
+  const { apiRequest } = useApiRequest();
 
-  const mutation = useMutation(async () => {
-    const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/login`, {
-      email,
-      password,
-    });
-    return response.data;
-  });
+  const mutation = useMutation(
+    // const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/login`, {
+    //   email,
+    //   password,
+    // });
+    // return response.data;
+    (data) =>
+      apiRequest({
+        method: 'post',
+        url: '/auth/login',
+        data,
+      }),
+    {
+      onSuccess: (data) => {
+        console.log('Logged in successfully:', data);
+        localStorage.setItem('token', data.token);
+        console.log('Token:', data.token);
+        alert('로그인에 성공했습니다.');
+        navigate('/');
+      },
+      onError: (error) => {
+        alert('로그인에 실패했습니다.');
+        console.error(error);
+      },
+    },
+  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -96,16 +116,24 @@ function LoginForm() {
     }
 
     try {
-      const data = await mutation.mutateAsync();
-      console.log('Logged in successfully:', data);
-      localStorage.setItem('token', data.token);
-      console.log('Token:', data.token);
-      alert('로그인에 성공했습니다.');
-      navigate('/');
+      await mutation.mutateAsync({
+        email,
+        password,
+      });
     } catch (error) {
-      alert('로그인에 실패했습니다.');
-      console.error('Error occurred:', error);
+      console.error(error);
     }
+    // try {
+    //   const data = await mutation.mutateAsync();
+    //   console.log('Logged in successfully:', data);
+    //   localStorage.setItem('token', data.token);
+    //   console.log('Token:', data.token);
+    //   alert('로그인에 성공했습니다.');
+    //   navigate('/');
+    // } catch (error) {
+    //   alert('로그인에 실패했습니다.');
+    //   console.error('Error occurred:', error);
+    // }
   };
 
   return (

@@ -131,7 +131,7 @@ function MakeRoomComponent({ openModal }) {
     (data) =>
       apiRequest({
         method: 'post',
-        url: '/rooms',
+        url: '/rooms/rooms',
         data,
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
