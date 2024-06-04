@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { useMutation } from 'react-query';
 import RoomComponent from './RoomComponent';
+import useApiRequest from '../../hooks/useApiRequest';
 
 const Container = styled.div`
   position: fixed;
@@ -55,6 +56,7 @@ const MakeWrapper = styled.form`
     margin: 5px 0px 10px 0px;
   }
 `;
+
 const UrlWrapper = styled.div`
   display: flex;
   > input {
@@ -85,6 +87,8 @@ function MakeRoomComponent({ openModal }) {
   const [description, setDescription] = useState('');
   const [url, setUrl] = useState('');
   const [playList, setPlayList] = useState([]);
+
+  const { apiRequest } = useApiRequest();
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
@@ -122,9 +126,13 @@ function MakeRoomComponent({ openModal }) {
         setPlayList([]);
       });
   };
+
   const mutation = useMutation(
     (data) =>
-      axios.post(`${process.env.REACT_APP_BASE_URL}/rooms`, data, {
+      apiRequest({
+        method: 'post',
+        url: '/rooms',
+        data,
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -140,6 +148,7 @@ function MakeRoomComponent({ openModal }) {
       },
     },
   );
+
   const handleMakeRoom = async () => {
     try {
       await mutation.mutateAsync({
