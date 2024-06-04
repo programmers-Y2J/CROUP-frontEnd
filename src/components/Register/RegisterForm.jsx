@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useMutation } from 'react-query';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Input from '../Member/Input';
 import Validtion from '../Member/Validation';
+import useApiRequest from '../../hooks/useApiRequest';
 
 const LoginFormContainer = styled.div`
   width: 50vw;
@@ -39,32 +39,34 @@ const LoginFormWrapper = styled.form`
   }
 `;
 
+const validateEmail = (inputEmail) => {
+  const regex = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+  return regex.test(inputEmail);
+};
+
+const validatePassword = (inputPassword) => {
+  const regex = /.{4,}/;
+  return regex.test(inputPassword);
+};
+
+const validatePasswordCk = (inputPassword, inputPasswordCk) => {
+  return inputPassword === inputPasswordCk;
+};
+
+const validateNickName = (inputNickName) => {
+  const regex = /.{2,}/;
+  return regex.test(inputNickName);
+};
+
 function LoginForm() {
   const navigate = useNavigate();
+  const { apiRequest } = useApiRequest();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordCk, setPasswordCk] = useState('');
   const [nickName, setNickName] = useState('');
   const [errors, setErrors] = useState({});
-
-  const validateEmail = (inputEmail) => {
-    const regex = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
-    return regex.test(inputEmail);
-  };
-
-  const validatePassword = (inputPassword) => {
-    const regex = /.{4,}/;
-    return regex.test(inputPassword);
-  };
-
-  const validatePasswordCk = (inputPassword, inputPasswordCk) => {
-    return inputPassword === inputPasswordCk;
-  };
-
-  const validateNickName = (inputNickName) => {
-    const regex = /.{2,}/;
-    return regex.test(inputNickName);
-  };
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -82,14 +84,26 @@ function LoginForm() {
     setNickName(e.target.value);
   };
 
-  const mutation = useMutation(async () => {
-    const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/join`, {
-      email,
-      password,
-      nickName,
-    });
-    return response.data;
-  });
+  const mutation = useMutation(
+    (data) =>
+      apiRequest({
+        method: 'post',
+        url: '/auth/join',
+        data,
+      }),
+    {
+      onSuccess: (data) => {
+        console.log(data);
+        alert('회원가입에 성공했습니다.');
+
+        navigate('/login');
+      },
+      onError: (error) => {
+        alert('회원가입에 실패했습니다.');
+        console.error(error);
+      },
+    },
+  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -115,11 +129,13 @@ function LoginForm() {
     }
 
     try {
-      const data = await mutation.mutateAsync();
-      console.log(data);
-      navigate('/login');
+      await mutation.mutateAsync({
+        email,
+        password,
+        nickName,
+      });
     } catch (error) {
-      console.error('Error occurred:', error);
+      console.error(error);
     }
   };
 

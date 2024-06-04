@@ -49,6 +49,16 @@ const RegisterBtnWrapper = styled.pre`
   }
 `;
 
+const validateEmail = (inputEmail) => {
+  const regex = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+  return regex.test(inputEmail);
+};
+
+const validatePassword = (inputPassword) => {
+  const regex = /.{4,}/;
+  return regex.test(inputPassword);
+};
+
 function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -60,15 +70,6 @@ function LoginForm() {
     navigate('/register');
   };
 
-  const validateEmail = (inputEmail) => {
-    const regex = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
-    return regex.test(inputEmail);
-  };
-
-  const validatePassword = (inputPassword) => {
-    const regex = /.{4,}/;
-    return regex.test(inputPassword);
-  };
   const { apiRequest } = useApiRequest();
 
   const mutation = useMutation(
