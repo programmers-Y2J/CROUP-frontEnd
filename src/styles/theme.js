@@ -1,12 +1,12 @@
 const fontSize = {
-  title: 50,
-  subTitle: 25,
-  xsmall: 8,
-  small: 10,
-  medium: 13,
-  large: 15,
-  xlarge: 20,
-  xxlarge: 35,
+  title: '50px',
+  subTitle: '25px',
+  xsmall: '8px',
+  small: '11px',
+  medium: '13px',
+  large: '15px',
+  xlarge: '20px',
+  xxlarge: '35px',
 };
 
 const fontWeight = {
@@ -18,24 +18,24 @@ const fontWeight = {
 };
 
 const spacing = {
-  section: 50,
-  chat: 5,
-  small: 7,
-  medium: 15,
-  large: 30,
+  section: '50px',
+  chat: '5px',
+  small: '7px',
+  medium: '15px',
+  large: '30px',
 };
 
 const color = {
-  50: '##eff9ff',
+  50: '#eff9ff',
   100: '#def2ff',
   200: '#b6e8ff',
   primary: '#00B3FF',
   white: '#fefefe',
   black: '#000000',
-  gray: '#9d9d9d',
+  darkGray: '#9d9d9d',
   background: '#ffffff',
   border: '#f1f1f1',
-  placehorder: '#ccc',
+  placeholder: '#ccc',
 };
 
 const theme = {
