@@ -1,4 +1,7 @@
 import { styled } from 'styled-components';
+import { useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 
 import userProfile from '../../../assets/images/example-profile.svg';
 
@@ -136,44 +139,57 @@ const CommentForm = styled.form`
   }
 `;
 
+const getQuestionPostData = async () => {
+  const result = await axios.get('/dummy/dummyQuestionDetailData.json');
+  return result;
+};
+
 function QuestionPost() {
-  return (
-    <QuestionPostContainer>
-      <QuestionDetailWrapper>
-        <button type="button">뒤로가기</button>
-        <QuestionContentWrapper>
-          <QuestionTitleWrapper>
-            <h3>Question Title</h3>
-            <div>
-              <img src={userProfile} alt="user profile" />
-              <h4>sebell</h4>
-              <h5>2024-06-13</h5>
-            </div>
-          </QuestionTitleWrapper>
-          <QuestionDescription>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-            industrys standard dummy text ever since the 1500s const QuestionDetailWrapper = styled.div``
-          </QuestionDescription>
-        </QuestionContentWrapper>
-      </QuestionDetailWrapper>
-      <CommentWrapper>
-        <CommentList>
-          <li>
-            <h5>user</h5>
-            <p>Lorem Ipsum is simply dummy text of the</p>
-          </li>
-          <li>
-            <h5>user</h5>
-            <p>Lorem Ipsum is simply dummy text of the</p>
-          </li>
-        </CommentList>
-        <CommentForm>
-          <input type="text" placeholder="댓글을 입력해 주세요." />
-          <button type="submit">게시</button>
-        </CommentForm>
-      </CommentWrapper>
-    </QuestionPostContainer>
-  );
+  const { questionId, roomId } = useParams();
+  const { data, isSuccess, isError } = useQuery({
+    queryKey: [`questionPost-${questionId}`],
+    queryFn: () => getQuestionPostData(questionId, roomId),
+  });
+
+  if (isError) console.log('Question Post error');
+  if (isSuccess) {
+    const { title, userName, date, content, comments } = data.data;
+
+    return (
+      <QuestionPostContainer>
+        <QuestionDetailWrapper>
+          <button type="button">뒤로가기</button>
+          <QuestionContentWrapper>
+            <QuestionTitleWrapper>
+              <h3>{title}</h3>
+              <div>
+                <img src={userProfile} alt="user profile" />
+                <h4>{userName}</h4>
+                <h5>{date}</h5>
+              </div>
+            </QuestionTitleWrapper>
+            <QuestionDescription>{content}</QuestionDescription>
+          </QuestionContentWrapper>
+        </QuestionDetailWrapper>
+        <CommentWrapper>
+          <CommentList>
+            {comments.map((comment) => {
+              return (
+                <li key={comment.userId}>
+                  <h5>{comment.userName}</h5>
+                  <p>{comment.content}</p>
+                </li>
+              );
+            })}
+          </CommentList>
+          <CommentForm>
+            <input type="text" placeholder="댓글을 입력해 주세요." />
+            <button type="submit">게시</button>
+          </CommentForm>
+        </CommentWrapper>
+      </QuestionPostContainer>
+    );
+  }
 }
 
 export default QuestionPost;

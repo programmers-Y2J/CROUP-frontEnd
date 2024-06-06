@@ -1,10 +1,7 @@
 import { styled } from 'styled-components';
-import axios from 'axios';
-import { useQuery } from '@tanstack/react-query';
-import { useRoomDataStore } from '../../../stores/Room/useRoomStore';
+
+import { Outlet } from 'react-router-dom';
 import useModal from '../../../hooks/useModal';
-// import QuestionListItem from './QuestionListItem';
-import QuestionPost from './QuestionPost';
 import ModalCard from '../../Modal/ModalCard';
 
 const QuestionContainer = styled.div`
@@ -36,12 +33,6 @@ const BoardTitleWrapper = styled.div`
     border-radius: 5px;
   }
 `;
-
-// const QuestionList = styled.ul`
-//   width: 100%;
-//   display: flex;
-//   gap: 40px;
-// `;
 
 const PostQuestionModal = styled.div`
   width: 450px;
@@ -108,73 +99,43 @@ const PostQuestionForm = styled.form`
   }
 `;
 
-const getQuestionList = async () => {
-  // const list = await axios.get(`${process.env.REACT_APP_API_URL}/rooms/${roomId}/question`);
-  const list = await axios.get(`/dummy/dummyQuestionData.json`);
-
-  return list;
-};
-
 function Questions() {
-  const { roomId } = useRoomDataStore((state) => state.roomData);
-  const { data, isSuccess, isError } = useQuery({
-    queryKey: [`question-${roomId}`],
-    queryFn: () => getQuestionList(roomId),
-    staleTime: 20000,
-  });
   const { isOpen, open, close } = useModal();
-  console.log(data);
   const handleClickAsk = () => {
     open();
   };
 
-  if (isError) return console.log('is Error');
-  if (isSuccess) {
-    return (
-      <QuestionContainer>
-        <BoardTitleWrapper>
-          <h2>궁금한게 있다면 무엇이든</h2>
-          <button type="button" onClick={handleClickAsk}>
-            질문하기
-          </button>
-        </BoardTitleWrapper>
-        {/* <QuestionList>
-          {data.data.qnaList.map((questionItem) => {
-            return (
-              <QuestionListItem
-                key={questionItem.questionId}
-                questionId={questionItem.questionId}
-                title={questionItem.title}
-                userName={questionItem.userName}
-                content={questionItem.content}
-              />
-            );
-          })}
-        </QuestionList> */}
-        <QuestionPost />
-        {isOpen && (
-          <ModalCard isOpen={isOpen} close={close}>
-            <PostQuestionModal>
-              <PostQuestionTitle>
-                <h3>질문하기</h3>
-              </PostQuestionTitle>
-              <PostQuestionForm>
-                <label htmlFor="title">
-                  제목
-                  <input type="text" id="title" placeholder="제목을 입력해 주세요" />
-                </label>
-                <label htmlFor="question">
-                  질문
-                  <textarea id="question" placeholder="질문을 입력해 주세요" />
-                </label>
-                <button type="submit">등록</button>
-              </PostQuestionForm>
-            </PostQuestionModal>
-          </ModalCard>
-        )}
-      </QuestionContainer>
-    );
-  }
+  return (
+    <QuestionContainer>
+      <BoardTitleWrapper>
+        <h2>궁금한게 있다면 무엇이든</h2>
+        <button type="button" onClick={handleClickAsk}>
+          질문하기
+        </button>
+      </BoardTitleWrapper>
+      <Outlet />
+      {isOpen && (
+        <ModalCard isOpen={isOpen} close={close}>
+          <PostQuestionModal>
+            <PostQuestionTitle>
+              <h3>질문하기</h3>
+            </PostQuestionTitle>
+            <PostQuestionForm>
+              <label htmlFor="title">
+                제목
+                <input type="text" id="title" placeholder="제목을 입력해 주세요" />
+              </label>
+              <label htmlFor="question">
+                질문
+                <textarea id="question" placeholder="질문을 입력해 주세요" />
+              </label>
+              <button type="submit">등록</button>
+            </PostQuestionForm>
+          </PostQuestionModal>
+        </ModalCard>
+      )}
+    </QuestionContainer>
+  );
 }
 
 export default Questions;

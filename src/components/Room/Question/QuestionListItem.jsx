@@ -44,7 +44,7 @@ function QuestionListItem({ questionId, title, userName, content }) {
   const navigate = useNavigate();
 
   const handleClickPost = () => {
-    navigate(`question/${questionId}`);
+    navigate(`questions/${questionId}`);
   };
   return (
     <QuestionListItemContainer onClick={handleClickPost}>

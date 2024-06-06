@@ -1,17 +1,18 @@
 {
-  "title": "제목",
-  "content": "내용",
-  "userName": "작성자",
+  "title": "Question Title",
+  "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s const QuestionDetailWrapper = styled.div",
+  "userName": "sebell",
+  "date": "2024-06-13",
   "comments": [
     {
-      "commentId": "댓글 아이디",
-      "userName": "작성자",
-      "content": "내용"
+      "commentId": "댓글 아이디11",
+      "userName": "user",
+      "content": "Lorem Ipsum is simply dummy text of the"
     },
     {
-      "commentId": "댓글 아이디",
-      "userName": "작성자",
-      "content": "내용"
+      "commentId": "댓글 아이디22",
+      "userName": "user",
+      "content": "Lorem Ipsum is simply dummy text of the"
     }
   ]
 }
