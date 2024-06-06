@@ -1,20 +1,20 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Room from '../pages/Room';
 import Home from '../pages/Home';
-import PostDetail from '../components/Modal/Room/PostDetail';
+import Layout from '../components/Common/Layout';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Home />,
-  },
-  {
-    path: 'rooms/:roomId',
-    element: <Room />,
+    element: <Layout />,
     children: [
       {
-        path: 'question/:questionId',
-        element: <PostDetail />,
+        path: '/',
+        element: <Home />,
+      },
+      {
+        path: 'rooms/:roomId',
+        element: <Room />,
       },
     ],
   },
