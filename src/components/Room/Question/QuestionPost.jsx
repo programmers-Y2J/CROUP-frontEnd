@@ -1,22 +1,12 @@
 import { styled } from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 
 import userProfile from '../../../assets/images/example-profile.svg';
-
-const getQuestionPostData = async (roomId, questionId) => {
-  const result = await axios.get(`${process.env.REACT_APP_API_URL}/rooms/${roomId}/questions/${questionId}`);
-
-  return result;
-};
+import useQuestionsQuery from '../../../hooks/useQuestionsQuery';
 
 function QuestionPost() {
   const { questionId, roomId } = useParams();
-  const { data, isSuccess, isError } = useQuery({
-    queryKey: [`questionPost-${questionId}`],
-    queryFn: () => getQuestionPostData(questionId, roomId),
-  });
+  const { data, isSuccess, isError } = useQuestionsQuery(roomId, questionId);
   const navigate = useNavigate();
 
   const handleClickBack = () => {
