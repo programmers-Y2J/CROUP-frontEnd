@@ -45,7 +45,7 @@ const MiddleWrapper = styled.div`
     justify-content: center;
     align-items: flex-end;
     width: 50%;
-    writing-mode: vertical-rl; /* 세로로 글씨 쓰기 */
+    writing-mode: vertical-rl;
     text-orientation: sideways;
     transform: rotate(180deg);
     font-size: 5rem;
@@ -82,7 +82,7 @@ function HeaderComponent() {
   const mutation = useMutation(async () => {
     const token = localStorage.getItem('token');
     const response = await axios.post(
-      '/auth/logout',
+      `${process.env.REACT_APP_BASE_URL}/auth/logout`,
       {},
       {
         headers: {
@@ -97,8 +97,10 @@ function HeaderComponent() {
       await mutation.mutateAsync();
       localStorage.removeItem('token');
       setIsLoggedIn(false);
+      alert('로그아웃 했습니다.');
       navigate('/login');
     } catch (error) {
+      alert('로그아웃에 실패했습니다.');
       console.error('Logout failed:', error);
     }
   };

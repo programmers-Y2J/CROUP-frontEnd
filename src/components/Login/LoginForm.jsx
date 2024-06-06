@@ -71,7 +71,10 @@ function LoginForm() {
   };
 
   const mutation = useMutation(async () => {
-    const response = await axios.post('https://387a-220-125-131-244.ngrok-free.app/auth/login', { email, password });
+    const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/login`, {
+      email,
+      password,
+    });
     return response.data;
   });
 
@@ -97,8 +100,10 @@ function LoginForm() {
       console.log('Logged in successfully:', data);
       localStorage.setItem('token', data.token);
       console.log('Token:', data.token);
+      alert('로그인에 성공했습니다.');
       navigate('/');
     } catch (error) {
+      alert('로그인에 실패했습니다.');
       console.error('Error occurred:', error);
     }
   };

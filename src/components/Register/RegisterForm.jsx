@@ -83,17 +83,11 @@ function LoginForm() {
   };
 
   const mutation = useMutation(async () => {
-    const response = await axios.post(
-      'https://387a-220-125-131-244.ngrok-free.app/auth/join',
-      {
-        email,
-        password,
-        nickName,
-      },
-      {
-        headers: { 'ngrok-skip-browser-warning': true },
-      },
-    );
+    const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/join`, {
+      email,
+      password,
+      nickName,
+    });
     return response.data;
   });
 
