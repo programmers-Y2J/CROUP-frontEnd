@@ -1,7 +1,5 @@
 import { styled } from 'styled-components';
 
-import closeIcon from '../../assets/icons/close-icon.svg';
-
 import ModalPortal from './ModalPortal';
 
 const ModalContainer = styled.div`
@@ -21,43 +19,25 @@ const ModalContainer = styled.div`
 
 const StyledModalCard = styled.div`
   display: inline-block;
-  padding: 80px 50px;
   background-color: #fff;
   position: relative;
   border-radius: 20px;
 `;
 
-const CloseButton = styled.button`
-  position: absolute;
-  top: 18px;
-  right: 3%;
-  background: none;
-  cursor: pointer;
-  img {
-    width: 15px;
-    height: 15px;
-  }
-`;
-
-function ModalCard({ isOpen, close, children, isNeedPortal }) {
+function ModalCard({ isOpen, close, children }) {
   if (!isOpen) return null;
 
   const handleCardClick = (event) => {
     event.stopPropagation();
   };
 
-  const content = (
-    <ModalContainer onClick={close}>
-      <StyledModalCard onClick={(event) => handleCardClick(event)}>
-        {children}
-        <CloseButton onClick={close}>
-          <img src={closeIcon} alt="close-button" />
-        </CloseButton>
-      </StyledModalCard>
-    </ModalContainer>
+  return (
+    <ModalPortal>
+      <ModalContainer onClick={close}>
+        <StyledModalCard onClick={(event) => handleCardClick(event)}>{children}</StyledModalCard>
+      </ModalContainer>
+    </ModalPortal>
   );
-
-  return isNeedPortal ? <ModalPortal>{content}</ModalPortal> : content;
 }
 
 export default ModalCard;

@@ -2,24 +2,25 @@ import { styled } from 'styled-components';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
-import { Outlet, useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { usePlayListStore, useRoomDataStore } from '../stores/Room/useRoomStore';
 
 import RoomDetail from '../components/Room/RoomDetail';
-import RoomContent from '../components/Room/RoomContent';
+import PlayList from '../components/Room/PlayList/PlayList';
+import UserContent from '../components/Room/UserContent';
 
 const RoomContainer = styled.div`
   width: 1300px;
-  background-color: #fff;
+  background: ${({ theme }) => theme.color.background};
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
-  padding-top: 20px;
-  padding-bottom: 50px;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.section};
 `;
 
-const getRoomData = async (roomId) => {
-  const result = await axios.get(`${process.env.REACT_APP_API_URL}/rooms/${roomId}`);
+const getRoomData = async () => {
+  const result = await axios.get('/dummy/dummyRoomData.json');
+  // const result = await axios.get(`${process.env.REACT_APP_API_URL}/rooms/${roomId}`);
   return result;
 };
 
@@ -50,8 +51,8 @@ function Room() {
     return (
       <RoomContainer>
         <RoomDetail />
-        <RoomContent chats={data.data.chats} roomMember={data.data.roomMember} />
-        <Outlet />
+        <PlayList />
+        <UserContent chats={data.data.chats} roomMember={data.data.roomMember} />
       </RoomContainer>
     );
   }
