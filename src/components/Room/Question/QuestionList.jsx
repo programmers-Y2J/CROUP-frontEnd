@@ -2,7 +2,8 @@ import { styled } from 'styled-components';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 
-import { useRoomDataStore } from '../../../stores/Room/useRoomStore';
+// import { useRoomDataStore } from '../../../stores/Room/useRoomStore';
+import { useParams } from 'react-router-dom';
 import QuestionListItem from './QuestionListItem';
 
 const QuestionListContainer = styled.ul`
@@ -11,14 +12,13 @@ const QuestionListContainer = styled.ul`
   gap: 40px;
 `;
 
-const getQuestionList = async () => {
-  // const list = await axios.get(`${process.env.REACT_APP_API_URL}/rooms/${roomId}/question`);
-  const list = await axios.get(`/dummy/dummyQuestionData.json`);
+const getQuestionList = async (roomId) => {
+  const list = await axios.get(`${process.env.REACT_APP_API_URL}/rooms/${roomId}/questions`);
 
   return list;
 };
 function QuestionList() {
-  const { roomId } = useRoomDataStore((state) => state.roomData);
+  const { roomId } = useParams();
   const { data, isSuccess, isError } = useQuery({
     queryKey: [`question-${roomId}`],
     queryFn: () => getQuestionList(roomId),

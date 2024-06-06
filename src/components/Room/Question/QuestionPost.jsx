@@ -1,10 +1,70 @@
 import { styled } from 'styled-components';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
 import userProfile from '../../../assets/images/example-profile.svg';
 
+const getQuestionPostData = async (roomId, questionId) => {
+  const result = await axios.get(`${process.env.REACT_APP_API_URL}/rooms/${roomId}/questions/${questionId}`);
+
+  return result;
+};
+
+function QuestionPost() {
+  const { questionId, roomId } = useParams();
+  const { data, isSuccess, isError } = useQuery({
+    queryKey: [`questionPost-${questionId}`],
+    queryFn: () => getQuestionPostData(questionId, roomId),
+  });
+  const navigate = useNavigate();
+
+  const handleClickBack = () => {
+    navigate(-1);
+  };
+
+  if (isError) console.log('Question Post error');
+  if (isSuccess) {
+    const { title, userName, date, content, comments } = data.data;
+
+    return (
+      <QuestionPostContainer>
+        <QuestionDetailWrapper>
+          <button type="button" onClick={handleClickBack}>
+            뒤로가기
+          </button>
+          <QuestionContentWrapper>
+            <QuestionTitleWrapper>
+              <h3>{title}</h3>
+              <div>
+                <img src={userProfile} alt="user profile" />
+                <h4>{userName}</h4>
+                <h5>{date}</h5>
+              </div>
+            </QuestionTitleWrapper>
+            <QuestionDescription>{content}</QuestionDescription>
+          </QuestionContentWrapper>
+        </QuestionDetailWrapper>
+        <CommentWrapper>
+          <CommentList>
+            {comments.map((comment) => {
+              return (
+                <li key={comment.userId}>
+                  <h5>{comment.userName}</h5>
+                  <p>{comment.content}</p>
+                </li>
+              );
+            })}
+          </CommentList>
+          <CommentForm>
+            <input type="text" placeholder="댓글을 입력해 주세요." />
+            <button type="submit">게시</button>
+          </CommentForm>
+        </CommentWrapper>
+      </QuestionPostContainer>
+    );
+  }
+}
 const QuestionPostContainer = styled.div`
   width: 750px;
   height: 420px;
@@ -138,58 +198,5 @@ const CommentForm = styled.form`
     cursor: pointer;
   }
 `;
-
-const getQuestionPostData = async () => {
-  const result = await axios.get('/dummy/dummyQuestionDetailData.json');
-  return result;
-};
-
-function QuestionPost() {
-  const { questionId, roomId } = useParams();
-  const { data, isSuccess, isError } = useQuery({
-    queryKey: [`questionPost-${questionId}`],
-    queryFn: () => getQuestionPostData(questionId, roomId),
-  });
-
-  if (isError) console.log('Question Post error');
-  if (isSuccess) {
-    const { title, userName, date, content, comments } = data.data;
-
-    return (
-      <QuestionPostContainer>
-        <QuestionDetailWrapper>
-          <button type="button">뒤로가기</button>
-          <QuestionContentWrapper>
-            <QuestionTitleWrapper>
-              <h3>{title}</h3>
-              <div>
-                <img src={userProfile} alt="user profile" />
-                <h4>{userName}</h4>
-                <h5>{date}</h5>
-              </div>
-            </QuestionTitleWrapper>
-            <QuestionDescription>{content}</QuestionDescription>
-          </QuestionContentWrapper>
-        </QuestionDetailWrapper>
-        <CommentWrapper>
-          <CommentList>
-            {comments.map((comment) => {
-              return (
-                <li key={comment.userId}>
-                  <h5>{comment.userName}</h5>
-                  <p>{comment.content}</p>
-                </li>
-              );
-            })}
-          </CommentList>
-          <CommentForm>
-            <input type="text" placeholder="댓글을 입력해 주세요." />
-            <button type="submit">게시</button>
-          </CommentForm>
-        </CommentWrapper>
-      </QuestionPostContainer>
-    );
-  }
-}
 
 export default QuestionPost;
