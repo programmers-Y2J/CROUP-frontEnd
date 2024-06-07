@@ -1,5 +1,4 @@
 import { styled } from 'styled-components';
-
 import { useParams } from 'react-router-dom';
 import QuestionListItem from './QuestionListItem';
 import useQuestionsQuery from '../../../hooks/useQuestionsQuery';

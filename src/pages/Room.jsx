@@ -18,11 +18,11 @@ const RoomContainer = styled.div`
 
 function Room() {
   const { roomId } = useParams();
+  const { data, isError, isSuccess } = useRoomQuery(roomId);
   const setPlayList = usePlayListStore((state) => state.setPlayList);
   const setRoomData = useRoomDataStore((state) => state.setRoomData);
+  const setRoomMemberCount = useRoomDataStore((state) => state.setRoomMemberCount);
   const location = useLocation();
-
-  const { data, isSuccess, isError } = useRoomQuery(roomId);
 
   const roomDataObj = {
     roomId,
@@ -32,9 +32,11 @@ function Room() {
   };
 
   if (isError) console.log('get room error');
+
   if (isSuccess) {
     setPlayList(data.data.playList);
     setRoomData(roomDataObj);
+    setRoomMemberCount(data.data.roomMember.length);
 
     return (
       <RoomContainer>
