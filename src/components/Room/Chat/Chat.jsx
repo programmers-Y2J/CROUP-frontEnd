@@ -1,18 +1,20 @@
 import { styled } from 'styled-components';
 import io from 'socket.io-client';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import Message from './Message';
 import { useRoomDataStore } from '../../../stores/Room/useRoomStore';
 
 const socket = io(process.env.REACT_APP_API_URL, { path: '/socket' });
-console.log(socket);
+
 function Chat({ chats }) {
   const { roomId } = useParams();
   const setRoomMemberCount = useRoomDataStore((state) => state.setRoomMemberCount);
   const [messages, setMessages] = useState(chats);
   const [message, setMessage] = useState('');
+  const chatList = useRef();
+  const { userId, nickName } = localStorage.get('token');
 
   useEffect(() => {
     socket.emit('joinRoom', roomId, { nickName: '닉네임', userId: '유저 아이디' });
@@ -29,6 +31,10 @@ function Chat({ chats }) {
     };
   }, [socket]);
 
+  useEffect(() => {
+    chatList.current.scrollTop = chatList.current.offsetTop;
+  }, [messages]);
+
   const handleChangeInput = (event) => {
     setMessage(event.target.value);
   };
@@ -36,8 +42,7 @@ function Chat({ chats }) {
   const handleSubmitMessage = (event) => {
     event.preventDefault();
     if (message.trim().length !== 0) {
-      // localStorage의 jwt의 유저 정보로 변경해야됨.
-      const chatMessage = { userId: 'userId', nickName: 'nickName', chat: message };
+      const chatMessage = { userId, nickName, chat: message };
       socket.emit('chat', chatMessage, roomId);
       setMessage('');
     }
@@ -45,7 +50,7 @@ function Chat({ chats }) {
 
   return (
     <ChatContainer>
-      <ChatList>
+      <ChatList ref={chatList}>
         {messages.map((messageItem) => {
           return (
             <Message
