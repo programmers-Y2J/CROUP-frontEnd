@@ -1,16 +1,39 @@
 import { styled } from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import { useState } from 'react';
 import userProfile from '../../../assets/images/example-profile.svg';
 import useQuestionsQuery from '../../../hooks/useQuestionsQuery';
+import useCommentMutation from '../../../hooks/useCommentMutation';
 
 function QuestionPost() {
   const { questionId, roomId } = useParams();
   const { data, isSuccess, isError } = useQuestionsQuery(roomId, questionId);
+  const [comment, setComment] = useState();
   const navigate = useNavigate();
+
+  const successCbFn = () => {
+    setComment('');
+  };
+
+  const errorCbFn = () => {
+    alert('잘못된 요청입니다.');
+  };
+
+  const { mutation } = useCommentMutation(successCbFn, errorCbFn, questionId);
 
   const handleClickBack = () => {
     navigate(-1);
+  };
+
+  const handleChangeComment = (event) => {
+    setComment(event.target.value);
+  };
+
+  const handleSubmitComment = (event) => {
+    event.preventDefault();
+    if (comment.trim().length === 0) return errorCbFn();
+    return mutation.mutate({ roomId, content: comment });
   };
 
   if (isError) console.log('Question Post error');
@@ -37,17 +60,22 @@ function QuestionPost() {
         </QuestionDetailWrapper>
         <CommentWrapper>
           <CommentList>
-            {comments.map((comment) => {
+            {comments.map((commentItem) => {
               return (
-                <li key={comment.userId}>
-                  <h5>{comment.userName}</h5>
-                  <p>{comment.content}</p>
+                <li key={commentItem.userId}>
+                  <h5>{commentItem.userName}</h5>
+                  <p>{commentItem.content}</p>
                 </li>
               );
             })}
           </CommentList>
-          <CommentForm>
-            <input type="text" placeholder="댓글을 입력해 주세요." />
+          <CommentForm onSubmit={(event) => handleSubmitComment(event)}>
+            <input
+              type="text"
+              placeholder="댓글을 입력해 주세요."
+              onChange={(event) => handleChangeComment(event)}
+              value={comment}
+            />
             <button type="submit">게시</button>
           </CommentForm>
         </CommentWrapper>

@@ -7,9 +7,9 @@ const getQuestionList = async (roomId) => {
   return list;
 };
 
-const useQuestionsQuery = (roomId) => {
+const useQuestionsQuery = (roomId, questionId) => {
   const { data, isSuccess, isError } = useQuery({
-    queryKey: ['question', roomId],
+    queryKey: ['question', questionId],
     queryFn: () => getQuestionList(roomId),
   });
 
