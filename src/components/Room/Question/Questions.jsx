@@ -1,8 +1,73 @@
 import { styled } from 'styled-components';
+import { Outlet, useParams } from 'react-router-dom';
 
-import { Outlet } from 'react-router-dom';
+import { useRef } from 'react';
 import useModal from '../../../hooks/useModal';
 import ModalCard from '../../Modal/ModalCard';
+import useQuestionPostMutation from '../../../hooks/useQuestionPostMutation';
+
+function Questions() {
+  const { roomId } = useParams();
+  const { isOpen, open, close } = useModal();
+  const title = useRef();
+  const content = useRef();
+  const { userId } = localStorage.getItem('token');
+
+  const handleClickAsk = () => {
+    open();
+  };
+
+  const successCbFn = () => {
+    close();
+  };
+
+  const errorCbFn = () => {
+    alert('잘못된 요청입니다.');
+  };
+
+  const { mutation } = useQuestionPostMutation(successCbFn, errorCbFn);
+
+  const handleSubmitPost = (event) => {
+    event.preventDefault();
+    const titleValue = title.current.value;
+    const contentValue = content.current.value;
+
+    if (titleValue.trim().length === 0 || contentValue.trim().length === 0) return errorCbFn();
+    return mutation.mutate({ roomId, userId, title: titleValue, content: contentValue });
+  };
+
+  return (
+    <QuestionContainer>
+      <BoardTitleWrapper>
+        <h2>궁금한게 있다면 무엇이든</h2>
+        <button type="button" onClick={handleClickAsk}>
+          질문하기
+        </button>
+      </BoardTitleWrapper>
+      <Outlet />
+      {isOpen && (
+        <ModalCard isOpen={isOpen} close={close}>
+          <PostQuestionModal>
+            <PostQuestionTitle>
+              <h3>질문하기</h3>
+            </PostQuestionTitle>
+            <PostQuestionForm onSubmit={(event) => handleSubmitPost(event)}>
+              <label htmlFor="title">
+                제목
+                <input type="text" id="title" placeholder="제목을 입력해 주세요" ref={title} />
+              </label>
+              <label htmlFor="question">
+                질문
+                <textarea id="question" placeholder="질문을 입력해 주세요" ref={content} />
+              </label>
+              <button type="submit">등록</button>
+            </PostQuestionForm>
+          </PostQuestionModal>
+        </ModalCard>
+      )}
+    </QuestionContainer>
+  );
+}
 
 const QuestionContainer = styled.div`
   width: 850px;
@@ -98,44 +163,5 @@ const PostQuestionForm = styled.form`
     font-weight: ${({ theme }) => theme.fontWeight.bold};
   }
 `;
-
-function Questions() {
-  const { isOpen, open, close } = useModal();
-  const handleClickAsk = () => {
-    open();
-  };
-
-  return (
-    <QuestionContainer>
-      <BoardTitleWrapper>
-        <h2>궁금한게 있다면 무엇이든</h2>
-        <button type="button" onClick={handleClickAsk}>
-          질문하기
-        </button>
-      </BoardTitleWrapper>
-      <Outlet />
-      {isOpen && (
-        <ModalCard isOpen={isOpen} close={close}>
-          <PostQuestionModal>
-            <PostQuestionTitle>
-              <h3>질문하기</h3>
-            </PostQuestionTitle>
-            <PostQuestionForm>
-              <label htmlFor="title">
-                제목
-                <input type="text" id="title" placeholder="제목을 입력해 주세요" />
-              </label>
-              <label htmlFor="question">
-                질문
-                <textarea id="question" placeholder="질문을 입력해 주세요" />
-              </label>
-              <button type="submit">등록</button>
-            </PostQuestionForm>
-          </PostQuestionModal>
-        </ModalCard>
-      )}
-    </QuestionContainer>
-  );
-}
 
 export default Questions;

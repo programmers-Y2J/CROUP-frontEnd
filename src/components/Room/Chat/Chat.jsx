@@ -14,7 +14,7 @@ function Chat({ chats }) {
   const [messages, setMessages] = useState(chats);
   const [message, setMessage] = useState('');
   const chatList = useRef();
-  const { userId, nickName } = localStorage.get('token');
+  const { userId, nickName } = localStorage.getItem('token');
 
   useEffect(() => {
     socket.emit('joinRoom', roomId, { nickName: '닉네임', userId: '유저 아이디' });
