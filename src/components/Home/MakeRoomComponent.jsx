@@ -82,6 +82,12 @@ const UrlWrapper = styled.div`
   }
 `;
 
+function extractPlaylistID(url) {
+  const regex = /[&?]list=([^&]+)/;
+  const match = url.match(regex);
+  return match ? match[1] : null;
+}
+
 function MakeRoomComponent({ openModal }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -105,16 +111,17 @@ function MakeRoomComponent({ openModal }) {
       .get('https://www.googleapis.com/youtube/v3/playlistItems', {
         params: {
           part: 'snippet',
-          playlistId: url,
+          playlistId: extractPlaylistID(url),
           key: process.env.REACT_APP_YOUTUBE_API,
         },
+        withCredentials: false,
       })
       .then((res) => {
         setPlayList(
           res.data.items.map((item) => ({
-            channel: item.snippet.channelId,
-            title: item.snippet.description,
-            thumbnailUrl: item.snippet.thumbnails.standard.url,
+            musicChannelTitle: item.snippet.channelId,
+            musicTitle: item.snippet.description,
+            musicThumbnail: item.snippet.thumbnails.standard.url,
             videoId: item.snippet.resourceId.videoId,
           })),
         );
@@ -131,10 +138,11 @@ function MakeRoomComponent({ openModal }) {
     (data) =>
       apiRequest({
         method: 'post',
-        url: '/rooms/rooms',
+        url: '/rooms',
         data,
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+          Authorization: `${localStorage.getItem('token')}`,
         },
       }),
     {
@@ -152,8 +160,8 @@ function MakeRoomComponent({ openModal }) {
   const handleMakeRoom = async () => {
     try {
       await mutation.mutateAsync({
-        title,
-        description,
+        roomTitle: title,
+        roomDescription: description,
         playListUrl: url,
         playList,
       });
@@ -186,7 +194,7 @@ function MakeRoomComponent({ openModal }) {
       <RoomComponent
         title={title === '' ? 'title을 입력하세요' : title}
         description={description === '' ? 'description을 입력하세요' : description}
-        posterPath={playList.length === 0 ? '' : playList[0].thumbnailUrl}
+        posterPath={playList.length === 0 ? '' : playList[0].musicThumbnail}
       />
     </Container>
   );
