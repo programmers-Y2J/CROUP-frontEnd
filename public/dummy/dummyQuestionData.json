@@ -1,0 +1,28 @@
+{
+  "qnaList": [
+    {
+      "questionId": "111",
+      "userName": "User",
+      "title": "Question Title",
+      "content": "Lorem Ipsum is simply dummy text of the printing and "
+    },
+    {
+      "questionId": "222",
+      "userName": "User",
+      "title": "Question Title",
+      "content": "Lorem Ipsum is simply dummy text of the printing and "
+    },
+    {
+      "questionId": "333",
+      "userName": "User",
+      "title": "Question Title",
+      "content": "Lorem Ipsum is simply dummy text of the printing and "
+    },
+    {
+      "questionId": "444",
+      "userName": "User",
+      "title": "Question Title",
+      "content": "Lorem Ipsum is simply dummy text of the printing and "
+    }
+  ]
+}

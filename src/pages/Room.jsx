@@ -2,62 +2,57 @@ import { styled } from 'styled-components';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { usePlayListStore, useRoomDataStore } from '../stores/Room/useRoomStore';
 
 import RoomDetail from '../components/Room/RoomDetail';
-import RoomContent from '../components/Room/RoomContent';
+import PlayList from '../components/Room/PlayList/PlayList';
+import UserContent from '../components/Room/UserContent';
 
 const RoomContainer = styled.div`
   width: 1300px;
-  background-color: #fff;
+  background: ${({ theme }) => theme.color.background};
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
-  padding-top: 20px;
-  padding-bottom: 50px;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.section};
 `;
 
-const getPlayList = async (playlistId) => {
-  const playListData = await axios.get('https://www.googleapis.com/youtube/v3/playlistItems', {
-    params: {
-      part: 'snippet',
-      playlistId: `${playlistId}`,
-      key: process.env.REACT_APP_YOUTUBE_API_KEY,
-      maxResults: 50,
-    },
-  });
-  return playListData;
+const getRoomData = async () => {
+  const result = await axios.get('/dummy/dummyRoomData.json');
+  // const result = await axios.get(`${process.env.REACT_APP_API_URL}/rooms/${roomId}`);
+  return result;
 };
 
 function Room() {
+  const { roomId } = useParams();
   const setPlayList = usePlayListStore((state) => state.setPlayList);
   const setRoomData = useRoomDataStore((state) => state.setRoomData);
   const location = useLocation();
 
   const { data, isSuccess, isError } = useQuery({
     queryKey: [`room`],
-    queryFn: () => getPlayList('RDCLAK5uy_kyZ7N5lM0kUpn7NbydMRujcq4aTEesP9I' || location.playListId),
-    staleTime: 6000000,
+    queryFn: () => getRoomData(roomId),
+    staleTime: Infinity,
   });
 
   const roomDataObj = {
-    roomId: '123' || location.state.roomId,
+    roomId,
     host: 'host' || location.state.host,
-    playListId: 'RDCLAK5uy_kyZ7N5lM0kUpn7NbydMRujcq4aTEesP9I' || location.state.playListId,
     title: 'title' || location.state.title,
     description: 'description' || location.state.description,
   };
 
   if (isError) console.log('get playlist error');
   if (isSuccess) {
-    setPlayList(data.data.items);
+    setPlayList(data.data.playList);
     setRoomData(roomDataObj);
 
     return (
       <RoomContainer>
         <RoomDetail />
-        <RoomContent />
+        <PlayList />
+        <UserContent chats={data.data.chats} roomMember={data.data.roomMember} />
       </RoomContainer>
     );
   }

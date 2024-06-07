@@ -1,110 +1,110 @@
 import { styled } from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import ReactPlayer from 'react-player';
 import { useEffect } from 'react';
-import { useCurrentMusicStore, usePlayListStore, useRoomDataStore } from '../../stores/Room/useRoomStore';
+import { BsPlayFill } from 'react-icons/bs';
+import { useCurrentMusicStore, usePlayListStore } from '../../stores/Room/useRoomStore';
 
-import roomOutIcon from '../../assets/icons/room-out.svg';
-import nowPlaying from '../../assets/icons/now-playing.svg';
-import pauseIcon from '../../assets/icons/pause-playing.svg';
-import userProfile from '../../assets/images/exanoke-user-profile.svg';
+import userProfile from '../../assets/images/example-profile.svg';
 
 const RoomDetailContainer = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 40px;
-  position: relative;
-  width: 100%;
-  height: 400px;
-  background: #b6e8ff;
-  position: relative;
-  margin-bottom: 150px;
-  margin-top: 20px;
-  border-radius: 20px 20px 0 0;
-`;
+  gap: 90px;
 
-const RoomOutIcon = styled.img`
-  width: 25px;
-  height: 25px;
-  position: absolute;
-  top: 20px;
-  left: 25px;
-  cursor: pointer;
-`;
-
-const Thumbnail = styled.img`
-  border-radius: 20px;
-  width: 450px;
-  height: 253px;
-`;
-
-const RoomStatusWrapper = styled.div`
-  height: 300px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 35px;
+  iframe {
+    border-radius: 30px;
+  }
 `;
 
 const RoomDetailWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.large};
+`;
+
+const RoomDescriptionWrapper = styled.div`
   > h1 {
-    font-size: 4rem;
-    letter-spacing: 2px;
+    font-size: ${({ theme }) => theme.fontSize.title};
   }
+
   > p {
-    font-size: 0.8rem;
+    width: 360px;
+    height: 55px;
+    font-size: ${({ theme }) => theme.fontSize.medium};
+    font-weight: ${({ theme }) => theme.fontWeight.semiBold};
   }
 `;
 
-const RoomHost = styled.div`
+const UserProfileWrapper = styled.div`
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: ${({ theme }) => theme.spacing.small};
+
   > img {
     width: 30px;
     height: 30px;
   }
-`;
 
-const PlayingSongWrapper = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 220px;
-  padding: 15px 60px;
-  background: #fff;
-  border-radius: 50px;
-  margin: 0 auto;
+  > h4 {
+    font-size: ${({ theme }) => theme.fontSize.medium};
+    font-weight: ${({ theme }) => theme.fontWeight.semiBold};
+  }
+
   > h5 {
-    width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    font-size: ${({ theme }) => theme.fontSize.small};
+    font-weight: ${({ theme }) => theme.fontWeight.semiBold};
+    color: ${({ theme }) => theme.color.darkGray};
   }
 `;
 
-const PlayButton = styled.button`
-  width: 20px;
-  height: 20px;
-  background: none;
-  position: absolute;
-  left: 20px;
-  cursor: pointer;
-  > img {
-    width: 100%;
-    height: 100%;
+const MusicPlayerWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.large};
+`;
+
+const MusicPlayButtonWrapper = styled.button`
+  width: 40px;
+  height: 40px;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: ${({ theme }) => theme.color.primary};
+
+  .play-button {
+    width: 25px;
+    height: 25px;
+    color: ${({ theme }) => theme.color.white};
+  }
+`;
+
+const CurrentMusicWrapper = styled.div`
+  width: 300px;
+  height: 30px;
+  border-radius: 15px;
+  color: ${({ theme }) => theme.color.white};
+  background: ${({ theme }) => theme.color.primary};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  > p {
+    color: ${({ theme }) => theme.color.white};
+    font-size: ${({ theme }) => theme.fontSize.small};
+    font-weight: ${({ theme }) => theme.fontWeight.bold};
   }
 `;
 
 function RoomDetail() {
   const playList = usePlayListStore((state) => state.playList);
-  const roomData = useRoomDataStore((state) => state.roomData);
+  // const roomData = useRoomDataStore((state) => state.roomData);
   const { currentMusic, setCurrentMusic, isPlaying, setIsPlaying } = useCurrentMusicStore();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const thumbnail = playList[0].snippet.thumbnails.maxres.url;
-  const firstSong = { title: playList[0].snippet.title, videoId: playList[0].snippet.resourceId.videoId };
+  // const thumbnail = playList[0].musicThumbnail;
+  const firstSong = { title: playList[0].musicTitle, videoId: playList[0].videoId };
 
   useEffect(() => {
     setCurrentMusic(firstSong);
@@ -112,48 +112,52 @@ function RoomDetail() {
 
   const handleOnEnded = () => {
     let nextMusic = 0;
-    const currentMusicIndex = playList.findIndex((music) => music.snippet.resourceId.videoId === currentMusic.videoId);
+    const currentMusicIndex = playList.findIndex((music) => music.videoId === currentMusic.videoId);
 
     if (currentMusicIndex === playList.length - 1) [nextMusic] = playList;
     else nextMusic = playList[currentMusicIndex + 1];
 
-    setCurrentMusic({ title: nextMusic.snippet.title, videoId: nextMusic.snippet.resourceId.videoId });
+    setCurrentMusic({ title: nextMusic.musciTitle, videoId: nextMusic.videoId });
     setIsPlaying(true);
   };
 
-  const handleRoomOutClick = () => {
-    navigate('/');
-  };
+  // const handleRoomOutClick = () => {
+  //   navigate('/');
+  // };
 
-  const handlePlayButtonClick = () => {
-    setIsPlaying(!isPlaying);
-  };
+  // const handlePlayButtonClick = () => {
+  //   setIsPlaying(!isPlaying);
+  // };
   return (
     <RoomDetailContainer>
-      <RoomOutIcon onClick={handleRoomOutClick} src={roomOutIcon} alt="room out icon" />
-      <Thumbnail src={thumbnail} alt="thumbnail" />
+      <RoomDetailWrapper>
+        <RoomDescriptionWrapper>
+          <h1>Room Title</h1>
+          <p>
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+            industrys standard dummy text ever since the 1500s
+          </p>
+        </RoomDescriptionWrapper>
+        <UserProfileWrapper>
+          <img src={userProfile} alt="user profile" />
+          <h4>sebell</h4>
+          <h5>참가인원 999</h5>
+        </UserProfileWrapper>
+        <MusicPlayerWrapper>
+          <MusicPlayButtonWrapper>
+            <BsPlayFill className="play-button" />
+          </MusicPlayButtonWrapper>
+          <CurrentMusicWrapper>
+            <p>Arctic Monkeys - I Wanna Be yours</p>
+          </CurrentMusicWrapper>
+        </MusicPlayerWrapper>
+      </RoomDetailWrapper>
       <ReactPlayer
-        style={{ position: 'absolute', opacity: 1, zIndex: -99 }}
-        url={`https://www.youtube.com/watch?v=${currentMusic.videoId}`}
+        style={{ borderRadius: '30px' }}
+        url="https://www.youtube.com/watch?v=SDTZ7iX4vTQ"
         playing={isPlaying}
         onEnded={handleOnEnded}
       />
-      <RoomStatusWrapper>
-        <RoomDetailWrapper>
-          <h1>{roomData.title}</h1>
-          <p>{roomData.description}</p>
-        </RoomDetailWrapper>
-        <RoomHost>
-          <img src={userProfile} alt="user profile" />
-          <h5>{roomData.host}</h5>
-        </RoomHost>
-        <PlayingSongWrapper>
-          <PlayButton type="button" onClick={handlePlayButtonClick}>
-            <img src={isPlaying ? pauseIcon : nowPlaying} alt="now playing" />
-          </PlayButton>
-          <h5>{currentMusic.title}</h5>
-        </PlayingSongWrapper>
-      </RoomStatusWrapper>
     </RoomDetailContainer>
   );
 }

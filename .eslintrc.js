@@ -37,5 +37,11 @@ module.exports = {
     'import/no-unresolved': 'off', // 수정
     'react/prop-types': 'off',
     'import/no-extraneous-dependencies': 'off',
+    'jsx-a11y/label-has-associated-control': [
+      2,
+      {
+        labelAttributes: ['htmlFor'],
+      },
+    ],
   },
 };
