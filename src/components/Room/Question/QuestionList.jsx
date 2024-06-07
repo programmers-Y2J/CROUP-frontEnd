@@ -23,7 +23,7 @@ function QuestionList() {
               key={questionItem.questionId}
               questionId={questionItem.questionId}
               title={questionItem.title}
-              userName={questionItem.userName}
+              userName={questionItem.nickName}
               content={questionItem.content}
             />
           );

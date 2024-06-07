@@ -7,10 +7,10 @@ import Message from './Message';
 import { useRoomDataStore } from '../../../stores/Room/useRoomStore';
 
 const socket = io(process.env.REACT_APP_API_URL, { path: '/socket' });
-
+console.log(socket);
 function Chat({ chats }) {
   const { roomId } = useParams();
-  const { setRoomMemberCount } = useRoomDataStore((state) => state.setRoomMemberCount);
+  const setRoomMemberCount = useRoomDataStore((state) => state.setRoomMemberCount);
   const [messages, setMessages] = useState(chats);
   const [message, setMessage] = useState('');
 
@@ -27,18 +27,18 @@ function Chat({ chats }) {
       socket.off('updateUser');
       socket.off('chat');
     };
-  }, []);
+  }, [socket]);
 
   const handleChangeInput = (event) => {
     setMessage(event.target.value);
   };
 
-  const handleSubmitMessage = () => {
+  const handleSubmitMessage = (event) => {
+    event.preventDefault();
     if (message.trim().length !== 0) {
       // localStorage의 jwt의 유저 정보로 변경해야됨.
-      const chatMessage = { userId: 'userId', nickName: 'nickName', chat: 'chat' };
-      // socket.emit('chat', chatMessage, roomId);
-      setMessages((prevMessage) => [...prevMessage, { ...chatMessage }]);
+      const chatMessage = { userId: 'userId', nickName: 'nickName', chat: message };
+      socket.emit('chat', chatMessage, roomId);
       setMessage('');
     }
   };
@@ -57,8 +57,8 @@ function Chat({ chats }) {
           );
         })}
       </ChatList>
-      <MessageForm onSubmit={handleSubmitMessage}>
-        <input type="text" placeholder="메세지를 입력해 주세요." onChange={handleChangeInput} />
+      <MessageForm onSubmit={(event) => handleSubmitMessage(event)}>
+        <input type="text" placeholder="메세지를 입력해 주세요." onChange={handleChangeInput} value={message} />
         <button type="submit">전송</button>
       </MessageForm>
     </ChatContainer>
