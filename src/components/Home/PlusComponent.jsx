@@ -12,7 +12,7 @@ const Container = styled.div`
   justify-content: center;
   font-size: 50px;
   color: #bababa;
-  height: 70vh;
+  height: 500px;
 `;
 function PlusComponent({ openModal }) {
   return (
