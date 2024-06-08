@@ -11,7 +11,7 @@ const Container = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
-  height: 45vh;
+  height: 450px;
   width: 50vw;
   border-radius: 20px;
   display: flex;
@@ -89,18 +89,18 @@ function extractPlaylistID(url) {
 }
 
 function MakeRoomComponent({ openModal }) {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [roomTitle, setRoomTitle] = useState('');
+  const [roomDescription, setRoomDescription] = useState('');
   const [url, setUrl] = useState('');
   const [playList, setPlayList] = useState([]);
 
   const { apiRequest } = useApiRequest();
 
   const handleTitleChange = (e) => {
-    setTitle(e.target.value);
+    setRoomTitle(e.target.value);
   };
   const handleDescriptionChange = (e) => {
-    setDescription(e.target.value);
+    setRoomDescription(e.target.value);
   };
   const handleUrlChange = (e) => {
     setUrl(e.target.value);
@@ -161,8 +161,8 @@ function MakeRoomComponent({ openModal }) {
   const handleMakeRoom = async () => {
     try {
       await mutation.mutateAsync({
-        roomTitle: title,
-        roomDescription: description,
+        roomTitle,
+        roomDescription,
         playListUrl: url,
         playList,
       });
@@ -178,9 +178,9 @@ function MakeRoomComponent({ openModal }) {
       </button>
       <MakeWrapper>
         방제목
-        <input placeholder="제목을 입력해 주세요" value={title} onChange={handleTitleChange} />
+        <input placeholder="제목을 입력해 주세요" value={roomTitle} onChange={handleTitleChange} />
         설명
-        <input placeholder="설명을 입력해 주세요" value={description} onChange={handleDescriptionChange} />
+        <input placeholder="설명을 입력해 주세요" value={roomDescription} onChange={handleDescriptionChange} />
         재생목록 url
         <UrlWrapper>
           <input placeholder="Youtube 재생목록 주소(url)을 입력해주세요" value={url} onChange={handleUrlChange} />
@@ -193,9 +193,9 @@ function MakeRoomComponent({ openModal }) {
         </button>
       </MakeWrapper>
       <RoomComponent
-        title={title === '' ? 'title을 입력하세요' : title}
-        description={description === '' ? 'description을 입력하세요' : description}
-        posterPath={playList.length === 0 ? '' : playList[0].musicThumbnail}
+        roomTitle={roomTitle === '' ? 'title' : roomTitle}
+        roomDescription={roomDescription === '' ? 'description' : roomDescription}
+        roomThumbnail={playList.length === 0 ? '' : playList[0].musicThumbnail}
       />
     </Container>
   );

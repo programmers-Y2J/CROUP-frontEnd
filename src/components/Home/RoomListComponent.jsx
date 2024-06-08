@@ -8,6 +8,7 @@ import useApiRequest from '../../hooks/useApiRequest';
 const Container = styled.div`
   width: 1300px;
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
 `;
 const LoadingContainer = styled.div`

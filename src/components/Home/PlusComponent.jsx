@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { FaPlus } from 'react-icons/fa';
 
 const Container = styled.div`
-  width: 30%;
+  width: 300px;
   margin: 16px;
   border-radius: 30px;
   border: 1px solid #d9d9d9;
