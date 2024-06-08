@@ -148,6 +148,7 @@ function MakeRoomComponent({ openModal }) {
     {
       onSuccess: (data) => {
         alert('방이 생성되었습니다');
+        openModal();
         console.log(data);
       },
       onError: (error) => {
