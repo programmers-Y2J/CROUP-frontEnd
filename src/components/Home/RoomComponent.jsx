@@ -1,5 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import { useMutation } from 'react-query';
+import axios from 'axios';
+import { RxEnter } from 'react-icons/rx';
 import { RiCheckboxBlankCircleFill } from 'react-icons/ri';
 import { BsFileEarmarkMusicFill } from 'react-icons/bs';
 
@@ -8,6 +12,7 @@ const Container = styled.div`
   margin: 16px;
   border-radius: 30px;
   border: 1px solid #d9d9d9;
+  height: 70vh;
   > img {
     max-width: 100%;
     width: 100%;
@@ -46,30 +51,52 @@ const StyledCircle = styled(RiCheckboxBlankCircleFill)`
   margin-right: 15px;
 `;
 
-const Title = styled.div`
-  white-space: normal;
-  flex: 1;
-  overflow-wrap: break-word;
-  word-break: break-word;
-`;
+const postRoomData = async ({ roomId, token }) => {
+  const response = await axios.post(`/rooms/in/${roomId}`, null, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
 
-const Description = styled.span`
-  white-space: normal;
-  overflow-wrap: break-word;
-  word-break: break-word;
-  margin-top: 10px;
-  font-size: 0.8rem;
-  color: #7c7b7b;
-`;
+function RoomComponent({ roomTitle, roomDescription, roomThumbnail, roomId }) {
+  const navigate = useNavigate();
+  const mutation = useMutation(postRoomData, {
+    onSuccess: (data) => {
+      console.log('POST 요청 성공:', data);
+      navigate(`/room/${roomId}`, {
+        state: {
+          roomTitle,
+          roomDescription,
+          roomThumbnail,
+        },
+      });
+    },
+    onError: (error) => {
+      console.error('POST 요청 실패:', error);
+    },
+  });
+  const enterRoom = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      mutation.mutate({ roomId, token });
+    } else {
+      console.error('토큰이 없습니다.');
+    }
+  };
 
-function RoomComponent({ posterPath, title, description }) {
   return (
-    <Container>
-      {posterPath === '' ? <StyledBsFileEarmarkMusicFill /> : <img src={posterPath} alt="음악포스터" />}
+    <Container onClick={enterRoom}>
+      <img src={roomThumbnail} alt="음악포스터" />
       <RoomWrapper>
         <div>
           <StyledCircle />
-          <Title>{title}</Title>
+          <div>
+            {roomTitle}
+            <br />
+            <span>{roomDescription}</span>
+          </div>
         </div>
         <Description>{description}</Description>
       </RoomWrapper>
