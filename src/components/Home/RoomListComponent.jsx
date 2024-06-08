@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import React from 'react';
 import { useQuery } from 'react-query';
-import axios from 'axios';
 import RoomComponent from './RoomComponent';
 import PlusComponent from './PlusComponent';
+import useApiRequest from '../../hooks/useApiRequest';
 
 const Container = styled.div`
   width: 1300px;
@@ -20,13 +20,21 @@ const ErrorContainer = styled.div`
   font-size: 1.5rem;
   color: orange;
 `;
-const fetchRooms = async () => {
-  const response = await axios.get('/list');
-  return response.data;
+const fetchRooms = async (apiRequest) => {
+  const response = await apiRequest({
+    method: 'GET',
+    url: '/rooms',
+    headers: {
+      Authorization: `${localStorage.getItem('token')}`,
+    },
+  });
+  return response.rooms;
 };
 function RoomListComponent({ openModal }) {
-  const { data: rooms, error, isLoading } = useQuery('rooms', fetchRooms);
+  const { apiRequest } = useApiRequest();
 
+  const { data, error, isLoading } = useQuery('rooms', () => fetchRooms(apiRequest));
+  const rooms = Array.isArray(data) ? data : [];
   if (isLoading) {
     return <LoadingContainer>로딩 중...</LoadingContainer>;
   }
