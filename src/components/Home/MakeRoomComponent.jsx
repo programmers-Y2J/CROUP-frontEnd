@@ -159,16 +159,12 @@ function MakeRoomComponent({ openModal }) {
   );
 
   const handleMakeRoom = async () => {
-    try {
-      await mutation.mutateAsync({
-        roomTitle,
-        roomDescription,
-        playListUrl: url,
-        playList,
-      });
-    } catch (error) {
-      console.error(error);
-    }
+    await mutation.mutateAsync({
+      roomTitle,
+      roomDescription,
+      playListUrl: url,
+      playList,
+    });
   };
 
   return (
