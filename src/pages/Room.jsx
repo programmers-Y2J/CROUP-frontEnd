@@ -1,13 +1,11 @@
 import { styled } from 'styled-components';
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
-
 import { useLocation, useParams } from 'react-router-dom';
 import { usePlayListStore, useRoomDataStore } from '../stores/Room/useRoomStore';
 
 import RoomDetail from '../components/Room/RoomDetail';
 import PlayList from '../components/Room/PlayList/PlayList';
 import UserContent from '../components/Room/UserContent';
+import useRoomQuery from '../hooks/useRoomQuery';
 
 const RoomContainer = styled.div`
   width: 1300px;
@@ -18,23 +16,13 @@ const RoomContainer = styled.div`
   gap: ${({ theme }) => theme.spacing.section};
 `;
 
-const getRoomData = async () => {
-  const result = await axios.get('/dummy/dummyRoomData.json');
-  // const result = await axios.get(`${process.env.REACT_APP_API_URL}/rooms/${roomId}`);
-  return result;
-};
-
 function Room() {
   const { roomId } = useParams();
+  const { data, isError, isSuccess } = useRoomQuery(roomId);
   const setPlayList = usePlayListStore((state) => state.setPlayList);
   const setRoomData = useRoomDataStore((state) => state.setRoomData);
+  const setRoomMemberCount = useRoomDataStore((state) => state.setRoomMemberCount);
   const location = useLocation();
-
-  const { data, isSuccess, isError } = useQuery({
-    queryKey: [`room`],
-    queryFn: () => getRoomData(roomId),
-    staleTime: Infinity,
-  });
 
   const roomDataObj = {
     roomId,
@@ -43,10 +31,12 @@ function Room() {
     description: 'description' || location.state.description,
   };
 
-  if (isError) console.log('get playlist error');
+  if (isError) console.log('get room error');
+
   if (isSuccess) {
     setPlayList(data.data.playList);
     setRoomData(roomDataObj);
+    setRoomMemberCount(data.data.roomMember.length);
 
     return (
       <RoomContainer>

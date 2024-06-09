@@ -1,9 +1,74 @@
 import { styled } from 'styled-components';
+import io from 'socket.io-client';
+import { useEffect, useRef, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
-// import { useState } from 'react';
 import Message from './Message';
+import { useRoomDataStore } from '../../../stores/Room/useRoomStore';
 
-// import { useRoomDataStore } from '../../../stores/Room/useRoomStore';
+const socket = io(process.env.REACT_APP_API_URL, { path: '/socket' });
+
+function Chat({ chats }) {
+  const { roomId } = useParams();
+  const setRoomMemberCount = useRoomDataStore((state) => state.setRoomMemberCount);
+  const [messages, setMessages] = useState(chats);
+  const [message, setMessage] = useState('');
+  const chatList = useRef();
+  const { userId, nickName } = localStorage.getItem('token');
+
+  useEffect(() => {
+    socket.emit('joinRoom', roomId, { nickName: '닉네임', userId: '유저 아이디' });
+    socket.on('updateUser', (users) => {
+      setRoomMemberCount(users.length);
+    });
+    socket.on('chat', (newMessage) => {
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
+    });
+
+    return () => {
+      socket.off('updateUser');
+      socket.off('chat');
+    };
+  }, [socket]);
+
+  useEffect(() => {
+    chatList.current.scrollTop = chatList.current.offsetTop;
+  }, [messages]);
+
+  const handleChangeInput = (event) => {
+    setMessage(event.target.value);
+  };
+
+  const handleSubmitMessage = (event) => {
+    event.preventDefault();
+    if (message.trim().length !== 0) {
+      const chatMessage = { userId, nickName, chat: message };
+      socket.emit('chat', chatMessage, roomId);
+      setMessage('');
+    }
+  };
+
+  return (
+    <ChatContainer>
+      <ChatList ref={chatList}>
+        {messages.map((messageItem) => {
+          return (
+            <Message
+              key={messageItem.userId}
+              userId={messageItem.userId}
+              user={messageItem.nickName}
+              message={messageItem.chat}
+            />
+          );
+        })}
+      </ChatList>
+      <MessageForm onSubmit={(event) => handleSubmitMessage(event)}>
+        <input type="text" placeholder="메세지를 입력해 주세요." onChange={handleChangeInput} value={message} />
+        <button type="submit">전송</button>
+      </MessageForm>
+    </ChatContainer>
+  );
+}
 
 const ChatContainer = styled.div`
   width: 250px;
@@ -46,57 +111,5 @@ const MessageForm = styled.form`
     font-weight: ${({ theme }) => theme.fontWeight.semiBold};
   }
 `;
-
-// 사용자 판별 후 message 디자인 변경 해야함.
-
-function Chat({ chats }) {
-  // const { roomId } = useRoomDataStore((state) => state.roomData);
-  // const [messages, setMessages] = useState(chats);
-  // const [currentMembers, setCurrentMembers] = useState(roomMember);
-  // const [message, setMessage] = useState('');
-
-  // useEffect(() => {
-  //   socket.emit('joinRoom', roomId, { nickName: '닉네임', userId: '유저 아이디' });
-  //   socket.on('updateUser', (users) => {
-  //     setCurrentMembers(users);
-  //   });
-  //   socket.on('chat', (newMessage) => {
-  //     setMessages((prevMessages) => [...prevMessages, newMessage]);
-  //   });
-
-  //   return () => {
-  //     socket.off('updateUser');
-  //     socket.off('chat');
-  //   };
-  // }, []);
-
-  // const handleChangeInput = (event) => {
-  //   setMessage(event.target.value);
-  // };
-
-  // const handleSendMessage = () => {
-  //   if (message.trim().length !== 0) {
-  //     // localStorage의 jwt의 유저 정보로 변경해야됨.
-  //     const chatMessage = { userId: 'userId', nickName: 'nickName', chat: 'chat' };
-  //     // socket.emit('chat', chatMessage, roomId);
-  //     setMessages((prevMessage) => [...prevMessage, { ...chatMessage }]);
-  //     setMessage('');
-  //   }
-  // };
-
-  return (
-    <ChatContainer>
-      <ChatList>
-        {chats.map((chat) => {
-          return <Message key={chat.userId} userId={chat.userId} user={chat.nickName} message={chat.chat} />;
-        })}
-      </ChatList>
-      <MessageForm>
-        <input type="text" placeholder="메세지를 입력해 주세요." />
-        <button type="submit">전송</button>
-      </MessageForm>
-    </ChatContainer>
-  );
-}
 
 export default Chat;

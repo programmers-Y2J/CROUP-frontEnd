@@ -1,11 +1,69 @@
 import { styled } from 'styled-components';
-// import { useNavigate } from 'react-router-dom';
 import ReactPlayer from 'react-player';
 import { useEffect } from 'react';
-import { BsPlayFill } from 'react-icons/bs';
+import { BsPlayFill, BsPauseFill } from 'react-icons/bs';
 import { useCurrentMusicStore, usePlayListStore } from '../../stores/Room/useRoomStore';
 
 import userProfile from '../../assets/images/example-profile.svg';
+
+function RoomDetail() {
+  const playList = usePlayListStore((state) => state.playList);
+  const { currentMusic, setCurrentMusic, isPlaying, setIsPlaying } = useCurrentMusicStore();
+
+  const firstSong = { title: playList[0].musicTitle, videoId: playList[0].videoId };
+
+  useEffect(() => {
+    setCurrentMusic(firstSong);
+  }, []);
+
+  const handleOnEnded = () => {
+    let nextMusic = 0;
+    const currentMusicIndex = playList.findIndex((music) => music.videoId === currentMusic.videoId);
+
+    if (currentMusicIndex === playList.length - 1) [nextMusic] = playList;
+    else nextMusic = playList[currentMusicIndex + 1];
+
+    setCurrentMusic({ title: nextMusic.musicTitle, videoId: nextMusic.videoId });
+    setIsPlaying(true);
+  };
+
+  const handlePlayButtonClick = () => {
+    setIsPlaying(!isPlaying);
+  };
+  return (
+    <RoomDetailContainer>
+      <RoomDetailWrapper>
+        <RoomDescriptionWrapper>
+          <h1>Room Title</h1>
+          <p>
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+            industrys standard dummy text ever since the 1500s
+          </p>
+        </RoomDescriptionWrapper>
+        <UserProfileWrapper>
+          <img src={userProfile} alt="user profile" />
+          <h4>sebell</h4>
+          <h5>참가인원 999</h5>
+        </UserProfileWrapper>
+        <MusicPlayerWrapper>
+          <MusicPlayButtonWrapper onClick={handlePlayButtonClick}>
+            {!isPlaying && <BsPlayFill className="play-button" />}
+            {isPlaying && <BsPauseFill className="play-button" />}
+          </MusicPlayButtonWrapper>
+          <CurrentMusicWrapper>
+            <p>{currentMusic.title}</p>
+          </CurrentMusicWrapper>
+        </MusicPlayerWrapper>
+      </RoomDetailWrapper>
+      <ReactPlayer
+        style={{ borderRadius: '30px' }}
+        url={`https://www.youtube.com/watch?v=${currentMusic.videoId}`}
+        playing={isPlaying}
+        onEnded={handleOnEnded}
+      />
+    </RoomDetailContainer>
+  );
+}
 
 const RoomDetailContainer = styled.div`
   display: flex;
@@ -96,70 +154,5 @@ const CurrentMusicWrapper = styled.div`
     font-weight: ${({ theme }) => theme.fontWeight.bold};
   }
 `;
-
-function RoomDetail() {
-  const playList = usePlayListStore((state) => state.playList);
-  // const roomData = useRoomDataStore((state) => state.roomData);
-  const { currentMusic, setCurrentMusic, isPlaying, setIsPlaying } = useCurrentMusicStore();
-  // const navigate = useNavigate();
-
-  // const thumbnail = playList[0].musicThumbnail;
-  const firstSong = { title: playList[0].musicTitle, videoId: playList[0].videoId };
-
-  useEffect(() => {
-    setCurrentMusic(firstSong);
-  }, []);
-
-  const handleOnEnded = () => {
-    let nextMusic = 0;
-    const currentMusicIndex = playList.findIndex((music) => music.videoId === currentMusic.videoId);
-
-    if (currentMusicIndex === playList.length - 1) [nextMusic] = playList;
-    else nextMusic = playList[currentMusicIndex + 1];
-
-    setCurrentMusic({ title: nextMusic.musciTitle, videoId: nextMusic.videoId });
-    setIsPlaying(true);
-  };
-
-  // const handleRoomOutClick = () => {
-  //   navigate('/');
-  // };
-
-  // const handlePlayButtonClick = () => {
-  //   setIsPlaying(!isPlaying);
-  // };
-  return (
-    <RoomDetailContainer>
-      <RoomDetailWrapper>
-        <RoomDescriptionWrapper>
-          <h1>Room Title</h1>
-          <p>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-            industrys standard dummy text ever since the 1500s
-          </p>
-        </RoomDescriptionWrapper>
-        <UserProfileWrapper>
-          <img src={userProfile} alt="user profile" />
-          <h4>sebell</h4>
-          <h5>참가인원 999</h5>
-        </UserProfileWrapper>
-        <MusicPlayerWrapper>
-          <MusicPlayButtonWrapper>
-            <BsPlayFill className="play-button" />
-          </MusicPlayButtonWrapper>
-          <CurrentMusicWrapper>
-            <p>Arctic Monkeys - I Wanna Be yours</p>
-          </CurrentMusicWrapper>
-        </MusicPlayerWrapper>
-      </RoomDetailWrapper>
-      <ReactPlayer
-        style={{ borderRadius: '30px' }}
-        url="https://www.youtube.com/watch?v=SDTZ7iX4vTQ"
-        playing={isPlaying}
-        onEnded={handleOnEnded}
-      />
-    </RoomDetailContainer>
-  );
-}
 
 export default RoomDetail;

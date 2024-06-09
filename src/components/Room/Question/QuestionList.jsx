@@ -1,9 +1,7 @@
 import { styled } from 'styled-components';
-import axios from 'axios';
-import { useQuery } from '@tanstack/react-query';
-
-import { useRoomDataStore } from '../../../stores/Room/useRoomStore';
+import { useParams } from 'react-router-dom';
 import QuestionListItem from './QuestionListItem';
+import useQuestionsQuery from '../../../hooks/useQuestionsQuery';
 
 const QuestionListContainer = styled.ul`
   width: 100%;
@@ -11,19 +9,9 @@ const QuestionListContainer = styled.ul`
   gap: 40px;
 `;
 
-const getQuestionList = async () => {
-  // const list = await axios.get(`${process.env.REACT_APP_API_URL}/rooms/${roomId}/question`);
-  const list = await axios.get(`/dummy/dummyQuestionData.json`);
-
-  return list;
-};
 function QuestionList() {
-  const { roomId } = useRoomDataStore((state) => state.roomData);
-  const { data, isSuccess, isError } = useQuery({
-    queryKey: [`question-${roomId}`],
-    queryFn: () => getQuestionList(roomId),
-    staleTime: 20000,
-  });
+  const { roomId } = useParams();
+  const { data, isSuccess, isError } = useQuestionsQuery(roomId);
 
   if (isError) console.log('QuestionList error');
   if (isSuccess) {
@@ -35,7 +23,7 @@ function QuestionList() {
               key={questionItem.questionId}
               questionId={questionItem.questionId}
               title={questionItem.title}
-              userName={questionItem.userName}
+              userName={questionItem.nickName}
               content={questionItem.content}
             />
           );

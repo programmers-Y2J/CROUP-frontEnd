@@ -23,7 +23,7 @@ const MessageContainer = styled.li`
 `;
 
 function Message({ user, userId, message }) {
-  const currentUser = localStorage.getItem('userId');
+  const currentUser = localStorage.getItem('token').useId;
   const isMine = currentUser === userId;
   return (
     <MessageContainer $isMine={isMine}>

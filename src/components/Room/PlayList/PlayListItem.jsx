@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { keyframes, styled } from 'styled-components';
-// import { useCurrentMusicStore } from '../../../stores/Room/useRoomStore';
+import { useCurrentMusicStore } from '../../../stores/Room/useRoomStore';
 
 const AppearAnimation = keyframes`
   from {
@@ -49,6 +49,7 @@ const PlayListItemBar = styled.div`
     border-radius: 100px;
     font-size: ${({ theme }) => theme.fontSize.small};
     font-weight: ${({ theme }) => theme.fontWeight.semiBold};
+    color: ${({ theme }) => theme.color.black};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -91,16 +92,21 @@ const PlayListItemDetail = styled.div`
   }
 `;
 
-function PlayListItem({ title, index, imgSrc, channel }) {
+function PlayListItem({ title, index, imgSrc, channel, videoId }) {
   const [isMouseOver, setIsMouseOver] = useState(false);
   const order = index + 1;
-  // const setCurrentMusic = useCurrentMusicStore((state) => state.setCurrentMusic);
-  // const setIsPlaying = useCurrentMusicStore((state) => state.setIsPlaying);
+  const { setCurrentMusic, setIsPlaying, currentMusic } = useCurrentMusicStore((state) => ({
+    setCurrentMusic: state.setCurrentMusic,
+    setIsPlaying: state.setIsPlaying,
+    currentMusic: state.currentMusic,
+  }));
 
-  // const handleItemClick = () => {
-  //   setCurrentMusic({ title, videoId });
-  //   setIsPlaying(true);
-  // };
+  const isMatch = videoId === currentMusic.videoId;
+
+  const handleItemClick = () => {
+    setCurrentMusic({ title, videoId });
+    setIsPlaying(true);
+  };
 
   const handleMouseOver = () => {
     setIsMouseOver(true);
@@ -111,15 +117,15 @@ function PlayListItem({ title, index, imgSrc, channel }) {
   };
 
   return (
-    <PlayListItemContainer onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave}>
-      {isMouseOver ? (
+    <PlayListItemContainer onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave} onClick={handleItemClick}>
+      {isMouseOver || isMatch ? (
         <PlayListItemDetail>
           <img src={imgSrc} alt="video thumbnail" />
           <h4>{title}</h4>
           <h5>{channel}</h5>
         </PlayListItemDetail>
       ) : (
-        <PlayListItemBar>
+        <PlayListItemBar isMatch={isMatch}>
           <h5>{title}</h5>
           <span>{order < 10 ? `0${order}` : order}</span>
         </PlayListItemBar>

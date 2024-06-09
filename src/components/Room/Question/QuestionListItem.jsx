@@ -2,6 +2,21 @@ import { styled } from 'styled-components';
 
 import { useNavigate } from 'react-router-dom';
 
+function QuestionListItem({ questionId, title, userName, content }) {
+  const navigate = useNavigate();
+
+  const handleClickPost = () => {
+    navigate(`questions/${questionId}`);
+  };
+  return (
+    <QuestionListItemContainer onClick={handleClickPost}>
+      <h4>{title}</h4>
+      <p>{content}</p>
+      <h5>{userName}</h5>
+    </QuestionListItemContainer>
+  );
+}
+
 const QuestionListItemContainer = styled.li`
   width: 180px;
   height: 100px;
@@ -39,20 +54,5 @@ const QuestionListItemContainer = styled.li`
     font-weight: ${({ theme }) => theme.fontWeight.medium};
   }
 `;
-
-function QuestionListItem({ questionId, title, userName, content }) {
-  const navigate = useNavigate();
-
-  const handleClickPost = () => {
-    navigate(`questions/${questionId}`);
-  };
-  return (
-    <QuestionListItemContainer onClick={handleClickPost}>
-      <h4>{title}</h4>
-      <p>{content}</p>
-      <h5>{userName}</h5>
-    </QuestionListItemContainer>
-  );
-}
 
 export default QuestionListItem;
