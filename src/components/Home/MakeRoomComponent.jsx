@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { useMutation } from 'react-query';
+import { useQuery, useMutation } from 'react-query';
 import RoomComponent from './RoomComponent';
 import useApiRequest from '../../hooks/useApiRequest';
 
@@ -88,6 +88,24 @@ const extractPlaylistID = (url) => {
   return match ? match[1] : null;
 };
 
+const fetchPlaylist = async (url) => {
+  const playlistId = extractPlaylistID(url);
+  const response = await axios.get('https://www.googleapis.com/youtube/v3/playlistItems', {
+    params: {
+      part: 'snippet',
+      playlistId,
+      key: process.env.REACT_APP_YOUTUBE_API,
+    },
+    withCredentials: false,
+  });
+  return response.data.items.map((item) => ({
+    musicChannelTitle: item.snippet.channelId,
+    musicTitle: item.snippet.description,
+    musicThumbnail: item.snippet.thumbnails.standard.url,
+    videoId: item.snippet.resourceId.videoId,
+  }));
+};
+
 function MakeRoomComponent({ openModal }) {
   const [roomTitle, setRoomTitle] = useState('');
   const [roomDescription, setRoomDescription] = useState('');
@@ -106,32 +124,20 @@ function MakeRoomComponent({ openModal }) {
     setUrl(e.target.value);
   };
 
+  const { refetch: refetchPlaylist } = useQuery(['playlist', url], () => fetchPlaylist(url), {
+    enabled: false,
+    onSuccess: (data) => {
+      setPlayList(data);
+    },
+    onError: (fetchError) => {
+      console.error(fetchError);
+      alert('플레이리스트를 불러오지 못했습니다.');
+      setPlayList([]);
+    },
+  });
+
   const handleUrlConfirm = () => {
-    axios
-      .get('https://www.googleapis.com/youtube/v3/playlistItems', {
-        params: {
-          part: 'snippet',
-          playlistId: extractPlaylistID(url),
-          key: process.env.REACT_APP_YOUTUBE_API,
-        },
-        withCredentials: false,
-      })
-      .then((res) => {
-        setPlayList(
-          res.data.items.map((item) => ({
-            musicChannelTitle: item.snippet.channelId,
-            musicTitle: item.snippet.description,
-            musicThumbnail: item.snippet.thumbnails.standard.url,
-            videoId: item.snippet.resourceId.videoId,
-          })),
-        );
-        console.log(res);
-      })
-      .catch((error) => {
-        console.error(error);
-        alert('플레이리스트를 불러오지 못했습니다.');
-        setPlayList([]);
-      });
+    refetchPlaylist();
   };
 
   const mutation = useMutation(
@@ -151,9 +157,9 @@ function MakeRoomComponent({ openModal }) {
         openModal();
         console.log(data);
       },
-      onError: (error) => {
+      onError: (mutationError) => {
         alert('방 생성에 실패했습니다');
-        console.error(error);
+        console.error(mutationError);
       },
     },
   );
