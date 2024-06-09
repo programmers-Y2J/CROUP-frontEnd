@@ -91,6 +91,7 @@ function RoomComponent({ roomTitle, roomDescription, roomThumbnail, roomId }) {
       });
     } else {
       console.error('토큰이 없습니다.');
+      navigate('/');
     }
   };
 
