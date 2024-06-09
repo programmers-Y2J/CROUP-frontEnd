@@ -82,11 +82,11 @@ const UrlWrapper = styled.div`
   }
 `;
 
-function extractPlaylistID(url) {
+const extractPlaylistID = (url) => {
   const regex = /[&?]list=([^&]+)/;
   const match = url.match(regex);
   return match ? match[1] : null;
-}
+};
 
 function MakeRoomComponent({ openModal }) {
   const [roomTitle, setRoomTitle] = useState('');
