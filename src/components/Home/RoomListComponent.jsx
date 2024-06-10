@@ -12,10 +12,6 @@ const Container = styled.div`
   justify-content: center;
   flex-wrap: wrap;
 `;
-const LoadingContainer = styled.div`
-  margin-bottom: 50px;
-  font-size: 2rem;
-`;
 
 const fetchRooms = async (apiRequest) => {
   const response = await apiRequest({
@@ -30,11 +26,8 @@ const fetchRooms = async (apiRequest) => {
 function RoomListComponent({ openModal }) {
   const { apiRequest } = useApiRequest();
   const navigate = useNavigate();
-  const { data, error, isLoading } = useQuery('rooms', () => fetchRooms(apiRequest));
+  const { data, error } = useQuery('rooms', () => fetchRooms(apiRequest));
   const rooms = Array.isArray(data) ? data : [];
-  if (isLoading) {
-    return <LoadingContainer>로딩 중...</LoadingContainer>;
-  }
 
   if (error) {
     navigate('/login');
