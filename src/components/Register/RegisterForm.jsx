@@ -6,36 +6,30 @@ import Input from '../Member/Input';
 import Validtion from '../Member/Validation';
 import useApiRequest from '../../hooks/useApiRequest';
 
-const LoginFormContainer = styled.div`
-  width: 50vw;
-  height: 100vh;
+const RegisterFormContainer = styled.div`
+  margin-left: 260px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 100px;
 `;
 
-const LoginFormWrapper = styled.form`
-  text-align: center;
-  > h1 {
+const RegisterFormWrapper = styled.form`
+  > p {
     text-align: left;
+    font-size: ${({ theme }) => theme.fontSize.subTitle};
+    font-weight: ${({ theme }) => theme.fontWeight.bold};
   }
   > button {
-    width: 85px;
-    height: 35px;
-    border-radius: 30px;
-    color: #cccccc;
-    background-color: white;
-    font-weight: bold;
-    border: 1px solid #cccccc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 0;
-    margin-top: 10px;
+    width: 100px;
+    height: 25px;
+    border-radius: 80px;
+    color: ${({ theme }) => theme.color.white};
+    background-color: ${({ theme }) => theme.color.primary};
+    font-weight: ${({ theme }) => theme.fontWeight.bold};
+    margin-top: ${({ theme }) => theme.spacing.large};
   }
   > input {
-    margin-top: 30px;
+    margin-top: ${({ theme }) => theme.spacing.large};
   }
 `;
 
@@ -58,7 +52,7 @@ const validateNickName = (inputNickName) => {
   return regex.test(inputNickName);
 };
 
-function LoginForm() {
+function RegisterForm() {
   const navigate = useNavigate();
   const { apiRequest } = useApiRequest();
 
@@ -140,9 +134,9 @@ function LoginForm() {
   };
 
   return (
-    <LoginFormContainer>
-      <LoginFormWrapper onSubmit={handleSubmit}>
-        <h1>회원가입</h1>
+    <RegisterFormContainer>
+      <RegisterFormWrapper onSubmit={handleSubmit}>
+        <p>회원가입</p>
         <Input placeholder="email" type="email" value={email} onChange={handleEmailChange} />
         {errors.email && <Validtion text={errors.email} />}
         <Input placeholder="password" type="password" value={password} onChange={handlePasswordChange} />
@@ -152,9 +146,9 @@ function LoginForm() {
         <Input placeholder="Nickname" type="text" value={nickName} onChange={handleNicknameChange} />
         {errors.nickName && <Validtion text={errors.nickName} />}
         <button type="submit">Sign Up</button>
-      </LoginFormWrapper>
-    </LoginFormContainer>
+      </RegisterFormWrapper>
+    </RegisterFormContainer>
   );
 }
 
-export default LoginForm;
+export default RegisterForm;

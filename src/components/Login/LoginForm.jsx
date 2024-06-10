@@ -129,7 +129,7 @@ function LoginForm() {
         {errors.email && <Validtion text={errors.email} />}
         <Input placeholder="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         {errors.password && <Validtion text={errors.password} />}
-        <button type="submit">Login</button>
+        <button type="submit">LogIn</button>
         <RegisterBtnWrapper>
           비밀번호를 잊으셨나요? |{' '}
           <button type="button" onClick={handleRegisterClick}>
