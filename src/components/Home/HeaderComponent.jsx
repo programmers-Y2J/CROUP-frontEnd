@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { useMutation } from 'react-query';
-import axios from 'axios';
 
 const HeaderContainer = styled.div`
   width: 1300px;
@@ -72,37 +70,18 @@ function HeaderComponent() {
     } else {
       setIsLoggedIn(false);
     }
-  }, [useNavigate]);
+  }, []);
   const navigate = useNavigate();
 
   const handleLoginClick = () => {
     navigate('/login');
   };
 
-  const mutation = useMutation(async () => {
-    const token = localStorage.getItem('token');
-    const response = await axios.post(
-      `${process.env.REACT_APP_BASE_URL}/auth/logout`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      },
-    );
-    return response.data;
-  });
-  const handleLogoutClick = async () => {
-    try {
-      await mutation.mutateAsync();
-      localStorage.removeItem('token');
-      setIsLoggedIn(false);
-      alert('로그아웃 했습니다.');
-      navigate('/login');
-    } catch (error) {
-      alert('로그아웃에 실패했습니다.');
-      console.error('Logout failed:', error);
-    }
+  const handleLogoutClick = () => {
+    localStorage.removeItem('token');
+    setIsLoggedIn(false);
+    alert('로그아웃 했습니다.');
+    navigate('/login');
   };
   return (
     <HeaderContainer>

@@ -1,77 +1,113 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import { useMutation } from 'react-query';
+import { RxEnter } from 'react-icons/rx';
 import { RiCheckboxBlankCircleFill } from 'react-icons/ri';
 import { BsFileEarmarkMusicFill } from 'react-icons/bs';
+import useApiRequest from '../../hooks/useApiRequest';
 
 const Container = styled.div`
-  width: 30%;
+  width: 300px;
   margin: 16px;
   border-radius: 30px;
   border: 1px solid #d9d9d9;
+  height: 500px;
   > img {
-    max-width: 100%;
     width: 100%;
-    max-height: 70%;
     border-top-right-radius: 30px;
     border-top-left-radius: 30px;
   }
 `;
 
 const RoomWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
   padding: 20px;
-  align-items: flex-start;
-  > div {
+  display: flex;
+  margin-top: 20px;
+  justify-content: space-between;
+  align-items: center;
+  :nth-child(1) {
     display: flex;
+    justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
-    width: 100%;
   }
 `;
 
-const StyledBsFileEarmarkMusicFill = styled(BsFileEarmarkMusicFill)`
+const TitleDescriptionWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
   max-width: 100%;
+  div {
+    margin-left: 8px;
+  }
+`;
+
+const StyledRiCheckboxBlankCircleFill = styled(RiCheckboxBlankCircleFill)`
+  font-size: 45px;
+  color: #d9d9d9;
+`;
+
+const StyledRxEnter = styled(RxEnter)`
+  font-size: 45px;
+  color: #d9d9d9;
+`;
+
+const StyledBsFileEarmarkMusicFill = styled(BsFileEarmarkMusicFill)`
   width: 100%;
-  max-height: 40%;
-  font-size: 150px;
-  margin-top: 20px;
+  height: auto;
+
   border-top-right-radius: 30px;
   border-top-left-radius: 30px;
 `;
 
-const StyledCircle = styled(RiCheckboxBlankCircleFill)`
-  font-size: 2.5rem;
-  color: #d1d1d1;
-  margin-right: 15px;
-`;
+function RoomComponent({ roomTitle, roomDescription, roomThumbnail, roomId }) {
+  const navigate = useNavigate();
+  const { apiRequest } = useApiRequest();
+  const mutation = useMutation(apiRequest, {
+    onSuccess: (data) => {
+      console.log('POST 요청 성공:', data);
+      navigate(`/room/${roomId}`, {
+        state: {
+          roomTitle,
+          roomDescription,
+          roomThumbnail,
+        },
+      });
+    },
+    onError: (error) => {
+      console.error('POST 요청 실패:', error);
+    },
+  });
+  const enterRoom = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      mutation.mutate({
+        method: 'post',
+        url: `/rooms/${roomId}`,
+        data: null,
+        headers: { Authorization: `${token}` },
+      });
+    } else {
+      console.error('토큰이 없습니다.');
+      navigate('/');
+    }
+  };
 
-const Title = styled.div`
-  white-space: normal;
-  flex: 1;
-  overflow-wrap: break-word;
-  word-break: break-word;
-`;
-
-const Description = styled.span`
-  white-space: normal;
-  overflow-wrap: break-word;
-  word-break: break-word;
-  margin-top: 10px;
-  font-size: 0.8rem;
-  color: #7c7b7b;
-`;
-
-function RoomComponent({ posterPath, title, description }) {
   return (
-    <Container>
-      {posterPath === '' ? <StyledBsFileEarmarkMusicFill /> : <img src={posterPath} alt="음악포스터" />}
+    <Container onClick={enterRoom}>
+      {roomThumbnail ? <img src={roomThumbnail} alt="음악포스터" /> : <StyledBsFileEarmarkMusicFill />}
       <RoomWrapper>
-        <div>
-          <StyledCircle />
-          <Title>{title}</Title>
-        </div>
-        <Description>{description}</Description>
+        <TitleDescriptionWrapper>
+          <StyledRiCheckboxBlankCircleFill />
+          <div>
+            <h2>{roomTitle}</h2>
+            <p>{roomDescription}</p>
+          </div>
+        </TitleDescriptionWrapper>
+
+        <StyledRxEnter />
       </RoomWrapper>
     </Container>
   );
