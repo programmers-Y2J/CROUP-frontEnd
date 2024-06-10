@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { useMutation } from 'react-query';
+import { useQuery, useMutation } from 'react-query';
 import RoomComponent from './RoomComponent';
 import useApiRequest from '../../hooks/useApiRequest';
 
@@ -11,7 +11,7 @@ const Container = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
-  height: 45vh;
+  height: 450px;
   width: 50vw;
   border-radius: 20px;
   display: flex;
@@ -82,49 +82,62 @@ const UrlWrapper = styled.div`
   }
 `;
 
+const extractPlaylistID = (url) => {
+  const regex = /[&?]list=([^&]+)/;
+  const match = url.match(regex);
+  return match ? match[1] : null;
+};
+
+const fetchPlaylist = async (url) => {
+  const playlistId = extractPlaylistID(url);
+  const response = await axios.get('https://www.googleapis.com/youtube/v3/playlistItems', {
+    params: {
+      part: 'snippet',
+      playlistId,
+      key: process.env.REACT_APP_YOUTUBE_API,
+    },
+    withCredentials: false,
+  });
+  return response.data.items.map((item) => ({
+    musicChannelTitle: item.snippet.channelId,
+    musicTitle: item.snippet.description,
+    musicThumbnail: item.snippet.thumbnails.standard.url,
+    videoId: item.snippet.resourceId.videoId,
+  }));
+};
+
 function MakeRoomComponent({ openModal }) {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [roomTitle, setRoomTitle] = useState('');
+  const [roomDescription, setRoomDescription] = useState('');
   const [url, setUrl] = useState('');
   const [playList, setPlayList] = useState([]);
 
   const { apiRequest } = useApiRequest();
 
   const handleTitleChange = (e) => {
-    setTitle(e.target.value);
+    setRoomTitle(e.target.value);
   };
   const handleDescriptionChange = (e) => {
-    setDescription(e.target.value);
+    setRoomDescription(e.target.value);
   };
   const handleUrlChange = (e) => {
     setUrl(e.target.value);
   };
 
+  const { refetch: refetchPlaylist } = useQuery(['playlist', url], () => fetchPlaylist(url), {
+    enabled: false,
+    onSuccess: (data) => {
+      setPlayList(data);
+    },
+    onError: (fetchError) => {
+      console.error(fetchError);
+      alert('플레이리스트를 불러오지 못했습니다.');
+      setPlayList([]);
+    },
+  });
+
   const handleUrlConfirm = () => {
-    axios
-      .get('https://www.googleapis.com/youtube/v3/playlistItems', {
-        params: {
-          part: 'snippet',
-          playlistId: url,
-          key: process.env.REACT_APP_YOUTUBE_API,
-        },
-      })
-      .then((res) => {
-        setPlayList(
-          res.data.items.map((item) => ({
-            channel: item.snippet.channelId,
-            title: item.snippet.description,
-            thumbnailUrl: item.snippet.thumbnails.standard.url,
-            videoId: item.snippet.resourceId.videoId,
-          })),
-        );
-        console.log(res);
-      })
-      .catch((error) => {
-        console.error(error);
-        alert('플레이리스트를 불러오지 못했습니다.');
-        setPlayList([]);
-      });
+    refetchPlaylist();
   };
 
   const mutation = useMutation(
@@ -134,32 +147,30 @@ function MakeRoomComponent({ openModal }) {
         url: '/rooms',
         data,
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+          Authorization: `${localStorage.getItem('token')}`,
         },
       }),
     {
       onSuccess: (data) => {
         alert('방이 생성되었습니다');
+        openModal();
         console.log(data);
       },
-      onError: (error) => {
+      onError: (mutationError) => {
         alert('방 생성에 실패했습니다');
-        console.error(error);
+        console.error(mutationError);
       },
     },
   );
 
   const handleMakeRoom = async () => {
-    try {
-      await mutation.mutateAsync({
-        title,
-        description,
-        playListUrl: url,
-        playList,
-      });
-    } catch (error) {
-      console.error(error);
-    }
+    await mutation.mutateAsync({
+      roomTitle,
+      roomDescription,
+      playListUrl: url,
+      playList,
+    });
   };
 
   return (
@@ -169,9 +180,9 @@ function MakeRoomComponent({ openModal }) {
       </button>
       <MakeWrapper>
         방제목
-        <input placeholder="제목을 입력해 주세요" value={title} onChange={handleTitleChange} />
+        <input placeholder="제목을 입력해 주세요" value={roomTitle} onChange={handleTitleChange} />
         설명
-        <input placeholder="설명을 입력해 주세요" value={description} onChange={handleDescriptionChange} />
+        <input placeholder="설명을 입력해 주세요" value={roomDescription} onChange={handleDescriptionChange} />
         재생목록 url
         <UrlWrapper>
           <input placeholder="Youtube 재생목록 주소(url)을 입력해주세요" value={url} onChange={handleUrlChange} />
@@ -184,9 +195,9 @@ function MakeRoomComponent({ openModal }) {
         </button>
       </MakeWrapper>
       <RoomComponent
-        title={title === '' ? 'title을 입력하세요' : title}
-        description={description === '' ? 'description을 입력하세요' : description}
-        posterPath={playList.length === 0 ? '' : playList[0].thumbnailUrl}
+        roomTitle={roomTitle === '' ? 'title' : roomTitle}
+        roomDescription={roomDescription === '' ? 'description' : roomDescription}
+        roomThumbnail={playList.length === 0 ? '' : playList[0].musicThumbnail}
       />
     </Container>
   );
