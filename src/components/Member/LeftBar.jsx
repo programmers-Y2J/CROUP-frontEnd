@@ -3,23 +3,22 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const SideContainer = styled.div`
-  width: 50vw;
-  display: flex;
-  justify-content: left;
-  align-items: center;
+  margin-left: 200px;
+  margin-top: 100px;
+  width: 600px;
+  height: 550px;
+  background-color: ${({ theme }) => theme.color.primary};
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
 `;
 const TextWrapper = styled.div`
-  background-color: #00b3ff;
-  height: 55vh;
-  width: 40vw;
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
-  font-size: 25px;
-  font-weight: 900;
-  padding-left: 40px;
-  padding-top: 50px;
+  padding-top: 90px;
+  padding-left: 60px;
+  line-height: 1.2;
+  font-size: ${({ theme }) => theme.fontSize.subTitle};
+  font-weight: ${({ theme }) => theme.fontWeight.extraBold};
   & div:first-child {
-    font-size: 50px;
+    font-size: ${({ theme }) => theme.fontSize.title};
   }
 `;
 function LeftBar({ text }) {

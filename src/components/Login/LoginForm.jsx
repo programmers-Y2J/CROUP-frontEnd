@@ -7,45 +7,45 @@ import Validtion from '../Member/Validation';
 import useApiRequest from '../../hooks/useApiRequest';
 
 const LoginFormContainer = styled.div`
-  width: 50vw;
-  height: 100vh;
+  margin-left: 260px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 100px;
 `;
 
 const LoginFormWrapper = styled.form`
   text-align: center;
-  > h1 {
+  > p {
     text-align: left;
+    font-size: ${({ theme }) => theme.fontSize.subTitle};
+    font-weight: ${({ theme }) => theme.fontWeight.bold};
   }
   > button {
-    width: 85px;
-    height: 35px;
-    border-radius: 30px;
-    color: white;
-    background-color: #04314d;
-    font-weight: bold;
-    margin-top: 30px;
+    width: 100px;
+    height: 25px;
+    border-radius: 80px;
+    color: ${({ theme }) => theme.color.white};
+    background-color: ${({ theme }) => theme.color.primary};
+    font-weight: ${({ theme }) => theme.fontWeight.bold};
+    margin-top: ${({ theme }) => theme.spacing.large};
   }
   > input {
-    margin-top: 30px;
+    margin-top: ${({ theme }) => theme.spacing.large};
   }
 `;
 
 const RegisterBtnWrapper = styled.pre`
-  margin-top: 30px;
-  font-size: 0.6rem;
-  font-weight: bold;
-  color: #00b3ff;
+  margin-top: ${({ theme }) => theme.spacing.large};
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
+  color: ${({ theme }) => theme.color.primary};
+  font-size: 10px;
   > button {
-    color: black;
+    cursor: pointer;
     background-color: none;
     background: none;
-    font-size: 0.55rem;
-    font-weight: bold;
-    cursor: pointer;
+    font-size: 10px;
+    color: ${({ theme }) => theme.color.black};
+    font-weight: ${({ theme }) => theme.fontWeight.medium};
   }
 `;
 
@@ -124,7 +124,7 @@ function LoginForm() {
   return (
     <LoginFormContainer>
       <LoginFormWrapper onSubmit={handleSubmit}>
-        <h1>Croup</h1>
+        <p>Croup</p>
         <Input placeholder="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
         {errors.email && <Validtion text={errors.email} />}
         <Input placeholder="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import React from 'react';
 import { useQuery } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import RoomComponent from './RoomComponent';
 import PlusComponent from './PlusComponent';
 import useApiRequest from '../../hooks/useApiRequest';
@@ -16,11 +17,6 @@ const LoadingContainer = styled.div`
   font-size: 2rem;
 `;
 
-const ErrorContainer = styled.div`
-  margin-bottom: 50px;
-  font-size: 1.5rem;
-  color: orange;
-`;
 const fetchRooms = async (apiRequest) => {
   const response = await apiRequest({
     method: 'GET',
@@ -33,7 +29,7 @@ const fetchRooms = async (apiRequest) => {
 };
 function RoomListComponent({ openModal }) {
   const { apiRequest } = useApiRequest();
-
+  const navigate = useNavigate();
   const { data, error, isLoading } = useQuery('rooms', () => fetchRooms(apiRequest));
   const rooms = Array.isArray(data) ? data : [];
   if (isLoading) {
@@ -41,7 +37,7 @@ function RoomListComponent({ openModal }) {
   }
 
   if (error) {
-    return <ErrorContainer>방 리스트를 불러오는 중 오류가 발생했습니다.</ErrorContainer>;
+    navigate('/login');
   }
 
   return (
