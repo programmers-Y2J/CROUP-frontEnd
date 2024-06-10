@@ -9,6 +9,14 @@ import Register from '../pages/Register';
 
 const router = createBrowserRouter([
   {
+    path: 'login',
+    element: <Login />,
+  },
+  {
+    path: '/register',
+    element: <Register />,
+  },
+  {
     path: '/',
     element: <Layout />,
     children: [
@@ -16,14 +24,7 @@ const router = createBrowserRouter([
         path: '/',
         element: <Home />,
       },
-      {
-        path: 'login',
-        element: <Login />,
-      },
-      {
-        path: '/register',
-        element: <Register />,
-      },
+
       {
         path: 'rooms/:roomId',
         element: <Room />,
