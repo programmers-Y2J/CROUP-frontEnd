@@ -11,8 +11,12 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
   font-size: ${({ theme }) => theme.fontSize.title};
   color: ${({ theme }) => theme.color.placeholder};
+  &:hover {
+    border-color: ${({ theme }) => theme.color.primary};
+  }
 `;
 function PlusComponent({ openModal }) {
   return (

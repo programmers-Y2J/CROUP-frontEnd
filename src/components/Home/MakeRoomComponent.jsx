@@ -103,6 +103,7 @@ const fetchPlaylist = async (url) => {
     },
     withCredentials: false,
   });
+  console.log(response.data.items);
   return response.data.items.map((item) => ({
     musicChannelTitle: item.snippet.channelId,
     musicTitle: item.snippet.description,
@@ -132,6 +133,7 @@ function MakeRoomComponent({ openModal }) {
   const { refetch: refetchPlaylist } = useQuery(['playlist', url], () => fetchPlaylist(url), {
     enabled: false,
     onSuccess: (data) => {
+      console.log(data);
       setPlayList(data);
     },
     onError: (fetchError) => {

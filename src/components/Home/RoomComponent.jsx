@@ -12,7 +12,11 @@ const Container = styled.div`
   height: 420px;
   margin: 16px;
   border-radius: 30px;
+  cursor: pointer;
   border: 1px solid ${({ theme }) => theme.color.placeholder};
+  &:hover {
+    border-color: ${({ theme }) => theme.color.primary};
+  }
   > img {
     width: 300px;
     height: 300px;
