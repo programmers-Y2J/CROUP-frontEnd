@@ -106,7 +106,7 @@ const fetchPlaylist = async (url) => {
   });
   console.log(response.data.items);
   return response.data.items.map((item) => ({
-    musicChannelTitle: item.snippet.channelId,
+    musicChannelTitle: item.snippet.title,
     musicTitle: item.snippet.description,
     musicThumbnail: item.snippet.thumbnails.standard.url,
     videoId: item.snippet.resourceId.videoId,
