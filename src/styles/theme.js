@@ -18,7 +18,7 @@ const fontWeight = {
 };
 
 const spacing = {
-  section: '50px',
+  section: '70px',
   chat: '5px',
   small: '7px',
   medium: '15px',

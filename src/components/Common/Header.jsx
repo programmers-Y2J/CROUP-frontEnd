@@ -9,12 +9,15 @@ const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
   position: relative;
+`;
+
+const LogoButton = styled.button`
+  background: none;
+  position: absolute;
+  left: 5%;
   > h1 {
     font-size: ${({ theme }) => theme.fontSize.xxlarge};
     font-weight: ${({ theme }) => theme.fontWeight.bold};
-    position: absolute;
-    left: 5%;
-    cursor: pointer;
   }
 `;
 
@@ -33,6 +36,8 @@ const LoginButton = styled.button`
 
 function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -41,7 +46,10 @@ function Header() {
       setIsLoggedIn(false);
     }
   }, []);
-  const navigate = useNavigate();
+
+  const handleClickLogo = () => {
+    navigate('/');
+  };
 
   const handleLoginClick = () => {
     navigate('/login');
@@ -51,11 +59,14 @@ function Header() {
     localStorage.removeItem('token');
     setIsLoggedIn(false);
     alert('로그아웃 했습니다.');
-    navigate('/login');
+    navigate('/');
   };
   return (
     <HeaderContainer>
-      <h1>Croup</h1>
+      <LogoButton onClick={handleClickLogo}>
+        <h1>Croup</h1>
+      </LogoButton>
+
       {isLoggedIn ? (
         <LoginButton type="button" onClick={handleLogoutClick}>
           Logout
