@@ -1,116 +1,69 @@
-import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
-import { useNavigate } from 'react-router-dom';
 
 const HeaderContainer = styled.div`
-  width: 1300px;
   display: flex;
   flex-direction: column;
 `;
-const HighWrapper = styled.div`
-  display: flex;
-  justify-content: right;
-  margin: 10px 10px;
-  > button {
-    width: 85px;
-    height: 30px;
-    border-radius: 30px;
-    color: white;
-    background-color: #04314d;
-    font-weight: bold;
-    border: 1px solid white;
-    margin-right: 40px;
-    cursor: pointer;
-  }
-`;
 const MiddleWrapper = styled.div`
+  height: 501px;
+  width: 1300px;
   pointer-events: none;
   border-radius: 30px;
   background-color: #00b3ff;
-  height: 40vh;
   display: flex;
-  > div:nth-child(1) {
-    width: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    > span {
-      font-size: 0.8rem;
-    }
-  }
   > div:nth-child(2) {
     display: flex;
     justify-content: center;
     align-items: flex-end;
-    width: 50%;
     writing-mode: vertical-rl;
-    text-orientation: sideways;
     transform: rotate(180deg);
-    font-size: 5rem;
-    font-weight: 700;
-    padding-left: 40px;
-    color: white;
     opacity: 0.6;
+    width: 301px;
+    height: 121px;
+    font-size: 100px;
+    margin-top: 200px;
+    margin-left: 100px;
+    font-weight: ${({ theme }) => theme.fontWeight.bold};
+    color: ${({ theme }) => theme.color.white};
+  }
+`;
+
+const TextWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 663px;
+  margin-left: 144px;
+  margin-top: 170px;
+  > div:nth-child(1) {
+    font-size: ${({ theme }) => theme.fontSize.title};
+    font-weight: ${({ theme }) => theme.fontWeight.bold};
+  }
+  > div:nth-child(2) {
+    font-size: ${({ theme }) => theme.fontSize.xlarge};
+    font-weight: ${({ theme }) => theme.fontWeight.regular};
+    margin-top: ${({ theme }) => theme.spacing.small};
   }
 `;
 const LowWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 25vh;
+  font-size: 30px;
+  margin: ${({ theme }) => theme.spacing.section} ${({ theme }) => theme.spacing.section};
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
 `;
 
 function HeaderComponent() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, []);
-  const navigate = useNavigate();
-
-  const handleLoginClick = () => {
-    navigate('/login');
-  };
-
-  const handleLogoutClick = () => {
-    localStorage.removeItem('token');
-    setIsLoggedIn(false);
-    alert('로그아웃 했습니다.');
-    navigate('/login');
-  };
   return (
     <HeaderContainer>
-      <HighWrapper>
-        {isLoggedIn ? (
-          <button type="button" onClick={handleLogoutClick}>
-            Logout
-          </button>
-        ) : (
-          <button type="button" onClick={handleLoginClick}>
-            Login
-          </button>
-        )}
-      </HighWrapper>
       <MiddleWrapper>
-        <div>
-          <p>
-            <h1>
-              집중을 위한 공간을 만나는 <br />
-              최고의 방법
-            </h1>
-            <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit</span>
-          </p>
-        </div>
+        <TextWrapper>
+          <div>집중을 위한 공간을 만나는 최고의 방법</div>
+          <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+        </TextWrapper>
         <div>Croup</div>
       </MiddleWrapper>
-      <LowWrapper>
-        <h2>오늘 하루 즐거운 집중을 찾아보세요.</h2>
-      </LowWrapper>
+      <LowWrapper>오늘 하루 즐거운 집중을 찾아보세요.</LowWrapper>
     </HeaderContainer>
   );
 }

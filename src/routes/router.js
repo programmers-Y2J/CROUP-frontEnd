@@ -7,16 +7,11 @@ import QuestionPost from '../components/Room/Question/QuestionPost';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 
-
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
     children: [
-      {
-        path: '/',
-        element: <Home />,
-      },
       {
         path: 'login',
         element: <Login />,
@@ -25,6 +20,11 @@ const router = createBrowserRouter([
         path: '/register',
         element: <Register />,
       },
+      {
+        path: '/',
+        element: <Home />,
+      },
+
       {
         path: 'rooms/:roomId',
         element: <Room />,
@@ -35,7 +35,6 @@ const router = createBrowserRouter([
       },
     ],
   },
-  
 ]);
 
 export default router;

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import HeaderComponent from '../components/Home/HeaderComponent';
 import RoomListComponent from '../components/Home/RoomListComponent';
-import BottomComponent from '../components/Home/BottomComponent';
 import MakeRoomComponent from '../components/Home/MakeRoomComponent';
 
 const HomeContainer = styled.div`
@@ -24,7 +23,6 @@ function Home() {
     <HomeContainer>
       <HeaderComponent />
       <RoomListComponent openModal={openModal} />
-      <BottomComponent />
       {isOpen && <MakeRoomComponent openModal={openModal} />}
     </HomeContainer>
   );

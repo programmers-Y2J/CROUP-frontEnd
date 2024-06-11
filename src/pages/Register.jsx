@@ -1,19 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
-import LoginForm from '../components/Register/RegisterForm';
 import LeftBar from '../components/Member/LeftBar';
+import RegisterForm from '../components/Register/RegisterForm';
 
 const RegisterContainer = styled.div`
+  width: 100%;
   display: flex;
-  width: 100vw;
-  height: 100vh;
+  justify-content: flex-start;
 `;
 function Register() {
-  const text = '<div>환영합니다</div><br />거의 다 왔어요<br /> 즐거운 집중까지 마지막 스텝';
+  const text = '<div>환영합니다</div><br />거의 다 왔어요<br /><br /> 즐거운 집중까지 마지막 스텝';
   return (
     <RegisterContainer>
       <LeftBar text={text} />
-      <LoginForm />
+      <RegisterForm />
     </RegisterContainer>
   );
 }

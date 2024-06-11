@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useQuery, useMutation } from 'react-query';
+
 import RoomComponent from './RoomComponent';
 import useApiRequest from '../../hooks/useApiRequest';
 
@@ -10,22 +11,24 @@ const Container = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: white;
-  height: 450px;
-  width: 50vw;
+  height: 500px;
+  width: 850px;
   border-radius: 20px;
   display: flex;
   padding: 80px;
-  border: 1px solid #cccccc;
   justify-content: space-between;
+  align-items: center;
+  border: 1px solid ${({ theme }) => theme.color.border};
+  background-color: ${({ theme }) => theme.color.background};
+
   > button {
     position: absolute;
     top: 10px;
     right: 10px;
-    background-color: white;
     border: none;
-    font-size: 1.5rem;
+    font-size: 20px;
     cursor: pointer !important;
+    background-color: ${({ theme }) => theme.color.white};
   }
 `;
 
@@ -33,52 +36,54 @@ const MakeWrapper = styled.form`
   padding-top: 20px;
   display: flex;
   flex-direction: column;
-  width: 45%;
-  font-weight: bold;
-  font-size: 0.8rem;
+  font-size: 10px;
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
   > button {
     margin-left: auto;
-    width: 80px;
-    height: 30px;
+    width: 100px;
+    height: 25px;
     margin-top: 20px;
-    border: 1px solid #cccccc;
-    color: #cccccc;
-    background-color: white;
-    border-radius: 20px;
-    font-weight: bold;
     cursor: pointer;
+    border-radius: 20px;
+    border: 1px solid ${({ theme }) => theme.color.border};
+    color: ${({ theme }) => theme.color.white};
+    background-color: ${({ theme }) => theme.color.primary};
+    ${({ theme }) => theme.fontWeight.bold};
   }
   > input {
-    border: 1px solid #cccccc;
-    height: 35px;
-    border-radius: 10px;
-    padding-left: 15px;
-    margin: 5px 0px 10px 0px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    width: 300px;
+    height: 30px;
+    border-radius: 5px;
+    padding-left: ${({ theme }) => theme.spacing.medium};
+    border: 1px solid ${({ theme }) => theme.color.placeholder};
   }
 `;
 
 const UrlWrapper = styled.div`
   display: flex;
   > input {
-    border: 1px solid #cccccc;
-    height: 35px;
-    border-radius: 10px;
-    padding-left: 15px;
-    margin: 5px 0px 10px 0px;
+    height: 30px;
+    border-radius: 5px;
     width: 80%;
+    padding-left: ${({ theme }) => theme.spacing.medium};
+    border: 1px solid ${({ theme }) => theme.color.placeholder};
+    margin-top: 10px;
   }
   > button {
     margin-left: auto;
     width: 50px;
-    height: 35px;
-    margin-top: 5px;
+    height: 30px;
+    margin-top: 10px;
     margin-left: 5px;
-    border: 1px solid #cccccc;
-    color: #cccccc;
-    background-color: white;
     border-radius: 20px;
-    font-weight: bold;
     cursor: pointer;
+    border: 1px solid ${({ theme }) => theme.color.placeholder};
+    color: ${({ theme }) => theme.color.placeholder};
+    background-color: ${({ theme }) => theme.color.background};
+    font-weight: ${({ theme }) => theme.fontWeight.bold};
   }
 `;
 
@@ -98,6 +103,7 @@ const fetchPlaylist = async (url) => {
     },
     withCredentials: false,
   });
+  console.log(response.data.items);
   return response.data.items.map((item) => ({
     musicChannelTitle: item.snippet.channelId,
     musicTitle: item.snippet.description,
@@ -127,6 +133,7 @@ function MakeRoomComponent({ openModal }) {
   const { refetch: refetchPlaylist } = useQuery(['playlist', url], () => fetchPlaylist(url), {
     enabled: false,
     onSuccess: (data) => {
+      console.log(data);
       setPlayList(data);
     },
     onError: (fetchError) => {
@@ -157,20 +164,21 @@ function MakeRoomComponent({ openModal }) {
         openModal();
         console.log(data);
       },
-      onError: (mutationError) => {
-        alert('방 생성에 실패했습니다');
-        console.error(mutationError);
-      },
     },
   );
 
   const handleMakeRoom = async () => {
-    await mutation.mutateAsync({
-      roomTitle,
-      roomDescription,
-      playListUrl: url,
-      playList,
-    });
+    try {
+      await mutation.mutateAsync({
+        roomTitle,
+        roomDescription,
+        playListUrl: url,
+        playList,
+      });
+    } catch (error) {
+      console.log(error);
+      alert('방 생성에 실패했습니다');
+    }
   };
 
   return (

@@ -9,12 +9,17 @@ import useApiRequest from '../../hooks/useApiRequest';
 
 const Container = styled.div`
   width: 300px;
+  height: 420px;
   margin: 16px;
   border-radius: 30px;
-  border: 1px solid #d9d9d9;
-  height: 500px;
+  cursor: pointer;
+  border: 1px solid ${({ theme }) => theme.color.placeholder};
+  &:hover {
+    border-color: ${({ theme }) => theme.color.primary};
+  }
   > img {
-    width: 100%;
+    width: 300px;
+    height: 300px;
     border-top-right-radius: 30px;
     border-top-left-radius: 30px;
   }
@@ -23,7 +28,6 @@ const Container = styled.div`
 const RoomWrapper = styled.div`
   padding: 20px;
   display: flex;
-  margin-top: 20px;
   justify-content: space-between;
   align-items: center;
   :nth-child(1) {
@@ -39,25 +43,27 @@ const TitleDescriptionWrapper = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
-  div {
-    margin-left: 8px;
+  > div {
+    margin-left: ${({ theme }) => theme.spacing.small};
+    > div {
+      font-size: ${({ theme }) => theme.fontSize.subTitle};
+    }
   }
 `;
 
 const StyledRiCheckboxBlankCircleFill = styled(RiCheckboxBlankCircleFill)`
-  font-size: 45px;
+  font-size: ${({ theme }) => theme.fontSize.xxlarge};
   color: #d9d9d9;
 `;
 
 const StyledRxEnter = styled(RxEnter)`
-  font-size: 45px;
+  font-size: ${({ theme }) => theme.fontSize.xxlarge};
   color: #d9d9d9;
 `;
 
 const StyledBsFileEarmarkMusicFill = styled(BsFileEarmarkMusicFill)`
   width: 100%;
   height: auto;
-
   border-top-right-radius: 30px;
   border-top-left-radius: 30px;
 `;
@@ -91,7 +97,7 @@ function RoomComponent({ roomTitle, roomDescription, roomThumbnail, roomId }) {
       });
     } else {
       console.error('토큰이 없습니다.');
-      navigate('/');
+      navigate('/login');
     }
   };
 
@@ -102,8 +108,12 @@ function RoomComponent({ roomTitle, roomDescription, roomThumbnail, roomId }) {
         <TitleDescriptionWrapper>
           <StyledRiCheckboxBlankCircleFill />
           <div>
-            <h2>{roomTitle}</h2>
-            <p>{roomDescription}</p>
+            <div>{roomTitle && roomTitle.length > 7 ? `${roomTitle.substring(0, 7)}...` : roomTitle}</div>
+            <p>
+              {roomDescription && roomDescription.length > 20
+                ? `${roomDescription.substring(0, 20)}...`
+                : roomDescription}
+            </p>
           </div>
         </TitleDescriptionWrapper>
 
