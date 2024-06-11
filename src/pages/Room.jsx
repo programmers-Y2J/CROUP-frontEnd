@@ -23,18 +23,20 @@ function Room() {
   const setRoomData = useRoomDataStore((state) => state.setRoomData);
   const setRoomMemberCount = useRoomDataStore((state) => state.setRoomMemberCount);
   const location = useLocation();
-  console.log(location);
 
   const roomDataObj = {
     roomId,
-    host: location.state.host,
-    title: location.state.roomTitle,
-    description: location.state.roomDescription,
+    host: 'sebell' || location.state.host,
+    title: 'Room Title' || location.state.roomTitle,
+    description:
+      'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s,' ||
+      location.state.roomDescription,
   };
 
   if (isError) console.log('get room error');
 
   if (isSuccess) {
+    console.log(data);
     setPlayList(data.data.playList);
     setRoomData(roomDataObj);
     setRoomMemberCount(data.data.roomMember.length);

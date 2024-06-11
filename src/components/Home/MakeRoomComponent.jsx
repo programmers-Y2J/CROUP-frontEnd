@@ -100,14 +100,15 @@ const fetchPlaylist = async (url) => {
       part: 'snippet',
       playlistId,
       key: process.env.REACT_APP_YOUTUBE_API_KEY,
+      maxResults: 50,
     },
     withCredentials: false,
   });
   console.log(response.data.items);
   return response.data.items.map((item) => ({
-    musicChannelTitle: item.snippet.channelId,
+    musicChannelTitle: item.snippet.channelTitle,
     musicTitle: item.snippet.description,
-    musicThumbnail: item.snippet.thumbnails.standard.url,
+    musicThumbnail: item.snippet.thumbnails.medium.url,
     videoId: item.snippet.resourceId.videoId,
   }));
 };
