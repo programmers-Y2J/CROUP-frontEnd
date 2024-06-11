@@ -14,10 +14,11 @@ function Chat({ chats }) {
   const [messages, setMessages] = useState(chats);
   const [message, setMessage] = useState('');
   const chatList = useRef();
-  const { userId, nickName } = localStorage.getItem('token');
+  const userId = localStorage.getItem('userId');
+  const nickName = localStorage.getItem('nickName');
 
   useEffect(() => {
-    socket.emit('joinRoom', roomId, { nickName: '닉네임', userId: '유저 아이디' });
+    socket.emit('joinRoom', roomId, { nickName, userId });
     socket.on('updateUser', (users) => {
       setRoomMemberCount(users.length);
     });

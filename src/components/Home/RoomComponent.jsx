@@ -74,7 +74,7 @@ function RoomComponent({ roomTitle, roomDescription, roomThumbnail, roomId }) {
   const mutation = useMutation(apiRequest, {
     onSuccess: (data) => {
       console.log('POST 요청 성공:', data);
-      navigate(`/room/${roomId}`, {
+      navigate(`/rooms/${roomId}`, {
         state: {
           roomTitle,
           roomDescription,

@@ -2,10 +2,10 @@ import { useQuery } from '@tanstack/react-query';
 import api from '../util/api';
 
 const getRoomData = async (roomId) => {
+  const token = localStorage.getItem('token');
   const result = await api.get(`/rooms/${roomId}`, {
     headers: {
-      Authorization:
-        'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjVjNmVmN2IyODlkNzIyNzRkOWI4MDYiLCJuaWNrTmFtZSI6InRlc3QxMjMiLCJpYXQiOjE1MTYyMzkwMjJ9.zwgnshrBi7H7DhOhyfvnNtUoVCv4GTT8xmTSzooAcE2k-E9Obpzk-xeWgTGdJaurP_3I_yR9nOo0ZQGhWQoWYQ',
+      Authorization: token,
     },
   });
 

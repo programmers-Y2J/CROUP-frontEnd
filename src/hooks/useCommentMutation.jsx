@@ -2,10 +2,20 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import api from '../util/api';
 
 const postComment = async (data) => {
-  const result = await api.post(`/room/${data.roomId}/questions/${data.questionId}/comments`, {
-    title: data.title,
-    content: data.content,
-  });
+  const token = localStorage.getItem('token');
+  const result = await api.post(
+    `/room/${data.roomId}/question/${data.questionId}/comments`,
+    {
+      title: data.title,
+      content: data.content,
+    },
+    {
+      headers: {
+        Authorization: token,
+      },
+    },
+  );
+
   return result;
 };
 
@@ -17,7 +27,8 @@ const useCommentMutation = (successCbFn, errorCbFn, questionId) => {
       successCbFn();
       queryClient.invalidateQueries(['question', questionId], { exact: true });
     },
-    onError: () => {
+    onError: (error) => {
+      console.log(error);
       errorCbFn();
     },
   });

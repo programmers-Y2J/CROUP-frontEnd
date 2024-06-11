@@ -71,7 +71,7 @@ const PlayListItemDetail = styled.div`
   > img {
     width: 100px;
     height: 56px;
-    border-radius: 10px;
+    border-radius: 5px;
   }
 
   > h4 {

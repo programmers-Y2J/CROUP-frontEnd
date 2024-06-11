@@ -25,7 +25,7 @@ function Questions() {
     alert('잘못된 요청입니다.');
   };
 
-  const { mutation } = useQuestionPostMutation(successCbFn, errorCbFn);
+  const { mutation } = useQuestionPostMutation(successCbFn, errorCbFn, roomId);
 
   const handleSubmitPost = (event) => {
     event.preventDefault();
