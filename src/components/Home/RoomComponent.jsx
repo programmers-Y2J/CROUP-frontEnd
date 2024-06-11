@@ -108,7 +108,7 @@ function RoomComponent({ roomTitle, roomDescription, roomThumbnail, roomId }) {
         <TitleDescriptionWrapper>
           <StyledRiCheckboxBlankCircleFill />
           <div>
-            <div>{roomTitle && roomTitle.length > 7 ? `${roomTitle.substring(0, 7)}...` : roomTitle}</div>
+            <div>{roomTitle && roomTitle.length > 12 ? `${roomTitle.substring(0, 12)}...` : roomTitle}</div>
             <p>
               {roomDescription && roomDescription.length > 20
                 ? `${roomDescription.substring(0, 20)}...`
