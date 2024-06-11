@@ -3,12 +3,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { useState } from 'react';
 import userProfile from '../../../assets/images/example-profile.svg';
-import useQuestionsQuery from '../../../hooks/useQuestionsQuery';
+import useQuestionPostQuery from '../../../hooks/useQuestionPostQuery';
 import useCommentMutation from '../../../hooks/useCommentMutation';
 
 function QuestionPost() {
   const { questionId, roomId } = useParams();
-  const { data, isSuccess, isError } = useQuestionsQuery(roomId, questionId);
+  const { data, isSuccess, isError } = useQuestionPostQuery(roomId, questionId);
   const [comment, setComment] = useState();
   const navigate = useNavigate();
 
@@ -33,12 +33,12 @@ function QuestionPost() {
   const handleSubmitComment = (event) => {
     event.preventDefault();
     if (comment.trim().length === 0) return errorCbFn();
-    return mutation.mutate({ roomId, content: comment });
+    return mutation.mutate({ roomId, content: comment, questionId });
   };
 
   if (isError) console.log('Question Post error');
   if (isSuccess) {
-    const { title, userName, date, content, comments } = data.data;
+    const { title, nickName, createdAt, content, comments } = data.data;
 
     return (
       <QuestionPostContainer>
@@ -51,8 +51,8 @@ function QuestionPost() {
               <h3>{title}</h3>
               <div>
                 <img src={userProfile} alt="user profile" />
-                <h4>{userName}</h4>
-                <h5>{date}</h5>
+                <h4>{nickName}</h4>
+                <h5>{createdAt}</h5>
               </div>
             </QuestionTitleWrapper>
             <QuestionDescription>{content}</QuestionDescription>
@@ -63,7 +63,7 @@ function QuestionPost() {
             {comments.map((commentItem) => {
               return (
                 <li key={commentItem.userId}>
-                  <h5>{commentItem.userName}</h5>
+                  <h5>{commentItem.nickName}</h5>
                   <p>{commentItem.content}</p>
                 </li>
               );

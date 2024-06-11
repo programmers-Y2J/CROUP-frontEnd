@@ -83,6 +83,8 @@ function LoginForm() {
       onSuccess: (data) => {
         console.log('Logged in successfully:', data);
         localStorage.setItem('token', data.token);
+        localStorage.setItem('userId', data.userId);
+        localStorage.setItem('nickName', data.nickName);
         console.log('Token:', data.token);
         alert('로그인에 성공했습니다.');
         navigate('/');

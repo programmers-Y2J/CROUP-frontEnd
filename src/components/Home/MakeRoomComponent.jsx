@@ -99,7 +99,7 @@ const fetchPlaylist = async (url) => {
     params: {
       part: 'snippet',
       playlistId,
-      key: process.env.REACT_APP_YOUTUBE_API,
+      key: process.env.REACT_APP_YOUTUBE_API_KEY,
     },
     withCredentials: false,
   });

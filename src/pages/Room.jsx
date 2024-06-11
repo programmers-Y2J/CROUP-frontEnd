@@ -23,12 +23,13 @@ function Room() {
   const setRoomData = useRoomDataStore((state) => state.setRoomData);
   const setRoomMemberCount = useRoomDataStore((state) => state.setRoomMemberCount);
   const location = useLocation();
+  console.log(location);
 
   const roomDataObj = {
     roomId,
-    host: 'host' || location.state.host,
-    title: 'title' || location.state.title,
-    description: 'description' || location.state.description,
+    host: location.state.host,
+    title: location.state.roomTitle,
+    description: location.state.roomDescription,
   };
 
   if (isError) console.log('get room error');

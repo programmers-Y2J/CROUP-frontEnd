@@ -2,7 +2,12 @@ import { useQuery } from '@tanstack/react-query';
 import api from '../util/api';
 
 const getQuestionList = async (roomId) => {
-  const list = await api.get(`/rooms/${roomId}/questions`);
+  const token = localStorage.getItem('token');
+  const list = await api.get(`/room/${roomId}/questions`, {
+    headers: {
+      Authorization: token,
+    },
+  });
 
   return list;
 };
