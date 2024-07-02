@@ -24,7 +24,6 @@ const MessageContainer = styled.li`
 `;
 
 function Message({ user, userId, message }) {
-  console.log(user);
   const currentUser = localStorage.getItem('userId');
   const isMine = currentUser === userId;
   return (
@@ -42,3 +41,35 @@ Message.propTypes = {
 };
 
 export default Message;
+
+//  <div className="flex items-start gap-4">
+//               <Avatar className="w-8 h-8 rounded-full">
+//                 <AvatarImage src="/placeholder-user.jpg" />
+//                 <AvatarFallback>AC</AvatarFallback>
+//               </Avatar>
+//               <div className="grid gap-1 text-sm">
+//                 <div className="flex items-center gap-2">
+//                   <div className="font-medium">Alex</div>
+//                   <div className="text-muted-foreground text-xs">2:40 PM</div>
+//                 </div>
+//                 <div className="bg-muted rounded-lg p-3">
+//                   <p>Hey there! Hows it going?</p>
+//                 </div>
+//               </div>
+//             </div>
+
+/* <div className="flex items-start gap-4 justify-end">
+  <div className="grid gap-1 text-sm">
+    <div className="flex items-center gap-2 justify-end">
+      <div className="font-medium">You</div>
+      <div className="text-muted-foreground text-xs">2:41 PM</div>
+    </div>
+    <div className="bg-primary rounded-lg p-3 text-primary-foreground">
+      <p>Im doing great, thanks for asking!</p>
+    </div>
+  </div>
+  <Avatar className="w-10 h-10 rounded-full">
+    <AvatarImage src="/placeholder-user.jpg" />
+    <AvatarFallback>YO</AvatarFallback>
+  </Avatar>
+</div> */

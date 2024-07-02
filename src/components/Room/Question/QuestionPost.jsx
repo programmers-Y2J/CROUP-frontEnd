@@ -1,220 +1,36 @@
-import { styled } from 'styled-components';
-import { useNavigate, useParams } from 'react-router-dom';
-
-import { useState } from 'react';
-import userProfile from '../../../assets/images/example-profile.svg';
-import useQuestionPostQuery from '../../../hooks/useQuestionPostQuery';
-import useCommentMutation from '../../../hooks/useCommentMutation';
+import { ScrollArea } from '@ui/scroll-area';
+import { Button } from '@ui/button';
+import { Input } from '@ui/input';
 
 function QuestionPost() {
-  const { questionId, roomId } = useParams();
-  const { data, isSuccess, isError } = useQuestionPostQuery(roomId, questionId);
-  const [comment, setComment] = useState();
-  const navigate = useNavigate();
-
-  const successCbFn = () => {
-    setComment('');
-  };
-
-  const errorCbFn = () => {
-    alert('잘못된 요청입니다.');
-  };
-
-  const { mutation } = useCommentMutation(successCbFn, errorCbFn, questionId);
-
-  const handleClickBack = () => {
-    navigate(-1);
-  };
-
-  const handleChangeComment = (event) => {
-    setComment(event.target.value);
-  };
-
-  const handleSubmitComment = (event) => {
-    event.preventDefault();
-    if (comment.trim().length === 0) return errorCbFn();
-    return mutation.mutate({ roomId, content: comment, questionId });
-  };
-
-  if (isError) console.log('Question Post error');
-  if (isSuccess) {
-    const { title, nickName, createdAt, content, comments } = data.data;
-
-    return (
-      <QuestionPostContainer>
-        <QuestionDetailWrapper>
-          <button type="button" onClick={handleClickBack}>
-            뒤로가기
-          </button>
-          <QuestionContentWrapper>
-            <QuestionTitleWrapper>
-              <h3>{title}</h3>
-              <div>
-                <img src={userProfile} alt="user profile" />
-                <h4>{nickName}</h4>
-                <h5>{createdAt}</h5>
-              </div>
-            </QuestionTitleWrapper>
-            <QuestionDescription>{content}</QuestionDescription>
-          </QuestionContentWrapper>
-        </QuestionDetailWrapper>
-        <CommentWrapper>
-          <CommentList>
-            {comments.map((commentItem) => {
-              return (
-                <li key={commentItem.userId}>
-                  <h5>{commentItem.nickName}</h5>
-                  <p>{commentItem.content}</p>
-                </li>
-              );
-            })}
-          </CommentList>
-          <CommentForm onSubmit={(event) => handleSubmitComment(event)}>
-            <input
-              type="text"
-              placeholder="댓글을 입력해 주세요."
-              onChange={(event) => handleChangeComment(event)}
-              value={comment}
-            />
-            <button type="submit">게시</button>
-          </CommentForm>
-        </CommentWrapper>
-      </QuestionPostContainer>
-    );
-  }
+  return (
+    <div className="flex flex-col w-1/2">
+      <header className="flex items-center justify-between p-4 border-b h-14">
+        <div className="flex items-center">
+          <Input type="text" placeholder="제목을 입력해 주세요." className="flex-1 mr-4 w-[350px]" />
+        </div>
+        <p className="text-[0.75rem] text-muted-foreground">William Smith</p>
+      </header>
+      <div className="p-4 flex-1 overflow-auto">
+        <ScrollArea className="h-[400px]">
+          <p className="mt-4 text-sm">
+            Hi, lets have a meeting tomorrow to discuss the project. Ive been reviewing the project details and have
+            some ideas Id like to share. Its crucial that we align on our next steps to ensure the projects success.
+          </p>
+          <p className="mt-4 text-sm">
+            Please come prepared with any questions or insights you may have. Looking forward to our meeting!
+          </p>
+          <p className="mt-4 text-sm">Best regards, William</p>
+        </ScrollArea>
+      </div>
+      <footer className="flex items-center justify-end p-4 border-t h-14">
+        <Input type="text" placeholder="대표 카테고리를 입력해 주세요." className="w-[200px]" />
+        <Button size="sm" className="ml-4">
+          Send
+        </Button>
+      </footer>
+    </div>
+  );
 }
-const QuestionPostContainer = styled.div`
-  width: 750px;
-  height: 420px;
-  display: flex;
-  gap: 35px;
-`;
-
-const QuestionDetailWrapper = styled.div`
-  position: relative;
-
-  > button {
-    position: absolute;
-    top: -5%;
-    left: 3%;
-    font-size: ${({ theme }) => theme.fontSize.small};
-    font-weight: ${({ theme }) => theme.fontWeight.semiBold};
-    color: ${({ theme }) => theme.color.placeholder};
-    background: none;
-    transition: 0.3s all ease;
-
-    &:hover {
-      color: ${({ theme }) => theme.color.black};
-    }
-  }
-`;
-
-const QuestionContentWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.medium};
-`;
-
-const QuestionTitleWrapper = styled.div`
-  width: 495px;
-  height: 80px;
-  padding-left: 20px;
-  border: 1px solid ${({ theme }) => theme.color.border};
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  justify-content: center;
-
-  > h3 {
-    font-size: ${({ theme }) => theme.fontSize.xlarge};
-    font-weight: ${({ theme }) => theme.fontWeight.semiBold};
-  }
-
-  > div {
-    display: flex;
-    align-items: center;
-    gap: ${({ theme }) => theme.spacing.small};
-  }
-
-  img {
-    width: 25px;
-    height: 25px;
-  }
-
-  h4 {
-    font-size: ${({ theme }) => theme.fontSize.medium};
-    font-weight: ${({ theme }) => theme.fontWeight.semiBold};
-  }
-
-  h5 {
-    font-size: ${({ theme }) => theme.fontSize.small};
-    font-weight: ${({ theme }) => theme.fontWeight.bold};
-    color: ${({ theme }) => theme.color.darkGray};
-  }
-`;
-
-const QuestionDescription = styled.div`
-  width: 495px;
-  height: 323px;
-  border: 1px solid ${({ theme }) => theme.color.border};
-  border-radius: 10px;
-  font-size: ${({ theme }) => theme.fontSize.medium};
-  font-weight: ${({ theme }) => theme.fontWeight.medium};
-  padding: 20px 0 0 20px;
-`;
-
-const CommentWrapper = styled.div`
-  width: 200px;
-  height: 440px;
-  border: 1px solid ${({ theme }) => theme.color.border};
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const CommentList = styled.ul`
-  width: 90%;
-  height: 92%;
-  padding-top: 5%;
-  display: flex;
-  flex-direction: column;
-  overflow-y: scroll;
-  gap: ${({ theme }) => theme.spacing.small};
-
-  h5 {
-    font-size: ${({ theme }) => theme.fontSize.medium};
-    font-weight: ${({ theme }) => theme.fontWeight.bold};
-  }
-
-  p {
-    font-size: ${({ theme }) => theme.fontSize.medium};
-    font-weight: ${({ theme }) => theme.fontWeight.medium};
-  }
-`;
-
-const CommentForm = styled.form`
-  width: 100%;
-  height: 8%;
-  border-top: 1px solid ${({ theme }) => theme.color.border};
-  display: flex;
-  align-items: center;
-
-  > input {
-    width: 85%;
-    padding-left: 5px;
-    border: 0;
-    font-size: ${({ theme }) => theme.fontSize.small};
-    outline: none;
-  }
-
-  > button {
-    background: none;
-    font-size: ${({ theme }) => theme.fontSize.small};
-    font-weight: ${({ theme }) => theme.fontWeight.medium};
-    cursor: pointer;
-  }
-`;
 
 export default QuestionPost;

@@ -3,7 +3,6 @@ import { useLocation, useParams } from 'react-router-dom';
 import { usePlayListStore, useRoomDataStore } from '../stores/Room/useRoomStore';
 
 import RoomDetail from '../components/Room/RoomDetail';
-import PlayList from '../components/Room/PlayList/PlayList';
 import UserContent from '../components/Room/UserContent';
 import useRoomQuery from '../hooks/useRoomQuery';
 
@@ -13,7 +12,7 @@ const RoomContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: ${({ theme }) => theme.spacing.section};
+  gap: 50px;
 `;
 
 function Room() {
@@ -23,13 +22,14 @@ function Room() {
   const setRoomData = useRoomDataStore((state) => state.setRoomData);
   const setRoomMemberCount = useRoomDataStore((state) => state.setRoomMemberCount);
   const location = useLocation();
-  console.log(location);
 
   const roomDataObj = {
     roomId,
-    host: location.state.host,
-    title: location.state.roomTitle,
-    description: location.state.roomDescription,
+    host: 'sebell' || location.state.host,
+    title: 'Room Title' || location.state.roomTitle,
+    description:
+      'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s,' ||
+      location.state.roomDescription,
   };
 
   if (isError) console.log('get room error');
@@ -42,7 +42,6 @@ function Room() {
     return (
       <RoomContainer>
         <RoomDetail />
-        <PlayList />
         <UserContent chats={data.data.chats} roomMember={data.data.roomMember} />
       </RoomContainer>
     );

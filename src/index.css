@@ -1,12 +1,5 @@
-* {
-  margin: 0;
-  padding: 0;
-  border: 0;
-}
-
 body {
   margin: 0;
-  font-family: 'Pretendard';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -ms-overflow-style: none;

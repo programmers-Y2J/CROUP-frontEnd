@@ -1,37 +1,15 @@
 import { styled } from 'styled-components';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '@ui/button';
 
 const HeaderContainer = styled.div`
   width: 100vw;
-  height: 80px;
+  height: 60px;
   border-bottom: 1px solid ${({ theme }) => theme.color.border};
   display: flex;
   align-items: center;
   position: relative;
-`;
-
-const LogoButton = styled.button`
-  background: none;
-  position: absolute;
-  left: 5%;
-  > h1 {
-    font-size: ${({ theme }) => theme.fontSize.xxlarge};
-    font-weight: ${({ theme }) => theme.fontWeight.bold};
-  }
-`;
-
-const LoginButton = styled.button`
-  position: absolute;
-  cursor: pointer;
-  right: 5%;
-  width: 100px;
-  height: 30px;
-  font-size: ${({ theme }) => theme.fontSize.medium};
-  font-weight: ${({ theme }) => theme.fontWeight.semiBold};
-  color: ${({ theme }) => theme.color.white};
-  background: ${({ theme }) => theme.color.primary};
-  border-radius: 20px;
 `;
 
 function Header() {
@@ -54,31 +32,26 @@ function Header() {
     navigate('/');
   };
 
-  const handleLoginClick = () => {
-    navigate('/login');
-  };
+  // const handleLoginClick = () => {
+  //   navigate('/login');
+  // };
 
-  const handleLogoutClick = () => {
-    localStorage.removeItem('token');
-    setIsLoggedIn(false);
-    alert('로그아웃 했습니다.');
-    navigate('/login');
-  };
+
+  // const handleLogoutClick = () => {
+  //   localStorage.removeItem('token');
+  //   setIsLoggedIn(false);
+  //   alert('로그아웃 했습니다.');
+  //   navigate('/');
+  // };
+
   return (
     <HeaderContainer>
-      <LogoButton onClick={handleClickLogo}>
-        <h1>Croup</h1>
-      </LogoButton>
-
-      {isLoggedIn ? (
-        <LoginButton type="button" onClick={handleLogoutClick}>
-          Logout
-        </LoginButton>
-      ) : (
-        <LoginButton type="button" onClick={handleLoginClick}>
-          LogIn
-        </LoginButton>
-      )}
+      <button type="button" onClick={handleClickLogo} className="absolute left-8">
+        <h1 className="text-3xl font-extrabold tracking-tight ">Croup</h1>
+      </button>
+      <Button variant="black" className=" absolute right-8 rounded-3xl font-semibold pl-8 pr-8 pt-3 pb-3">
+        {isLoggedIn ? '로그인' : '로그아웃'}
+      </Button>
     </HeaderContainer>
   );
 }

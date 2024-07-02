@@ -18,3 +18,18 @@ export const useCurrentMusicStore = create((set) => ({
   isPlaying: false,
   setIsPlaying: (currentPlaying) => set(() => ({ isPlaying: currentPlaying })),
 }));
+
+export const usePostStore = create((set) => ({
+  currentPost: {
+    title: '',
+    userName: '',
+    content:
+      'Hi, lets have a meeting tomorrow to discuss the project. Ive been reviewing the project details and have some ideas Id like to share. Its crucial that we align on our next steps to ensure the projects success.',
+    date: '',
+    comments: [],
+  },
+  setCurrentPost: (currentPostObj) =>
+    set(() => ({
+      currentPost: currentPostObj,
+    })),
+}));

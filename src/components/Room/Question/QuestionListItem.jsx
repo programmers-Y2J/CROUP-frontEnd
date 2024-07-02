@@ -1,58 +1,41 @@
-import { styled } from 'styled-components';
+import { Card, CardContent } from '@ui/card';
+import { Badge } from '@ui/badge';
+import { usePostStore } from '@/stores/Room/useRoomStore';
 
-import { useNavigate } from 'react-router-dom';
+function QuestionListItem({ title, userName, content, comments, clickTabFn, setActiveTab }) {
+  const setCurrentPost = usePostStore((state) => state.setCurrentPost);
 
-function QuestionListItem({ questionId, title, userName, content }) {
-  const navigate = useNavigate();
-
-  const handleClickPost = () => {
-    navigate(`questions/${questionId}`);
+  const handleClickItem = () => {
+    setCurrentPost({
+      title,
+      userName,
+      content,
+      comments,
+    });
+    clickTabFn('post');
+    setActiveTab('post');
   };
+
   return (
-    <QuestionListItemContainer onClick={handleClickPost}>
-      <h4>{title}</h4>
-      <p>{content}</p>
-      <h5>{userName}</h5>
-    </QuestionListItemContainer>
+    <button onClick={handleClickItem} type="button" className="text-left">
+      <Card
+        onMouseEnter={(e) => e.currentTarget.classList.add('bg-muted')}
+        onMouseLeave={(e) => e.currentTarget.classList.remove('bg-muted')}>
+        <CardContent>
+          <div className="flex items-center justify-between">
+            <h2 className="font-bold">{title}</h2>
+            <p className="text-[0.75rem] text-muted-foreground">{userName}</p>
+          </div>
+          <p className="mt-2 text-[0.75rem] line-clamp-3">{content}</p>
+          <div className="mt-2 space-x-2">
+            <Badge variant="default">meeting</Badge>
+            <Badge variant="default">work</Badge>
+            <Badge variant="default">important</Badge>
+          </div>
+        </CardContent>
+      </Card>
+    </button>
   );
 }
-
-const QuestionListItemContainer = styled.li`
-  width: 180px;
-  height: 100px;
-  border: 1px solid ${({ theme }) => theme.color.border};
-  border-radius: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  cursor: pointer;
-
-  > h4 {
-    position: absolute;
-    left: 8%;
-    top: 13%;
-    font-size: ${({ theme }) => theme.fontSize.small};
-    font-weight: ${({ theme }) => theme.fontWeight.semiBold};
-  }
-
-  > p {
-    font-size: ${({ theme }) => theme.fontSize.small};
-    font-weight: ${({ theme }) => theme.fontWeight.medium};
-    width: 135px;
-    text-align: center;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-
-  > h5 {
-    position: absolute;
-    bottom: 13%;
-    right: 8%;
-    font-size: ${({ theme }) => theme.fontSize.small};
-    font-weight: ${({ theme }) => theme.fontWeight.medium};
-  }
-`;
 
 export default QuestionListItem;
