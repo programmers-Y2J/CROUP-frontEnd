@@ -17,12 +17,15 @@ function Header() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
+    const checkToken = () => {
+      const token = localStorage.getItem('token');
+      setIsLoggedIn(!!token);
+    };
+
+    checkToken();
+    const interval = setInterval(checkToken, 1000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const handleClickLogo = () => {
@@ -33,12 +36,14 @@ function Header() {
   //   navigate('/login');
   // };
 
+
   // const handleLogoutClick = () => {
   //   localStorage.removeItem('token');
   //   setIsLoggedIn(false);
   //   alert('로그아웃 했습니다.');
   //   navigate('/');
   // };
+
   return (
     <HeaderContainer>
       <button type="button" onClick={handleClickLogo} className="absolute left-8">
