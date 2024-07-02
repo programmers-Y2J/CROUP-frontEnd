@@ -17,25 +17,12 @@ const ModalContainer = styled.div`
   justify-content: center;
 `;
 
-const StyledModalCard = styled.div`
-  display: inline-block;
-  background-color: #fff;
-  position: relative;
-  border-radius: 20px;
-`;
-
 function ModalCard({ isOpen, close, children }) {
   if (!isOpen) return null;
 
-  const handleCardClick = (event) => {
-    event.stopPropagation();
-  };
-
   return (
     <ModalPortal>
-      <ModalContainer onClick={close}>
-        <StyledModalCard onClick={(event) => handleCardClick(event)}>{children}</StyledModalCard>
-      </ModalContainer>
+      <ModalContainer onClick={close}>{children}</ModalContainer>
     </ModalPortal>
   );
 }

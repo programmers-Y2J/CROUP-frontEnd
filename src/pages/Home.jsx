@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import HeaderComponent from '../components/Home/HeaderComponent';
-import RoomListComponent from '../components/Home/RoomListComponent';
 import MakeRoomComponent from '../components/Home/MakeRoomComponent';
+import RoomList from '../components/Home/RoomListComponent';
 
 const HomeContainer = styled.div`
   display: flex;
@@ -10,7 +10,7 @@ const HomeContainer = styled.div`
   align-items: center;
   justify-content: center;
   overflow-x: hidden;
-
+  gap: 50px;
   margin: auto;
 `;
 function Home() {
@@ -22,7 +22,7 @@ function Home() {
   return (
     <HomeContainer>
       <HeaderComponent />
-      <RoomListComponent openModal={openModal} />
+      <RoomList />
       {isOpen && <MakeRoomComponent openModal={openModal} />}
     </HomeContainer>
   );

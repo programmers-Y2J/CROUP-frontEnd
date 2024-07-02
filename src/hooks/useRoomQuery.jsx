@@ -18,7 +18,6 @@ const useRoomQuery = (roomId) => {
     queryFn: () => getRoomData(roomId),
     staleTime: Infinity,
   });
-
   return { data, isError, isSuccess };
 };
 

@@ -1,3 +1,4 @@
+import { TypographyH1 } from '@ui/typography/TypographyH1';
 import { styled } from 'styled-components';
 
 const FooterContainer = styled.div`
@@ -6,16 +7,12 @@ const FooterContainer = styled.div`
   border-top: 1px solid ${({ theme }) => theme.color.border};
   display: flex;
   align-items: center;
-
-  > h1 {
-    font-size: ${({ theme }) => theme.fontSize.title};
-  }
 `;
 
 function Footer() {
   return (
     <FooterContainer>
-      <h1>Croup</h1>
+      <TypographyH1>Croup</TypographyH1>
     </FooterContainer>
   );
 }

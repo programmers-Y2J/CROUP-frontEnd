@@ -1,74 +1,10 @@
 import React from 'react';
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
-import { RxEnter } from 'react-icons/rx';
-import { RiCheckboxBlankCircleFill } from 'react-icons/ri';
-import { BsFileEarmarkMusicFill } from 'react-icons/bs';
+import { Avatar, AvatarImage } from '@ui/avatar';
 import useApiRequest from '../../hooks/useApiRequest';
 
-const Container = styled.div`
-  width: 300px;
-  height: 420px;
-  margin: 16px;
-  border-radius: 30px;
-  cursor: pointer;
-  border: 1px solid ${({ theme }) => theme.color.placeholder};
-  &:hover {
-    border-color: ${({ theme }) => theme.color.primary};
-  }
-  > img {
-    width: 300px;
-    height: 300px;
-    border-top-right-radius: 30px;
-    border-top-left-radius: 30px;
-  }
-`;
-
-const RoomWrapper = styled.div`
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  :nth-child(1) {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-`;
-
-const TitleDescriptionWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-  > div {
-    margin-left: ${({ theme }) => theme.spacing.small};
-    > div {
-      font-size: ${({ theme }) => theme.fontSize.subTitle};
-    }
-  }
-`;
-
-const StyledRiCheckboxBlankCircleFill = styled(RiCheckboxBlankCircleFill)`
-  font-size: ${({ theme }) => theme.fontSize.xxlarge};
-  color: #d9d9d9;
-`;
-
-const StyledRxEnter = styled(RxEnter)`
-  font-size: ${({ theme }) => theme.fontSize.xxlarge};
-  color: #d9d9d9;
-`;
-
-const StyledBsFileEarmarkMusicFill = styled(BsFileEarmarkMusicFill)`
-  width: 100%;
-  height: auto;
-  border-top-right-radius: 30px;
-  border-top-left-radius: 30px;
-`;
-
-function RoomComponent({ roomTitle, roomDescription, roomThumbnail, roomId }) {
+function RoomComponent({ thumbnail, title, tag, description, userName, roomId }) {
   const navigate = useNavigate();
   const { apiRequest } = useApiRequest();
   const mutation = useMutation(apiRequest, {
@@ -76,9 +12,9 @@ function RoomComponent({ roomTitle, roomDescription, roomThumbnail, roomId }) {
       console.log('POST 요청 성공:', data);
       navigate(`/rooms/${roomId}`, {
         state: {
-          roomTitle,
-          roomDescription,
-          roomThumbnail,
+          title,
+          description,
+          thumbnail,
         },
       });
     },
@@ -102,24 +38,30 @@ function RoomComponent({ roomTitle, roomDescription, roomThumbnail, roomId }) {
   };
 
   return (
-    <Container onClick={enterRoom}>
-      {roomThumbnail ? <img src={roomThumbnail} alt="음악포스터" /> : <StyledBsFileEarmarkMusicFill />}
-      <RoomWrapper>
-        <TitleDescriptionWrapper>
-          <StyledRiCheckboxBlankCircleFill />
-          <div>
-            <div>{roomTitle && roomTitle.length > 7 ? `${roomTitle.substring(0, 7)}...` : roomTitle}</div>
-            <p>
-              {roomDescription && roomDescription.length > 20
-                ? `${roomDescription.substring(0, 20)}...`
-                : roomDescription}
-            </p>
+    <button type="button" className="text-left" onClick={enterRoom}>
+      <div className="flex flex-col gap-4 cursor-pointer bg-background rounded-lg shadow-lg w-[400px] shrink-0 hover:scale-[1.01] transition-transform duration-300">
+        <img
+          src={thumbnail}
+          width={400}
+          height={225}
+          alt="Thumbnail"
+          className="rounded-t-lg object-cover aspect-video"
+        />
+        <div className="p-4">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="bg-black text-primary-foreground px-2 py-1 rounded-full text-sm font-medium">{tag}</span>
           </div>
-        </TitleDescriptionWrapper>
-
-        <StyledRxEnter />
-      </RoomWrapper>
-    </Container>
+          <h3 className="text-xl font-bold mb-2">{title}</h3>
+          <p className="text-muted-foreground mb-3">{description}</p>
+          <div className="flex items-center gap-3">
+            <Avatar className="w-8 h-8 border">
+              <AvatarImage src="/placeholder-user.jpg" />
+            </Avatar>
+            <span className="text-sm font-medium">{userName}</span>
+          </div>
+        </div>
+      </div>
+    </button>
   );
 }
 

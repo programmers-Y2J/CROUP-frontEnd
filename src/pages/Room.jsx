@@ -3,7 +3,6 @@ import { useLocation, useParams } from 'react-router-dom';
 import { usePlayListStore, useRoomDataStore } from '../stores/Room/useRoomStore';
 
 import RoomDetail from '../components/Room/RoomDetail';
-import PlayList from '../components/Room/PlayList/PlayList';
 import UserContent from '../components/Room/UserContent';
 import useRoomQuery from '../hooks/useRoomQuery';
 
@@ -13,7 +12,7 @@ const RoomContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: ${({ theme }) => theme.spacing.section};
+  gap: 50px;
 `;
 
 function Room() {
@@ -36,7 +35,6 @@ function Room() {
   if (isError) console.log('get room error');
 
   if (isSuccess) {
-    console.log(data);
     setPlayList(data.data.playList);
     setRoomData(roomDataObj);
     setRoomMemberCount(data.data.roomMember.length);
@@ -44,7 +42,6 @@ function Room() {
     return (
       <RoomContainer>
         <RoomDetail />
-        <PlayList />
         <UserContent chats={data.data.chats} roomMember={data.data.roomMember} />
       </RoomContainer>
     );
