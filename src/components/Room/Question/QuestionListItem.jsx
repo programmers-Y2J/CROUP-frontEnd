@@ -1,6 +1,6 @@
 import { Card, CardContent } from '@ui/card';
 import { Badge } from '@ui/badge';
-import { usePostStore } from '@/stores/Room/useRoomStore';
+import { usePostStore } from '@/stores/Room/useAuthStore';
 
 function QuestionListItem({ title, userName, content, comments, clickTabFn, setActiveTab }) {
   const setCurrentPost = usePostStore((state) => state.setCurrentPost);

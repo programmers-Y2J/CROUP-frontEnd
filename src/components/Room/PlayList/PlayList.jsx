@@ -1,5 +1,5 @@
 import { ScrollArea } from '@ui/scroll-area';
-import { usePlayListStore } from '../../../stores/Room/useRoomStore';
+import { usePlayListStore } from '../../../stores/Room/useAuthStore';
 import PlayListItem from './PlayListItem';
 
 function PlayList() {

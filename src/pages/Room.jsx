@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 import { useLocation, useParams } from 'react-router-dom';
-import { usePlayListStore, useRoomDataStore } from '../stores/Room/useRoomStore';
+import { usePlayListStore, useRoomDataStore } from '../stores/Room/useAuthStore';
 
 import RoomDetail from '../components/Room/RoomDetail';
 import UserContent from '../components/Room/UserContent';

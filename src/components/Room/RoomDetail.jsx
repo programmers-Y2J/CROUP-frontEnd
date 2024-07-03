@@ -6,7 +6,7 @@ import { TypographyP } from '@ui/typography/TypographyP';
 import { TypographyH4 } from '@ui/typography/TypographyH4';
 import { TypographySmallMuted } from '@ui/typography/TypographySmallMuted';
 import { ScrollArea } from '@ui/scroll-area';
-import { useCurrentMusicStore, usePlayListStore, useRoomDataStore } from '../../stores/Room/useRoomStore';
+import { useCurrentMusicStore, usePlayListStore, useRoomDataStore } from '../../stores/Room/useAuthStore';
 import PlayList from './PlayList/PlayList';
 import MusicPlayer from './PlayList/MusicPlayer';
 

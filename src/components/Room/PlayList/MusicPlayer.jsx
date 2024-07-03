@@ -1,6 +1,6 @@
 'use client';
 
-import { useCurrentMusicStore, usePlayListStore } from '@/stores/Room/useRoomStore';
+import { useCurrentMusicStore, usePlayListStore } from '@/stores/Room/useAuthStore';
 import { Button } from '@ui/button';
 import { ChevronLeftIcon, ChevronRightIcon, PlayIcon, PauseIcon } from 'lucide-react';
 

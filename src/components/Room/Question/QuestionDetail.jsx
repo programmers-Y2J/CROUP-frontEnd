@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@ui/avatar';
 import { ScrollArea } from '@ui/scroll-area';
 import { Button } from '@ui/button';
 import { Input } from '@ui/input';
-import { usePostStore } from '@/stores/Room/useRoomStore';
+import { usePostStore } from '@/stores/Room/useAuthStore';
 
 function QuestionDetail() {
   const currentPost = usePostStore((state) => state.currentPost);
