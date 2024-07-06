@@ -36,7 +36,6 @@ function Header() {
   //   navigate('/login');
   // };
 
-
   // const handleLogoutClick = () => {
   //   localStorage.removeItem('token');
   //   setIsLoggedIn(false);
