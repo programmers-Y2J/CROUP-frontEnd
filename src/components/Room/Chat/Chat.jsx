@@ -115,15 +115,16 @@
 
 // export default Chat;
 
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/jj2B4UYhdQz
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@ui/scroll-area';
+import { Button } from '@ui/button';
 import { Input } from '@ui/input';
+import Message from './Message';
+
+const chats = [
+  { user: 'sebell', userId: 'aaa', message: 'hello hows it going ?' },
+  { user: 'ko', userId: 'bbb', message: 'Im good you ?' },
+  { user: 'sebell', userId: 'aaa', message: 'Fine good' },
+];
 
 export default function Chat() {
   return (
@@ -131,36 +132,9 @@ export default function Chat() {
       <header className="flex items-center justify-between p-4 border-b h-14" />
       <div className="p-4 flex-1 overflow-auto">
         <ScrollArea className="h-[504px]">
-          <div className="flex items-start gap-4 justify-end">
-            <div className="grid gap-1 text-sm">
-              <div className="flex items-center gap-2 justify-end">
-                <div className="font-medium">You</div>
-                <div className="text-muted-foreground text-xs">2:41 PM</div>
-              </div>
-              <div className="bg-primary rounded-lg p-3 text-primary-foreground">
-                <p>Im doing great, thanks for asking!</p>
-              </div>
-            </div>
-            <Avatar className="w-10 h-10 rounded-full">
-              <AvatarImage src="/placeholder-user.jpg" />
-              <AvatarFallback>YO</AvatarFallback>
-            </Avatar>
-          </div>
-          <div className="flex items-start gap-4">
-            <Avatar className="w-8 h-8 rounded-full">
-              <AvatarImage src="/placeholder-user.jpg" />
-              <AvatarFallback>AC</AvatarFallback>
-            </Avatar>
-            <div className="grid gap-1 text-sm">
-              <div className="flex items-center gap-2">
-                <div className="font-medium">Alex</div>
-                <div className="text-muted-foreground text-xs">2:40 PM</div>
-              </div>
-              <div className="bg-muted rounded-lg p-3">
-                <p>Hey there! Hows it going?</p>
-              </div>
-            </div>
-          </div>
+          {chats.map((item) => (
+            <Message key={item.userId} user={item.user} userId={item.userId} message={item.message} />
+          ))}
         </ScrollArea>
       </div>
       <footer className="flex items-center p-4 border-t h-14">
