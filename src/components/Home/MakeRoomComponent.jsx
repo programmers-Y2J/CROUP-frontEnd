@@ -99,7 +99,7 @@ const fetchPlaylist = async (url) => {
     params: {
       part: 'snippet',
       playlistId,
-      key: process.env.REACT_APP_YOUTUBE_API_KEY,
+      key: `${process.env.REACT_APP_API_URL}${url}`,
       maxResults: 50,
     },
     withCredentials: false,
@@ -145,7 +145,10 @@ function MakeRoomComponent({ openModal }) {
   });
 
   const handleUrlConfirm = () => {
-    refetchPlaylist();
+    refetchPlaylist().catch((error) => {
+      console.error('Failed to fetch playlist:', error);
+      alert('플레이리스트를 불러오지 못했습니다. API 키를 확인하세요.');
+    });
   };
 
   const mutation = useMutation(

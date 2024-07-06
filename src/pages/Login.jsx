@@ -37,7 +37,7 @@ import useAuthStore from '@/stores/Auth/useUserStore';
 
 function Login() {
   const navigate = useNavigate();
-  const { setToken } = useAuthStore();
+  const { setToken, setUserId, setNickname } = useAuthStore();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -65,8 +65,8 @@ function Login() {
       onSuccess: (data) => {
         console.log('Logged in successfully:', data);
         setToken(data.token);
-        localStorage.setItem('userId', data.userId);
-        localStorage.setItem('nickName', data.nickName);
+        setUserId(data.userId);
+        setNickname(data.nickname);
         console.log('Token:', data.token);
         alert('로그인에 성공했습니다.');
         navigate('/');

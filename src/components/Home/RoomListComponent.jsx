@@ -98,6 +98,7 @@ const RoomData = [
 
 function RoomList() {
   const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState('');
   const [selectValue, setSelectValue] = useState('최신순');
   const { apiRequest } = useApiRequest();
   const navigate = useNavigate();
@@ -111,6 +112,12 @@ function RoomList() {
   const handleClickSelect = () => {
     setOpen((prev) => !prev);
   };
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+  };
+  // const handleSearch = () => {
+
+  // };
   return (
     <div>
       <div className="flex relative justify-end px-6 items-center mb-4">
@@ -153,6 +160,8 @@ function RoomList() {
               type="search"
               placeholder="Search..."
               className="w-full rounded-md bg-background pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+              value={search}
+              onChange={handleSearchChange}
             />
           </div>
           <CreateRoom />
