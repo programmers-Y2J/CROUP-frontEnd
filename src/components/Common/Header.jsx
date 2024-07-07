@@ -25,6 +25,7 @@ function Header() {
     navigate('/');
   };
 
+
   const handleLoginClick = () => {
     if (isLoggedIn) {
       alert('로그아웃 되었습니다.');
@@ -35,6 +36,7 @@ function Header() {
       navigate('/login');
     }
   };
+
 
   return (
     <HeaderContainer>
