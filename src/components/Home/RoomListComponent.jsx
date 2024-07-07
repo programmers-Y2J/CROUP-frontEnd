@@ -18,7 +18,8 @@ const fetchRooms = async (apiRequest) => {
       Authorization: `${localStorage.getItem('token')}`,
     },
   });
-  return response.rooms;
+  console.log(response.roomList);
+  return response.roomList;
 };
 
 const RoomData = [
@@ -115,9 +116,7 @@ function RoomList() {
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
   };
-  // const handleSearch = () => {
-
-  // };
+  // const handleSearch = () => {};
   return (
     <div>
       <div className="flex relative justify-end px-6 items-center mb-4">
@@ -173,7 +172,7 @@ function RoomList() {
             <RoomComponent
               key={item.roomId}
               title={item.roomTitle}
-              tag={item.tag || 'tag'}
+              tag={item.tags || 'tag'}
               description={item.roomDescription}
               thumbnail={item.roomThumbnail}
               userName={item.userName || 'sebell'}
