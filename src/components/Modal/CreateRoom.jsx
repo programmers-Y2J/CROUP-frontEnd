@@ -28,7 +28,6 @@ const fetchPlaylist = async (url) => {
     },
     withCredentials: false,
   });
-  console.log(response.data.items);
   return response.data.items.map((item) => ({
     musicChannelTitle: item.snippet.channelTitle,
     musicTitle: item.snippet.description,
@@ -42,7 +41,7 @@ function CreateRoom() {
   const [roomDescription, setRoomDescription] = useState('');
   const [url, setUrl] = useState('');
   const [playList, setPlayList] = useState([]);
-  const [tags, setTags] = useState('');
+  const [tags, setTags] = useState('tags');
 
   const { apiRequest } = useApiRequest();
 
@@ -59,14 +58,10 @@ function CreateRoom() {
   const handleTagsChange = (e) => {
     setTags(e.target.value);
   };
-  // const handleQnaChange = (e) => {
-  //   setQna(e.target.value);
-  // };
 
   const { refetch: refetchPlaylist } = useQuery(['playlist', url], () => fetchPlaylist(url), {
     enabled: false,
     onSuccess: (data) => {
-      console.log(data);
       setPlayList(data);
     },
     onError: (fetchError) => {
@@ -92,9 +87,9 @@ function CreateRoom() {
         },
       }),
     {
-      onSuccess: (data) => {
+      onSuccess: () => {
         alert('방이 생성되었습니다');
-        console.log(data);
+        window.location.reload();
       },
     },
   );

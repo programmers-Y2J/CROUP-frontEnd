@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@ui/popover';
@@ -10,16 +10,35 @@ import useApiRequest from '../../hooks/useApiRequest';
 import RoomComponent from './RoomComponent';
 import CreateRoom from '../Modal/CreateRoom';
 
-const fetchRooms = async (apiRequest) => {
-  const response = await apiRequest({
-    method: 'GET',
-    url: '/rooms',
-    headers: {
-      Authorization: `${localStorage.getItem('token')}`,
-    },
-  });
-  console.log(response.roomList);
-  return response.roomList;
+const fetchRooms = async (apiRequest, search, sortselectValue) => {
+  try {
+    let setUrl = '';
+    const sortValue = sortselectValue === '최신순' ? 'createdAt' : 'popularity';
+    if (search === '') {
+      setUrl = `/rooms?sort=${sortValue}`;
+    } else {
+      setUrl = `/rooms/search?q=${search}&sort=${sortValue}`;
+    }
+    const response = await apiRequest({
+      method: 'GET',
+      url: setUrl,
+      headers: {
+        Authorization: `${localStorage.getItem('token')}`,
+      },
+    });
+    console.log(search, sortselectValue);
+    console.log(response);
+    if (response.roomList) {
+      return response.roomList;
+    }
+    if (response.rooms) {
+      return response.rooms;
+    }
+
+    return [];
+  } catch (error) {
+    throw new Error(`Error fetching rooms: ${error}`);
+  }
 };
 
 const RoomData = [
@@ -102,12 +121,12 @@ function RoomList() {
   const [search, setSearch] = useState('');
   const [selectValue, setSelectValue] = useState('최신순');
   const { apiRequest } = useApiRequest();
-  const navigate = useNavigate();
-  const { data, error } = useQuery('rooms', () => fetchRooms(apiRequest));
+  // const navigate = useNavigate();
+  const { data, error } = useQuery(['rooms', search, selectValue], () => fetchRooms(apiRequest, search, selectValue));
   const rooms = Array.isArray(data) ? data : [];
 
   if (error) {
-    navigate('/login');
+    console.log(error);
   }
 
   const handleClickSelect = () => {

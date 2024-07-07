@@ -63,11 +63,9 @@ function Login() {
       }),
     {
       onSuccess: (data) => {
-        console.log('Logged in successfully:', data);
         setToken(data.token);
         setUserId(data.userId);
         setNickname(data.nickname);
-        console.log('Token:', data.token);
         alert('로그인에 성공했습니다.');
         navigate('/');
       },
