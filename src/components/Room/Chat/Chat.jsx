@@ -118,50 +118,70 @@
 import { ScrollArea } from '@ui/scroll-area';
 import { Button } from '@ui/button';
 import { Input } from '@ui/input';
+import { useEffect, useRef, useState } from 'react';
+import { useUserData } from '@/stores/useUserStore';
 import Message from './Message';
 
-const chats = [
+const demoChats = [
   { user: 'sebell', userId: 'aaa', message: 'hello hows it going ?' },
   { user: 'ko', userId: 'bbb', message: 'Im good you ?' },
   { user: 'sebell', userId: 'aaa', message: 'Fine good' },
 ];
 
 export default function Chat() {
+  const [chats, setChats] = useState(demoChats);
+  const userData = useUserData((state) => state.userData);
+  const message = useRef();
+  const scrollRef = useRef();
+
+  useEffect(() => {
+    const scrollArea = scrollRef.current.children[1];
+    const chatsWrapper = scrollRef.current.children[1].children[0];
+
+    scrollArea.scrollTop = chatsWrapper.offsetHeight;
+  }, [chats]);
+
+  const sendMessage = () => {
+    const newMessage = { user: userData.userName, userId: userData.userId, message: message.current.value };
+    setChats((prev) => [...prev, newMessage]);
+    message.current.value = '';
+  };
+
+  const handleClickSend = () => {
+    if (message.current.value.trim().length === 0) return;
+    sendMessage();
+  };
+
+  const handlePressEnter = (event) => {
+    if (message.current.value.trim().length === 0) return;
+
+    if (event.key === 'Enter') {
+      sendMessage();
+    }
+  };
+
   return (
     <div className="flex flex-col w-1/2">
       <header className="flex items-center justify-between p-4 border-b h-14" />
       <div className="p-4 flex-1 overflow-auto">
-        <ScrollArea className="h-[504px]">
+        <ScrollArea className="h-[504px]" ref={scrollRef}>
           {chats.map((item) => (
             <Message key={item.userId} user={item.user} userId={item.userId} message={item.message} />
           ))}
         </ScrollArea>
       </div>
       <footer className="flex items-center p-4 border-t h-14">
-        <Input type="text" placeholder="채팅을 입력해 주세요." className="flex-1 mr-4" />
-        <Button size="sm" className="ml-4">
+        <Input
+          type="text"
+          placeholder="채팅을 입력해 주세요."
+          className="flex-1 mr-4"
+          ref={message}
+          onKeyDown={(event) => handlePressEnter(event)}
+        />
+        <Button size="sm" className="ml-4" onClick={handleClickSend}>
           Send
         </Button>
       </footer>
     </div>
   );
 }
-
-// function ArrowUpIcon(props) {
-//   return (
-//     <svg
-//       {...props}
-//       xmlns="http://www.w3.org/2000/svg"
-//       width="24"
-//       height="24"
-//       viewBox="0 0 24 24"
-//       fill="none"
-//       stroke="currentColor"
-//       strokeWidth="2"
-//       strokeLinecap="round"
-//       strokeLinejoin="round">
-//       <path d="m5 12 7-7 7 7" />
-//       <path d="M12 19V5" />
-//     </svg>
-//   );
-// }
