@@ -1,9 +1,9 @@
 import { styled } from 'styled-components';
 import { useLocation, useParams } from 'react-router-dom';
+import Questions from '@/components/Room/Question/Questions';
 import { usePlayListStore, useRoomDataStore } from '../stores/Room/useRoomStore';
 
 import RoomDetail from '../components/Room/RoomDetail';
-import UserContent from '../components/Room/UserContent';
 import useRoomQuery from '../hooks/useRoomQuery';
 
 const RoomContainer = styled.div`
@@ -42,7 +42,7 @@ function Room() {
     return (
       <RoomContainer>
         <RoomDetail />
-        <UserContent chats={data.data.chats} roomMember={data.data.roomMember} />
+        <Questions />
       </RoomContainer>
     );
   }

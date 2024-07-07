@@ -2,27 +2,31 @@
   "qnaList": [
     {
       "questionId": "111",
-      "userName": "User",
+      "nickName": "User",
       "title": "Question Title",
-      "content": "Lorem Ipsum is simply dummy text of the printing and "
+      "content": "Lorem Ipsum is simply dummy text of the printing and Lorem Ipsum is simply dummy text of the printing and  Lorem Ipsum is simply dummy text of the printing and  Lorem Ipsum is simply dummy text of the printing and  Lorem Ipsum is simply dummy text of the printing and ",
+      "createdAt": "2024-06-27"
     },
     {
       "questionId": "222",
-      "userName": "User",
+      "nickName": "User",
       "title": "Question Title",
-      "content": "Lorem Ipsum is simply dummy text of the printing and "
+      "content": "Lorem Ipsum is simply dummy text of the printing and ",
+      "createdAt": "2024-06-27"
     },
     {
       "questionId": "333",
-      "userName": "User",
+      "nickName": "User",
       "title": "Question Title",
-      "content": "Lorem Ipsum is simply dummy text of the printing and "
+      "content": "Lorem Ipsum is simply dummy text of the printing and ",
+      "createdAt": "2024-06-27"
     },
     {
       "questionId": "444",
-      "userName": "User",
+      "nickName": "User",
       "title": "Question Title",
-      "content": "Lorem Ipsum is simply dummy text of the printing and "
+      "content": "Lorem Ipsum is simply dummy text of the printing and ",
+      "createdAt": "2024-06-27"
     }
   ]
 }

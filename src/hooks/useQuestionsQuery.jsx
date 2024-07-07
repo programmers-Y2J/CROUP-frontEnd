@@ -13,12 +13,12 @@ const getQuestionList = async (roomId) => {
 };
 
 const useQuestionsQuery = (roomId, questionId) => {
-  const { data, isSuccess, isError } = useQuery({
+  const { data, isSuccess, isError, error } = useQuery({
     queryKey: ['question', questionId],
     queryFn: () => getQuestionList(roomId),
   });
 
-  return { data, isSuccess, isError };
+  return { data, isSuccess, isError, error };
 };
 
 export default useQuestionsQuery;
