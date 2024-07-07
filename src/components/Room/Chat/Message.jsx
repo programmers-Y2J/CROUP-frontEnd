@@ -10,7 +10,7 @@ function Message({ user, userId, message }) {
       {!isMine && (
         <Avatar className="w-8 h-8 rounded-full">
           <AvatarImage src="/placeholder-user.jpg" />
-          <AvatarFallback>AC</AvatarFallback>
+          <AvatarFallback>{user.slice(0, 2)}</AvatarFallback>
         </Avatar>
       )}
       <div className="grid gap-1 text-sm">
@@ -24,7 +24,7 @@ function Message({ user, userId, message }) {
       {isMine && (
         <Avatar className="w-8 h-8 rounded-full">
           <AvatarImage src="/placeholder-user.jpg" />
-          <AvatarFallback>YO</AvatarFallback>
+          <AvatarFallback>me</AvatarFallback>
         </Avatar>
       )}
     </div>
