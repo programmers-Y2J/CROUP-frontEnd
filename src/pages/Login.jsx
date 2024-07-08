@@ -1,30 +1,3 @@
-// import React from 'react';
-// import styled from 'styled-components';
-// import LeftBar from '../components/Member/LeftBar';
-// import LoginForm from '../components/Login/LoginForm';
-
-// const LoginContainer = styled.div`
-//   width: 100%;
-//   display: flex;
-//   justify-content: flex-start;
-// `;
-// function Login() {
-//   const text = '<div>즐거운 <br /> 집중을 위한 <br /> 준비가 되셨나요?</div>';
-//   return (
-//     <LoginContainer>
-//       <LeftBar text={text} />
-//       <LoginForm />
-//     </LoginContainer>
-//   );
-// }
-
-// export default Login;
-
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/kAshk4ywjLi
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
 import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -32,6 +5,9 @@ import { Label } from '@/components/ui/label';
 import { TypographyH1 } from '@ui/typography/TypographyH1';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
+import { Alert2 } from '@ui/alert2';
+import useModal from '@/hooks/useModal';
+
 import useApiRequest from '@/hooks/useApiRequest';
 import useAuthStore from '@/stores/Auth/useUserStore';
 
@@ -40,6 +16,9 @@ function Login() {
   const { setToken, setUserId, setNickname } = useAuthStore();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertTitle, setAlertTitle] = useState('');
+  const { isOpen, open, close } = useModal();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -52,6 +31,7 @@ function Login() {
   const handleRegisterClick = () => {
     navigate('/register');
   };
+
   const { apiRequest } = useApiRequest();
 
   const mutation = useMutation(
@@ -66,11 +46,12 @@ function Login() {
         setToken(data.token);
         setUserId(data.userId);
         setNickname(data.nickname);
-        alert('로그인에 성공했습니다.');
         navigate('/');
       },
       onError: (error) => {
-        alert('로그인에 실패했습니다.');
+        setAlertMessage('로그인에 실패했습니다.');
+        setAlertTitle('Wait!');
+        open();
         console.error(error);
       },
     },
@@ -88,8 +69,10 @@ function Login() {
       console.error(error);
     }
   };
+
   return (
     <div className="grid w-full min-h-screen grid-cols-1 lg:grid-cols-2">
+      {isOpen && <Alert2 title={alertTitle} message={alertMessage} onClose={close} />}
       <div className=" flex justify-center items-center">
         <div className="h-[550px] w-[600px] relative rounded-3xl bg-primary">
           <div className="absolute left-20 top-20 flex gap-4 flex-col">
