@@ -1,7 +1,7 @@
 import { Card, CardContent } from '@ui/card';
 import { Badge } from '@ui/badge';
 import { useNavigate } from 'react-router-dom';
-import { useQuestionStore } from '@/stores/Room/useRoomStore';
+import { useQuestionStore } from '@/stores/Room/useAuthStore';
 
 function QuestionListItem({ questionId, title, nickName, content, setActiveTab }) {
   const navigate = useNavigate();
