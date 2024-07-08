@@ -41,11 +41,16 @@ function RoomList() {
   const [selectValue, setSelectValue] = useState('최신순');
   const { apiRequest } = useApiRequest();
   // const navigate = useNavigate();
-  const { data, error } = useQuery(['rooms', search, selectValue], () => fetchRooms(apiRequest, search, selectValue));
+  const { data, error, isError } = useQuery(['rooms', search, selectValue], () =>
+    fetchRooms(apiRequest, search, selectValue),
+  );
   const rooms = Array.isArray(data) ? data : [];
 
   if (error) {
     console.log(error);
+  }
+  if (isError) {
+    return <div>Error: {error.message}</div>;
   }
 
   const handleClickSelect = () => {
