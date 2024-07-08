@@ -12,13 +12,9 @@ import CreateRoom from '../Modal/CreateRoom';
 
 const fetchRooms = async (apiRequest, search, sortselectValue) => {
   try {
-    let setUrl = '';
     const sortValue = sortselectValue === '최신순' ? 'createdAt' : 'popularity';
-    if (search === '') {
-      setUrl = `/rooms?sort=${sortValue}`;
-    } else {
-      setUrl = `/rooms/search?q=${search}&sort=${sortValue}`;
-    }
+    let setUrl = `/rooms/search?q=${search}&sort=${sortValue}`;
+    if (search === '') setUrl = `/rooms?sort=${sortValue}`;
     const response = await apiRequest({
       method: 'GET',
       url: setUrl,
