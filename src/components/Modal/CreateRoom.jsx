@@ -8,8 +8,8 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import useApiRequest from '@/hooks/useApiRequest';
 import { Avatar, AvatarImage } from '@ui/avatar';
-
-// import RoomComponent from '../Home/RoomComponent';
+import { Alert2 } from '@/components/Modal/alert2';
+import useModal from '@/hooks/useModal';
 
 const extractPlaylistID = (url) => {
   const regex = /[&?]list=([^&]+)/;
@@ -42,7 +42,10 @@ function CreateRoom() {
   const [url, setUrl] = useState('');
   const [playList, setPlayList] = useState([]);
   const [tags, setTags] = useState('tags');
-
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertTitle, setAlertTitle] = useState('');
+  const { isOpen, open, close } = useModal();
+  const [navi, setNavi] = useState('');
   const { apiRequest } = useApiRequest();
 
   const handleTitleChange = (e) => {
@@ -88,8 +91,15 @@ function CreateRoom() {
       }),
     {
       onSuccess: () => {
-        alert('방이 생성되었습니다');
-        window.location.reload();
+        setAlertMessage('방 생성에 성공했습니다.');
+        setAlertTitle('Success!');
+        setNavi(0);
+        open();
+      },
+      onError: () => {
+        setAlertMessage('방 생성에 실패했습니다. 다시 시도해 주세요.');
+        setAlertTitle('Failure!');
+        open();
       },
     },
   );
@@ -105,7 +115,6 @@ function CreateRoom() {
       });
     } catch (error) {
       console.log(error);
-      alert('방 생성에 실패했습니다');
     }
   };
   return (
@@ -114,6 +123,7 @@ function CreateRoom() {
         <Button variant="outline">방만들기</Button>
       </DialogTrigger>
       <DialogContent className="w-[90vw] max-w-[800px] grid grid-cols-[1fr_290px] gap-6">
+        {isOpen && <Alert2 title={alertTitle} message={alertMessage} onClose={close} navi={navi} />}
         <div className="grid gap-4">
           <div className="grid gap-2">
             <Label htmlFor="title">Title</Label>

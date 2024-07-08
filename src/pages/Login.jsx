@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label';
 import { TypographyH1 } from '@ui/typography/TypographyH1';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
-import { Alert2 } from '@ui/alert2';
+import { Alert2 } from '@/components/Modal/alert2';
 import useModal from '@/hooks/useModal';
 
 import useApiRequest from '@/hooks/useApiRequest';
@@ -18,6 +18,7 @@ function Login() {
   const [password, setPassword] = useState('');
   const [alertMessage, setAlertMessage] = useState('');
   const [alertTitle, setAlertTitle] = useState('');
+  const [navi, setNavi] = useState('');
   const { isOpen, open, close } = useModal();
 
   const handleEmailChange = (e) => {
@@ -46,7 +47,10 @@ function Login() {
         setToken(data.token);
         setUserId(data.userId);
         setNickname(data.nickname);
-        navigate('/');
+        setAlertMessage('로그인에 성공했습니다.');
+        setAlertTitle('Success!');
+        setNavi('/');
+        open();
       },
       onError: (error) => {
         setAlertMessage('로그인에 실패했습니다.');
@@ -72,7 +76,7 @@ function Login() {
 
   return (
     <div className="grid w-full min-h-screen grid-cols-1 lg:grid-cols-2">
-      {isOpen && <Alert2 title={alertTitle} message={alertMessage} onClose={close} />}
+      {isOpen && <Alert2 title={alertTitle} message={alertMessage} onClose={close} navi={navi} />}
       <div className=" flex justify-center items-center">
         <div className="h-[550px] w-[600px] relative rounded-3xl bg-primary">
           <div className="absolute left-20 top-20 flex gap-4 flex-col">

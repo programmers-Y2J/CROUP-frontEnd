@@ -1,30 +1,3 @@
-// import React from 'react';
-// import styled from 'styled-components';
-// import LeftBar from '../components/Member/LeftBar';
-// import RegisterForm from '../components/Register/RegisterForm';
-
-// const RegisterContainer = styled.div`
-//   width: 100%;
-//   display: flex;
-//   justify-content: flex-start;
-// `;
-// function Register() {
-//   const text = '<div>환영합니다</div><br />거의 다 왔어요<br /><br /> 즐거운 집중까지 마지막 스텝';
-//   return (
-//     <RegisterContainer>
-//       <LeftBar text={text} />
-//       <RegisterForm />
-//     </RegisterContainer>
-//   );
-// }
-
-// export default Register;
-
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/r3ZNZ3fBSXE
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
 import React, { useState } from 'react';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
@@ -33,6 +6,8 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { TypographyH1 } from '@ui/typography/TypographyH1';
 import useApiRequest from '@/hooks/useApiRequest';
+import { Alert2 } from '@/components/Modal/alert2';
+import useModal from '@/hooks/useModal';
 
 function Register() {
   const navigate = useNavigate();
@@ -42,6 +17,10 @@ function Register() {
   const [password, setPassword] = useState('');
   const [passwordCk, setPasswordCk] = useState('');
   const [nickName, setNickName] = useState('');
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertTitle, setAlertTitle] = useState('');
+  const [navi, setNavi] = useState('');
+  const { isOpen, open, close } = useModal();
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
@@ -71,12 +50,15 @@ function Register() {
     {
       onSuccess: (data) => {
         console.log(data);
-        alert('회원가입에 성공했습니다.');
-
-        navigate('/login');
+        setAlertMessage('회원가입에 성공했습니다.');
+        setAlertTitle('Success!');
+        setNavi('/login');
+        open();
       },
       onError: (error) => {
-        alert('회원가입에 실패했습니다.');
+        setAlertMessage('회원가입에 실패했습니다.');
+        setAlertTitle('Wait!');
+        open();
         console.error(error);
       },
     },
@@ -101,6 +83,7 @@ function Register() {
   };
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 h-screen">
+      {isOpen && <Alert2 title={alertTitle} message={alertMessage} onClose={close} navi={navi} />}
       <div className=" flex justify-center items-center">
         <div className="h-[550px] w-[600px] relative rounded-3xl bg-primary">
           <div className="absolute left-20 top-20 flex gap-4 flex-col">

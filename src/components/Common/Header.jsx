@@ -1,8 +1,10 @@
 import { styled } from 'styled-components';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@ui/button';
 import useAuthStore from '@/stores/Auth/useUserStore';
+import useModal from '@/hooks/useModal';
+import { Alert2 } from '../Modal/alert2';
 
 const HeaderContainer = styled.div`
   width: 100vw;
@@ -16,6 +18,10 @@ const HeaderContainer = styled.div`
 function Header() {
   const navigate = useNavigate();
   const { isLoggedIn, checkToken } = useAuthStore();
+  const { isOpen, open, close } = useModal();
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertTitle, setAlertTitle] = useState('');
+  const [navi, setNavi] = useState('');
 
   useEffect(() => {
     checkToken();
@@ -27,9 +33,11 @@ function Header() {
 
   const handleLoginClick = () => {
     if (isLoggedIn) {
-      alert('로그아웃 되었습니다.');
       useAuthStore.getState().setToken(null);
-      navigate('/login');
+      setAlertMessage('로그아웃 했습니다.');
+      setAlertTitle('Success!');
+      setNavi('/login');
+      open();
     }
     if (!isLoggedIn) {
       navigate('/login');
@@ -38,6 +46,7 @@ function Header() {
 
   return (
     <HeaderContainer>
+      {isOpen && <Alert2 title={alertTitle} message={alertMessage} onClose={close} navi={navi} />}
       <button type="button" onClick={handleClickLogo} className="absolute left-8">
         <h1 className="text-3xl font-extrabold tracking-tight ">Croup</h1>
       </button>
