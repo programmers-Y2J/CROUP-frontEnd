@@ -35,81 +35,6 @@ const fetchRooms = async (apiRequest, search, sortselectValue) => {
   }
 };
 
-const RoomData = [
-  {
-    thumbnail:
-      'https://i.ytimg.com/vi/xPAWXsZ_9ZM/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCYGgbHMjZ2_G4sDSZsKCYmhW3ADw',
-    tag: 'tag',
-    title: 'Room Title',
-    description: 'Explore the wonders of the natural world with our stunning photography.',
-    userName: 'sebell',
-  },
-  {
-    thumbnail:
-      'https://i.ytimg.com/vi/xPAWXsZ_9ZM/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCYGgbHMjZ2_G4sDSZsKCYmhW3ADw',
-    tag: 'tag',
-    title: 'Room Title B',
-    description: 'Witness the beauty of the world through the lens of our talented photographers.',
-    userName: 'sebell',
-  },
-  {
-    thumbnail:
-      'https://i.ytimg.com/vi/xPAWXsZ_9ZM/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCYGgbHMjZ2_G4sDSZsKCYmhW3ADw',
-    tag: 'tag',
-    title: 'Room Title C',
-    description: 'Immerse yourself in the beauty of the great outdoors with our stunning nature photography.',
-    userName: 'sebell',
-  },
-  {
-    thumbnail:
-      'https://i.ytimg.com/vi/xPAWXsZ_9ZM/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCYGgbHMjZ2_G4sDSZsKCYmhW3ADw',
-    tag: 'tag',
-    title: 'Room Title',
-    description: 'Explore the wonders of the natural world with our stunning photography.',
-    userName: 'sebell',
-  },
-  {
-    thumbnail:
-      'https://i.ytimg.com/vi/xPAWXsZ_9ZM/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCYGgbHMjZ2_G4sDSZsKCYmhW3ADw',
-    tag: 'tag',
-    title: 'Room Title B',
-    description: 'Witness the beauty of the world through the lens of our talented photographers.',
-    userName: 'sebell',
-  },
-  {
-    thumbnail:
-      'https://i.ytimg.com/vi/xPAWXsZ_9ZM/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCYGgbHMjZ2_G4sDSZsKCYmhW3ADw',
-    tag: 'tag',
-    title: 'Room Title C',
-    description: 'Immerse yourself in the beauty of the great outdoors with our stunning nature photography.',
-    userName: 'sebell',
-  },
-  {
-    thumbnail:
-      'https://i.ytimg.com/vi/xPAWXsZ_9ZM/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCYGgbHMjZ2_G4sDSZsKCYmhW3ADw',
-    tag: 'tag',
-    title: 'Room Title C',
-    description: 'Immerse yourself in the beauty of the great outdoors with our stunning nature photography.',
-    userName: 'sebell',
-  },
-  {
-    thumbnail:
-      'https://i.ytimg.com/vi/xPAWXsZ_9ZM/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCYGgbHMjZ2_G4sDSZsKCYmhW3ADw',
-    tag: 'tag',
-    title: 'Room Title C',
-    description: 'Immerse yourself in the beauty of the great outdoors with our stunning nature photography.',
-    userName: 'sebell',
-  },
-  {
-    thumbnail:
-      'https://i.ytimg.com/vi/xPAWXsZ_9ZM/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCYGgbHMjZ2_G4sDSZsKCYmhW3ADw',
-    tag: 'tag',
-    title: 'Room Title C',
-    description: 'Immerse yourself in the beauty of the great outdoors with our stunning nature photography.',
-    userName: 'sebell',
-  },
-];
-
 function RoomList() {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
@@ -190,16 +115,6 @@ function RoomList() {
               thumbnail={item.roomThumbnail}
               userName={item.userName || 'sebell'}
               roomId={item.roomId}
-            />
-          ))}
-          {RoomData.map((item) => (
-            <RoomComponent
-              key={item.userName + item.title}
-              title={item.title}
-              tag={item.tag}
-              description={item.description}
-              thumbnail={item.thumbnail}
-              userName={item.userName}
             />
           ))}
         </div>
