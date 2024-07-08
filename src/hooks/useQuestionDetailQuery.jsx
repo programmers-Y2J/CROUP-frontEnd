@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import api from '../util/api';
 
-const getQuestionPostData = async (roomId, questionId) => {
+const getQuestionDetailData = async (roomId, questionId) => {
   const token = localStorage.getItem('token');
   const result = await api.get(`/room/${roomId}/question/${questionId}`, {
     headers: {
@@ -12,13 +12,13 @@ const getQuestionPostData = async (roomId, questionId) => {
   return result;
 };
 
-const useQuetionPostQuery = (roomId, questionId) => {
-  const { data, isSuccess, isError } = useQuery({
+const useQuestionDetailQuery = (roomId, questionId) => {
+  const { data, isSuccess, isError, error } = useQuery({
     queryKey: ['questionPost', questionId],
-    queryFn: () => getQuestionPostData(roomId, questionId),
+    queryFn: () => getQuestionDetailData(roomId, questionId),
   });
 
-  return { data, isSuccess, isError };
+  return { data, isSuccess, isError, error };
 };
 
-export default useQuetionPostQuery;
+export default useQuestionDetailQuery;
