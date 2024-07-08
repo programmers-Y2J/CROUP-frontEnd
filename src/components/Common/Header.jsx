@@ -23,6 +23,11 @@ function Header() {
   const [alertTitle, setAlertTitle] = useState('');
   const [navi, setNavi] = useState('');
 
+  const clearAuth = useAuthStore((state) => state.clear);
+
+  const handleLogout = () => {
+    clearAuth();
+  };
   useEffect(() => {
     checkToken();
   }, [isLoggedIn, navigate, checkToken]);
@@ -33,7 +38,7 @@ function Header() {
 
   const handleLoginClick = () => {
     if (isLoggedIn) {
-      useAuthStore.getState().setToken(null);
+      handleLogout();
       setAlertMessage('로그아웃 했습니다.');
       setAlertTitle('Success!');
       setNavi('/login');

@@ -30,7 +30,7 @@ const fetchPlaylist = async (url) => {
   });
   return response.data.items.map((item) => ({
     musicChannelTitle: item.snippet.channelTitle,
-    musicTitle: item.snippet.description,
+    musicTitle: item.snippet.title,
     musicThumbnail: item.snippet.thumbnails.medium.url,
     videoId: item.snippet.resourceId.videoId,
   }));

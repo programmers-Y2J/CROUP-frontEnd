@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
-// import { useNavigate } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@ui/popover';
@@ -40,7 +39,6 @@ function RoomList() {
   const [search, setSearch] = useState('');
   const [selectValue, setSelectValue] = useState('최신순');
   const { apiRequest } = useApiRequest();
-  // const navigate = useNavigate();
   const { data, error, isError } = useQuery(['rooms', search, selectValue], () =>
     fetchRooms(apiRequest, search, selectValue),
   );
@@ -59,7 +57,6 @@ function RoomList() {
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
   };
-  // const handleSearch = () => {};
   return (
     <div>
       <div className="flex relative justify-end px-6 items-center mb-4">
@@ -115,10 +112,10 @@ function RoomList() {
             <RoomComponent
               key={item.roomId}
               title={item.roomTitle}
-              tag={item.tags || 'tag'}
+              tag={item.tags}
               description={item.roomDescription}
               thumbnail={item.roomThumbnail}
-              userName={item.userName || 'sebell'}
+              userName={item.userName}
               roomId={item.roomId}
             />
           ))}

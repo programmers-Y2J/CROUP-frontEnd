@@ -2,8 +2,6 @@ import create from 'zustand';
 
 const useAuthStore = create((set) => ({
   token: null,
-  userId: null,
-  nickname: null,
   isLoggedIn: false,
   setToken: (token) => {
     set({ token, isLoggedIn: !!token });
@@ -17,22 +15,13 @@ const useAuthStore = create((set) => ({
     const token = localStorage.getItem('token');
     set({ token, isLoggedIn: !!token });
   },
-  setUserId: (userId) => {
-    set({ userId });
-    if (userId) {
-      localStorage.setItem('userId', userId);
-    } else {
-      localStorage.removeItem('userId');
-    }
-  },
 
-  setNickname: (nickname) => {
-    set({ nickname });
-    if (nickname) {
-      localStorage.setItem('nickname', nickname);
-    } else {
-      localStorage.removeItem('nickname');
-    }
+  clear: () => {
+    set({
+      token: null,
+      isLoggedIn: false,
+    });
+    localStorage.removeItem('token');
   },
 }));
 
