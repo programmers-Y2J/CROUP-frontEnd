@@ -26,8 +26,6 @@ const fetchRooms = async (apiRequest, search, sortselectValue) => {
         Authorization: `${localStorage.getItem('token')}`,
       },
     });
-    console.log(search, sortselectValue);
-    console.log(response);
     if (response.roomList) {
       return response.roomList;
     }
