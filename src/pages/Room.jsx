@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import { useLocation, useParams } from 'react-router-dom';
 import Questions from '@/components/Room/Question/Questions';
-import { useRoomDataStore, usePlayListStore } from '@/stores/Room/useAuthStore';
+import { useRoomDataStore, usePlayListStore } from '@/stores/Room/useRoomStore';
 import RoomDetail from '../components/Room/RoomDetail';
 import useRoomQuery from '../hooks/useRoomQuery';
 

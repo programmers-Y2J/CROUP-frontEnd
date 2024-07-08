@@ -1,4 +1,4 @@
-import { useCurrentMusicStore } from '../../../stores/Room/useAuthStore';
+import { useCurrentMusicStore } from '../../../stores/Room/useRoomStore';
 
 function PlayListItem({ title, imgSrc, channel, videoId }) {
   const setCurrentMusic = useCurrentMusicStore((state) => state.setCurrentMusic);
