@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
+
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Outlet, useNavigate } from 'react-router-dom';
 import { useQuestionStore } from '@/stores/Room/useRoomStore';
 import QuestionList from './QuestionList';
 
@@ -23,7 +24,9 @@ function Questions() {
             </Button>
             <Tabs value={activeTab} onValueChange={setActiveTab}>
               <TabsList>
-                <TabsTrigger value="post" onClick={() => navigate(`question/${currentQuestionId}`)}>
+                <TabsTrigger
+                  value="post"
+                  onClick={() => currentQuestionId.trim().length !== 0 && navigate(`question/${currentQuestionId}`)}>
                   Post
                 </TabsTrigger>
                 <TabsTrigger value="chat" onClick={() => navigate('chat')}>

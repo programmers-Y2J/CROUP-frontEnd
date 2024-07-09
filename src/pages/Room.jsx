@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Questions from '@/components/Room/Question/Questions';
 import { usePlayListStore, useRoomDataStore } from '../stores/Room/useRoomStore';
 
@@ -17,24 +17,21 @@ const RoomContainer = styled.div`
 
 function Room() {
   const { roomId } = useParams();
-  const { data, isError, isSuccess } = useRoomQuery(roomId);
+  const { data, error, isError, isSuccess } = useRoomQuery(roomId);
   const setPlayList = usePlayListStore((state) => state.setPlayList);
   const setRoomData = useRoomDataStore((state) => state.setRoomData);
   const setRoomMemberCount = useRoomDataStore((state) => state.setRoomMemberCount);
-  const location = useLocation();
 
-  const roomDataObj = {
-    roomId,
-    host: 'sebell' || location.state.host,
-    title: 'Room Title' || location.state.roomTitle,
-    description:
-      'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s,' ||
-      location.state.roomDescription,
-  };
-
-  if (isError) console.log('get room error');
+  if (isError) console.log(error);
 
   if (isSuccess) {
+    const roomDataObj = {
+      roomId,
+      host: data.data.managerId,
+      title: data.data.roomTitle || 'Room Title',
+      description: data.data.description || 'Lorem ipsum is not special text words in the world react delta jazz',
+      tags: data.data.tags,
+    };
     setPlayList(data.data.playList);
     setRoomData(roomDataObj);
     setRoomMemberCount(data.data.roomMember.length);

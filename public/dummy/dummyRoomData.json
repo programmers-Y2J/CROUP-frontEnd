@@ -17,8 +17,9 @@
       "musicThumbnail": "https://i.ytimg.com/vi/R-kp016_ig8/mqdefault.jpg",
       "musicChannelTitle": "Redlist - Worldwide Hits",
       "videoId": "R-kp016_ig8"
-    },
+    }
   ],
+  "manageId": "sebell",
   "roomMember": [
     { "userId": "user1", "nickName": "유저1" },
     { "userId": "user2", "nickName": "유저2" },
@@ -28,5 +29,8 @@
     { "userId": "user1", "nickName": "user", "chat": "Lorem Ipsum is simply dummy text" },
     { "userId": "user2", "nickName": "user", "chat": "Lorem Ipsum is simply dummy text" },
     { "userId": "user3", "nickName": "user", "chat": "Lorem Ipsum is simply dummy text" }
-  ]
+  ],
+  "createdAt": "2024-07-02",
+  "memberCount": 1,
+  "tags": "#자바스크립트 #js #javascript #재즈 #차분한음악"
 }

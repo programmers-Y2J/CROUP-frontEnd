@@ -13,12 +13,12 @@ const getRoomData = async (roomId) => {
 };
 
 const useRoomQuery = (roomId) => {
-  const { data, isError, isSuccess } = useQuery({
+  const { data, error, isError, isSuccess } = useQuery({
     queryKey: ['room', roomId],
     queryFn: () => getRoomData(roomId),
     staleTime: Infinity,
   });
-  return { data, isError, isSuccess };
+  return { data, error, isError, isSuccess };
 };
 
 export default useRoomQuery;

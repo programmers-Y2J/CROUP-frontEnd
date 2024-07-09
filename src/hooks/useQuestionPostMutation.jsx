@@ -5,7 +5,7 @@ const postQuestion = async (data) => {
   const token = localStorage.getItem('token');
   const result = await api.post(
     `/room/${data.roomId}/question`,
-    { title: data.title, content: data.content },
+    { title: data.title, content: data.content, tags: data.tags },
     {
       headers: {
         Authorization: token,

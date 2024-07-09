@@ -26,8 +26,32 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  plugins: ['react', 'prettier'],
+  plugins: ['react', 'prettier', 'import'],
+  settings: {
+    'import/resolver': {
+      alias: {
+        map: [
+          ['@ui', './src/components/ui'],
+          ['@', './src'],
+        ],
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
+      },
+    },
+  },
   rules: {
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        js: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
+      },
+    ],
+    'jsx-a11y/heading-has-content': 'off',
+    'import/prefer-default-export': 0,
+    'react/jsx-props-no-spreading': 'off',
     'react/react-in-jsx-scope': 0,
     'react/prefer-stateless-function': 0,
     'react/jsx-filename-extension': 0,
