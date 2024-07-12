@@ -43,8 +43,7 @@ function Header() {
       setAlertTitle('Success!');
       setNavi('/login');
       open();
-    }
-    if (!isLoggedIn) {
+    } else if (!isLoggedIn) {
       navigate('/login');
     }
   };
