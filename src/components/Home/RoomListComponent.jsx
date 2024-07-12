@@ -1,115 +1,63 @@
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
-import { useNavigate } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@ui/popover';
 import { Command, CommandItem, CommandList } from '@ui/command';
 import { SearchIcon, ChevronsUpDownIcon } from 'lucide-react';
+import useDebounce from '@/hooks/useDebounce';
 import useApiRequest from '../../hooks/useApiRequest';
 import RoomComponent from './RoomComponent';
 import CreateRoom from '../Modal/CreateRoom';
 
-const fetchRooms = async (apiRequest) => {
-  const response = await apiRequest({
-    method: 'GET',
-    url: '/rooms',
-    headers: {
-      Authorization: `${localStorage.getItem('token')}`,
-    },
-  });
-  return response.rooms;
-};
+const fetchRooms = async (apiRequest, search, sortselectValue) => {
+  try {
+    const sortValue = sortselectValue === '최신순' ? 'createdAt' : 'popularity';
+    let setUrl = `/rooms/search?q=${search}&sort=${sortValue}`;
+    if (search === '') setUrl = `/rooms?sort=${sortValue}`;
+    const response = await apiRequest({
+      method: 'GET',
+      url: setUrl,
+      headers: {
+        Authorization: `${localStorage.getItem('token')}`,
+      },
+    });
+    if (response.roomList) {
+      return response.roomList;
+    }
+    if (response.rooms) {
+      return response.rooms;
+    }
 
-const RoomData = [
-  {
-    thumbnail:
-      'https://i.ytimg.com/vi/xPAWXsZ_9ZM/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCYGgbHMjZ2_G4sDSZsKCYmhW3ADw',
-    tag: 'tag',
-    title: 'Room Title',
-    description: 'Explore the wonders of the natural world with our stunning photography.',
-    userName: 'sebell',
-  },
-  {
-    thumbnail:
-      'https://i.ytimg.com/vi/xPAWXsZ_9ZM/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCYGgbHMjZ2_G4sDSZsKCYmhW3ADw',
-    tag: 'tag',
-    title: 'Room Title B',
-    description: 'Witness the beauty of the world through the lens of our talented photographers.',
-    userName: 'sebell',
-  },
-  {
-    thumbnail:
-      'https://i.ytimg.com/vi/xPAWXsZ_9ZM/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCYGgbHMjZ2_G4sDSZsKCYmhW3ADw',
-    tag: 'tag',
-    title: 'Room Title C',
-    description: 'Immerse yourself in the beauty of the great outdoors with our stunning nature photography.',
-    userName: 'sebell',
-  },
-  {
-    thumbnail:
-      'https://i.ytimg.com/vi/xPAWXsZ_9ZM/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCYGgbHMjZ2_G4sDSZsKCYmhW3ADw',
-    tag: 'tag',
-    title: 'Room Title',
-    description: 'Explore the wonders of the natural world with our stunning photography.',
-    userName: 'sebell',
-  },
-  {
-    thumbnail:
-      'https://i.ytimg.com/vi/xPAWXsZ_9ZM/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCYGgbHMjZ2_G4sDSZsKCYmhW3ADw',
-    tag: 'tag',
-    title: 'Room Title B',
-    description: 'Witness the beauty of the world through the lens of our talented photographers.',
-    userName: 'sebell',
-  },
-  {
-    thumbnail:
-      'https://i.ytimg.com/vi/xPAWXsZ_9ZM/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCYGgbHMjZ2_G4sDSZsKCYmhW3ADw',
-    tag: 'tag',
-    title: 'Room Title C',
-    description: 'Immerse yourself in the beauty of the great outdoors with our stunning nature photography.',
-    userName: 'sebell',
-  },
-  {
-    thumbnail:
-      'https://i.ytimg.com/vi/xPAWXsZ_9ZM/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCYGgbHMjZ2_G4sDSZsKCYmhW3ADw',
-    tag: 'tag',
-    title: 'Room Title C',
-    description: 'Immerse yourself in the beauty of the great outdoors with our stunning nature photography.',
-    userName: 'sebell',
-  },
-  {
-    thumbnail:
-      'https://i.ytimg.com/vi/xPAWXsZ_9ZM/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCYGgbHMjZ2_G4sDSZsKCYmhW3ADw',
-    tag: 'tag',
-    title: 'Room Title C',
-    description: 'Immerse yourself in the beauty of the great outdoors with our stunning nature photography.',
-    userName: 'sebell',
-  },
-  {
-    thumbnail:
-      'https://i.ytimg.com/vi/xPAWXsZ_9ZM/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCYGgbHMjZ2_G4sDSZsKCYmhW3ADw',
-    tag: 'tag',
-    title: 'Room Title C',
-    description: 'Immerse yourself in the beauty of the great outdoors with our stunning nature photography.',
-    userName: 'sebell',
-  },
-];
+    return [];
+  } catch (error) {
+    throw new Error(`Error fetching rooms: ${error}`);
+  }
+};
 
 function RoomList() {
   const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState('');
   const [selectValue, setSelectValue] = useState('최신순');
+  const debouncedSearch = useDebounce(search, 800);
   const { apiRequest } = useApiRequest();
-  const navigate = useNavigate();
-  const { data, error } = useQuery('rooms', () => fetchRooms(apiRequest));
+  const { data, error, isError } = useQuery(['rooms', debouncedSearch, selectValue], () =>
+    fetchRooms(apiRequest, search, selectValue),
+  );
   const rooms = Array.isArray(data) ? data : [];
 
   if (error) {
-    navigate('/login');
+    console.log(error);
+  }
+  if (isError) {
+    return <div>Error: {error.message}</div>;
   }
 
   const handleClickSelect = () => {
     setOpen((prev) => !prev);
+  };
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
   };
   return (
     <div>
@@ -153,6 +101,8 @@ function RoomList() {
               type="search"
               placeholder="Search..."
               className="w-full rounded-md bg-background pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+              value={search}
+              onChange={handleSearchChange}
             />
           </div>
           <CreateRoom />
@@ -164,21 +114,11 @@ function RoomList() {
             <RoomComponent
               key={item.roomId}
               title={item.roomTitle}
-              tag={item.tag || 'tag'}
+              tag={item.tags}
               description={item.roomDescription}
               thumbnail={item.roomThumbnail}
-              userName={item.userName || 'sebell'}
-              roomId={item.roomId}
-            />
-          ))}
-          {RoomData.map((item) => (
-            <RoomComponent
-              key={item.userName + item.title}
-              title={item.title}
-              tag={item.tag}
-              description={item.description}
-              thumbnail={item.thumbnail}
               userName={item.userName}
+              roomId={item.roomId}
             />
           ))}
         </div>
