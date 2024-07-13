@@ -1,4 +1,7 @@
+import * as DOMPurify from 'dompurify';
+
 import useQuetionDetailQuery from '@/hooks/useQuestionDetailQuery';
+
 import { Avatar, AvatarFallback, AvatarImage } from '@ui/avatar';
 import { ScrollArea } from '@ui/scroll-area';
 import { Button } from '@ui/button';
@@ -25,8 +28,13 @@ function QuestionDetail() {
           <p className="text-[0.75rem] text-muted-foreground">{data.data.createdAt}</p>
         </header>
         <div className="p-4 flex-1 overflow-auto">
-          <ScrollArea className="h-[400px]">
-            <p className="mt-4 text-sm">{data.data.content}</p>
+          <ScrollArea className="h-[400px] p-3">
+            <span
+              className="mt-2 text-black"
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(String(data.data.content)),
+              }}
+            />
           </ScrollArea>
           <div className="border-t pt-4">
             <div className="space-y-4">

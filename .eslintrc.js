@@ -26,7 +26,7 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  plugins: ['react', 'prettier'],
+  plugins: ['react', 'prettier', 'import'],
   settings: {
     'import/resolver': {
       alias: {
@@ -34,16 +34,29 @@ module.exports = {
           ['@ui', './src/components/ui'],
           ['@', './src'],
         ],
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
       },
     },
   },
   rules: {
-    'react/react-in-jsx-scope': 'off', // Next.js 등에서 필요할 수 있음
-    'react/prefer-stateless-function': 'off', // 필요에 따라 설정
-    'react/jsx-filename-extension': 'off', // 필요에 따라 설정
-    'react/jsx-one-expression-per-line': 'off', // 필요에 따라 설정
-    'no-nested-ternary': 'off', // 필요에 따라 설정
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        js: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
+      },
+    ],
+    'jsx-a11y/heading-has-content': 'off',
+    'import/prefer-default-export': 0,
+    'react/jsx-props-no-spreading': 'off',
+    'react/react-in-jsx-scope': 0,
+    'react/prefer-stateless-function': 0,
+    'react/jsx-filename-extension': 0,
+    'react/jsx-one-expression-per-line': 0,
+    'no-nested-ternary': 0,
     'prettier/prettier': 'error',
     'import/no-unresolved': ['error', { caseSensitive: false }], // 필요에 따라 설정
     'react/prop-types': 'off', // TypeScript 등을 사용할 경우 설정

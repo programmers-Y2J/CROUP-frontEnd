@@ -6,7 +6,7 @@ export const usePlayListStore = create((set) => ({
 }));
 
 export const useRoomDataStore = create((set) => ({
-  roomData: { roomId: '', host: '', playListId: '', title: '', description: '' },
+  roomData: { roomId: '', host: '', playListId: '', title: '', description: '', tags: '' },
   setRoomData: (roomDataObj) => set(() => ({ roomData: roomDataObj })),
   roomMemberCount: 0,
   setRoomMemberCount: (updatedMemberCount) => set(() => ({ roomMemberCount: updatedMemberCount })),

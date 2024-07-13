@@ -1,3 +1,5 @@
+import * as DOMPurify from 'dompurify';
+
 import { Card, CardContent } from '@ui/card';
 import { Badge } from '@ui/badge';
 import { useNavigate } from 'react-router-dom';
@@ -24,7 +26,13 @@ function QuestionListItem({ questionId, title, nickName, content, setActiveTab }
             <h2 className="font-bold">{title}</h2>
             <p className="text-[0.75rem] text-muted-foreground">{nickName}</p>
           </div>
-          <p className="mt-2 text-[0.75rem] line-clamp-3">{content}</p>
+          <span
+            className="mt-2 text-[0.75rem] line-clamp-3 text-black"
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(String(content)),
+            }}
+          />
+
           <div className="mt-2 space-x-2">
             <Badge variant="default">meeting</Badge>
             <Badge variant="default">work</Badge>
