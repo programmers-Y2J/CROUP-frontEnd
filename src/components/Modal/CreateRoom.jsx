@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import useApiRequest from '@/hooks/useApiRequest';
 import { Avatar, AvatarImage } from '@ui/avatar';
-import { Alert2 } from '@/components/Modal/alert2';
+import { Alert2 } from '@/components/Modal/Alert2';
 import useModal from '@/hooks/useModal';
 
 const extractPlaylistID = (url) => {
