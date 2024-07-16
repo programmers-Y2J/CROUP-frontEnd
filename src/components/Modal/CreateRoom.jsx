@@ -10,6 +10,7 @@ import useApiRequest from '@/hooks/useApiRequest';
 import { Avatar, AvatarImage } from '@ui/avatar';
 import { Alert2 } from '@/components/Modal/Alert2';
 import useModal from '@/hooks/useModal';
+import playImage from '@/assets/images/playlist.jpg';
 
 const extractPlaylistID = (url) => {
   const regex = /[&?]list=([^&]+)/;
@@ -177,7 +178,7 @@ function CreateRoom() {
         </div>
         <div className="flex flex-col gap-4 cursor-pointer bg-background rounded-lg shadow-lg w-[290px] shrink-0 hover:scale-[1.01] transition-transform duration-300">
           <img
-            src={playList.length > 0 ? playList[0].musicThumbnail : '#'}
+            src={playList.length > 0 ? playList[0].musicThumbnail : playImage}
             width={400}
             height={225}
             alt="Thumbnail"
