@@ -63,7 +63,8 @@ function HeaderComponent() {
     <HeaderContainer>
       <MiddleWrapper>
         <TextWrapper>
-          <TypographyH1>집중을 위한 공간을 만나는 최고의 방법</TypographyH1>
+          <TypographyH1>집중을 위한 공간을 만나는</TypographyH1>
+          <TypographyH1>최고의 방법</TypographyH1>
           <p className="text-xl">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
         </TextWrapper>
         <h1>Croup</h1>
