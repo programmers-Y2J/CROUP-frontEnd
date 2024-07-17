@@ -120,11 +120,11 @@ function CreateRoom() {
   };
   return (
     <Dialog>
+      {isOpen && <Alert2 title={alertTitle} message={alertMessage} onClose={close} navi={navi} />}
       <DialogTrigger asChild>
         <Button variant="outline">방만들기</Button>
       </DialogTrigger>
       <DialogContent className="w-[90vw] max-w-[800px] grid grid-cols-[1fr_290px] gap-6">
-        {isOpen && <Alert2 title={alertTitle} message={alertMessage} onClose={close} navi={navi} />}
         <div className="grid gap-4">
           <div className="grid gap-2">
             <Label htmlFor="title">Title</Label>
