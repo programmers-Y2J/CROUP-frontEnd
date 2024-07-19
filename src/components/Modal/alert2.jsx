@@ -13,7 +13,7 @@ export function Alert2({ title, message, onClose, navi }) {
     navigate(navi);
   };
   return (
-    <Alert className="fixed z-50 top-16 left-1/2 transform -translate-x-1/2 bg-white shadow-lg rounded-lg p-6 w-96 ">
+    <Alert className="fixed z-50 top-16 left-1/2 transform -translate-x-1/2 bg-white shadow-lg rounded-lg p-6 w-96 z-50">
       <div className="flex items-center justify-start mb-4">
         <Terminal className="h-6 w-6 mr-2 text-gray-500" />
         <AlertTitle className="text-lg font-bold">{title}</AlertTitle>

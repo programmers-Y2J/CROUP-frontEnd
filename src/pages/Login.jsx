@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label';
 import { TypographyH1 } from '@ui/typography/TypographyH1';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
-import { Alert2 } from '@/components/Modal/alert2';
+import { Alert2 } from '@/components/Modal/Alert2';
 import useModal from '@/hooks/useModal';
 
 import useApiRequest from '@/hooks/useApiRequest';
@@ -114,7 +114,7 @@ function Login() {
               </div>
               <Input
                 id="password"
-                placeholder="비밀번호"
+                placeholder="password"
                 onChange={handlePasswordChange}
                 value={password}
                 type="password"

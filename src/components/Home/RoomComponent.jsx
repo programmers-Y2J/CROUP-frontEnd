@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
 import { Avatar, AvatarImage } from '@ui/avatar';
+import playImage from '@/assets/images/playlist.jpg';
 import useApiRequest from '../../hooks/useApiRequest';
 
 function RoomComponent({ thumbnail, title, tag, description, userName, roomId }) {
@@ -36,12 +37,16 @@ function RoomComponent({ thumbnail, title, tag, description, userName, roomId })
       navigate('/login');
     }
   };
-
+  const handleImageError = (e) => {
+    e.target.onerror = null;
+    e.target.src = playImage;
+  };
   return (
     <button type="button" className="text-left" onClick={enterRoom}>
       <div className="flex flex-col gap-4 cursor-pointer bg-background rounded-lg shadow-lg w-[400px] shrink-0 hover:scale-[1.01] transition-transform duration-300">
         <img
           src={thumbnail}
+          onError={handleImageError}
           width={400}
           height={225}
           alt="Thumbnail"

@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { TypographyH1 } from '@ui/typography/TypographyH1';
 import useApiRequest from '@/hooks/useApiRequest';
-import { Alert2 } from '@/components/Modal/alert2';
+import { Alert2 } from '@/components/Modal/Alert2';
 import useModal from '@/hooks/useModal';
 
 function Register() {
@@ -120,7 +120,7 @@ function Register() {
               <Label htmlFor="password">Password</Label>
               <Input
                 id="password"
-                placeholder="비밀번호"
+                placeholder="password"
                 value={password}
                 onChange={handlePasswordChange}
                 type="password"

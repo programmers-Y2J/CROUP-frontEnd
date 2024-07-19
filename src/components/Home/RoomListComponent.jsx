@@ -22,14 +22,8 @@ const fetchRooms = async (apiRequest, search, sortselectValue) => {
         Authorization: `${localStorage.getItem('token')}`,
       },
     });
-    if (response.roomList) {
-      return response.roomList;
-    }
-    if (response.rooms) {
-      return response.rooms;
-    }
-
-    return [];
+    console.log(response);
+    return response.rooms;
   } catch (error) {
     throw new Error(`Error fetching rooms: ${error}`);
   }
@@ -82,14 +76,14 @@ function RoomList() {
                       setSelectValue(currentValue);
                       setOpen(false);
                     }}>
-                    인기순
+                    최신순
                   </CommandItem>
                   <CommandItem
                     onSelect={(currentValue) => {
                       setSelectValue(currentValue);
                       setOpen(false);
                     }}>
-                    최신순
+                    인기순
                   </CommandItem>
                 </CommandList>
               </Command>

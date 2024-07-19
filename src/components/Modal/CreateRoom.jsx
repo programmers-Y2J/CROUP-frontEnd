@@ -8,8 +8,9 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import useApiRequest from '@/hooks/useApiRequest';
 import { Avatar, AvatarImage } from '@ui/avatar';
-import { Alert2 } from '@/components/Modal/alert2';
+import { Alert2 } from '@/components/Modal/Alert2';
 import useModal from '@/hooks/useModal';
+import playImage from '@/assets/images/playlist.jpg';
 
 const extractPlaylistID = (url) => {
   const regex = /[&?]list=([^&]+)/;
@@ -119,11 +120,11 @@ function CreateRoom() {
   };
   return (
     <Dialog>
+      {isOpen && <Alert2 title={alertTitle} message={alertMessage} onClose={close} navi={navi} />}
       <DialogTrigger asChild>
         <Button variant="outline">방만들기</Button>
       </DialogTrigger>
       <DialogContent className="w-[90vw] max-w-[800px] grid grid-cols-[1fr_290px] gap-6">
-        {isOpen && <Alert2 title={alertTitle} message={alertMessage} onClose={close} navi={navi} />}
         <div className="grid gap-4">
           <div className="grid gap-2">
             <Label htmlFor="title">Title</Label>
@@ -177,7 +178,7 @@ function CreateRoom() {
         </div>
         <div className="flex flex-col gap-4 cursor-pointer bg-background rounded-lg shadow-lg w-[290px] shrink-0 hover:scale-[1.01] transition-transform duration-300">
           <img
-            src={playList.length > 0 ? playList[0].musicThumbnail : '#'}
+            src={playList.length > 0 ? playList[0].musicThumbnail : playImage}
             width={400}
             height={225}
             alt="Thumbnail"
